@@ -10,7 +10,6 @@
           tag = "ro-store";
           proto = "virtiofs";
         }];
-        hardware.opengl.enable = false;
         system.stateVersion = "24.05";
       };
     };

@@ -30,16 +30,32 @@
 
   networking.hostName = "petms"; # Define your hostname.
 
+  # Use systemd-networkd for network configuration
   networking.useNetworkd = true;
   systemd.network.enable = true;
 
-  systemd.network.networks."10-lan" = {
-    matchConfig.Name = "ens2";
-    networkConfig = {
-      DHCP = "ipv4";
-      IPv6AcceptRA = true;
+  systemd.network = {
+    networks."10-lan" = {
+      matchConfig.Name = ["ens2" "vm-*"];
+      networkConfig = {
+        Bridge = "br0";
+      };
     };
-    linkConfig.RequiredForOnline = "routable";
+    networks."10-lan-bridge" = {
+      matchConfig.Name = "br0";
+      networkConfig = {
+        DHCP = "ipv4";
+        IPv6AcceptRA = true;
+      };
+      linkConfig.RequiredForOnline = "routable";
+    };
+    netdevs."br0" = {
+      netdevConfig = {
+        Name = "br0";
+        Kind = "bridge";
+        MACAddress = "52:54:00:cd:d0:0c";
+      };
+    };
   };
 
   # Set your time zone.
@@ -81,7 +97,7 @@
   # Enable the DDNS service.
   services.ddns = {
     enable = true;
-    interface = "ens2";
+    interface = "br0";
     domains = [ "petms-opcc" ];
     token = config.age.secrets.duckdns.path;
   };
