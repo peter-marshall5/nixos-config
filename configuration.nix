@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports =
@@ -29,6 +29,8 @@
   boot.initrd.systemd.enable = true;
 
   networking.hostName = "petms"; # Define your hostname.
+
+  networking.useDHCP = lib.mkForce true;
 
   # Use systemd-networkd for network configuration
   networking.useNetworkd = true;
