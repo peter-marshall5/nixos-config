@@ -91,16 +91,31 @@
         "spectrum": "spectrum"
       },
       "locked": {
-        "lastModified": 1703966757,
-        "narHash": "sha256-2elh6TE7vpxhGuzPDzP1z9jxBGGOfW3rNUyUIwIehfI=",
+        "lastModified": 1704120350,
+        "narHash": "sha256-s5BOPAnVc4e/4WvGDeeF3VSLAWzBUB+YW6fJb3pFbRw=",
         "owner": "astro",
         "repo": "microvm.nix",
-        "rev": "b1bb1db5945b58559f5975b814345e4455fcc633",
+        "rev": "d5553b1388f2947915c4cec6249b89474046573a",
         "type": "github"
       },
       "original": {
         "owner": "astro",
         "repo": "microvm.nix",
+        "type": "github"
+      }
+    },
+    "nixos-appliance": {
+      "locked": {
+        "lastModified": 1704143611,
+        "narHash": "sha256-MeBG1WBJfBVKALWNJYblzAu+hmoXrOy9K6IwB8GhkEQ=",
+        "owner": "peter-marshall5",
+        "repo": "nixos-appliance",
+        "rev": "e2ec865cdeb764ea10278f6c84af69177748ae0e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "peter-marshall5",
+        "repo": "nixos-appliance",
         "type": "github"
       }
     },
@@ -117,6 +132,25 @@
         "owner": "NixOS",
         "ref": "nixos-23.11",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixos-veyron-speedy": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2",
+        "u-boot": "u-boot"
+      },
+      "locked": {
+        "lastModified": 1704146492,
+        "narHash": "sha256-GsZ0fUDLg3UIUIQU3jasZVeevF62RGCBJXdqXku8EoI=",
+        "owner": "peter-marshall5",
+        "repo": "nixos-veyron-speedy",
+        "rev": "4a9443c4303061f61a33f1defbdd3a529e363f53",
+        "type": "github"
+      },
+      "original": {
+        "owner": "peter-marshall5",
+        "repo": "nixos-veyron-speedy",
         "type": "github"
       }
     },
@@ -138,11 +172,42 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1703637592,
-        "narHash": "sha256-8MXjxU0RfFfzl57Zy3OfXCITS0qWDNLzlBAdwxGZwfY=",
+        "lastModified": 1703961334,
+        "narHash": "sha256-M1mV/Cq+pgjk0rt6VxoyyD+O8cOUiai8t9Q6Yyq4noY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "cfc3698c31b1fb9cdcf10f36c9643460264d0ca8",
+        "rev": "b0d36bd0a420ecee3bc916c91886caca87c894e9",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-unstable",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1703499205,
+        "narHash": "sha256-lF9rK5mSUfIZJgZxC3ge40tp1gmyyOXZ+lRY3P8bfbg=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "e1fa12d4f6c6fe19ccb59cac54b5b3f25e160870",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_4": {
+      "locked": {
+        "lastModified": 1703961334,
+        "narHash": "sha256-M1mV/Cq+pgjk0rt6VxoyyD+O8cOUiai8t9Q6Yyq4noY=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "b0d36bd0a420ecee3bc916c91886caca87c894e9",
         "type": "github"
       },
       "original": {
@@ -152,7 +217,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_5": {
       "locked": {
         "lastModified": 1704015712,
         "narHash": "sha256-GrsuUCEH5T629Py4jt6tsIzu9nEL/fD2Qt986ib13WI=",
@@ -172,7 +237,9 @@
       "inputs": {
         "agenix": "agenix",
         "microvm": "microvm",
-        "nixpkgs": "nixpkgs_2",
+        "nixos-appliance": "nixos-appliance",
+        "nixos-veyron-speedy": "nixos-veyron-speedy",
+        "nixpkgs": "nixpkgs_4",
         "srvos": "srvos"
       }
     },
@@ -195,7 +262,7 @@
     "srvos": {
       "inputs": {
         "nixos-stable": "nixos-stable",
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_5"
       },
       "locked": {
         "lastModified": 1704074312,
@@ -238,6 +305,24 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "u-boot": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1703715446,
+        "narHash": "sha256-rucKufRB+bbbuJ0roh+LpbzsMBBeRANcUjohan7Z33A=",
+        "owner": "peter-marshall5",
+        "repo": "u-boot-veyron-speedy",
+        "rev": "29a6e3d43d2b938564d268735745e842035cfe92",
+        "type": "github"
+      },
+      "original": {
+        "owner": "peter-marshall5",
+        "repo": "u-boot-veyron-speedy",
         "type": "github"
       }
     }

@@ -7,8 +7,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     srvos.url = "github:nix-community/srvos";
+    nixos-appliance.url = "github:peter-marshall5/nixos-appliance";
+    nixos-veyron-speedy.url = "github:peter-marshall5/nixos-veyron-speedy";
   };
-  outputs = { self, nixpkgs, agenix, microvm, srvos }: {
+  outputs = { self, nixpkgs, agenix, microvm, srvos, nixos-appliance, nixos-veyron-speedy }: {
     nixosConfigurations.petms = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -22,5 +24,15 @@
         ./hosts/petms/configuration.nix
       ];
     };
+    nixosConfigurations.peter-chromebook = nixpkgs.lib.nixosSystem {
+      system = "armv7l-linux";
+      modules = [
+        nixos-appliance.nixosModules.appliance-image
+        nixos-veyron-speedy.nixosModules.cross-armv7
+        nixos-veyron-speedy.nixosModules.veyron-speedy
+        ./hosts/peter-chromebook/configuration.nix
+      ];
+    };
+    nixosImages.peter-chromebook = self.nixosConfigurations.peter-chromebook.config.system.build.release;
   };
 }
