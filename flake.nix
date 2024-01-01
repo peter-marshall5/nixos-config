@@ -1,10 +1,13 @@
 {
-  inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
-  inputs.agenix.url = "github:ryantm/agenix";
-  inputs.microvm.url = "github:astro/microvm.nix";
-  inputs.microvm.inputs.nixpkgs.follows = "nixpkgs";
-  inputs.srvos.url = "github:nix-community/srvos";
-  inputs.srvos.inputs.nixpkgs.follows = "nixpkgs";
+  inputs = {
+    nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
+    agenix.url = "github:ryantm/agenix";
+    microvm = {
+      url = "github:astro/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    srvos.url = "github:nix-community/srvos";
+  };
   outputs = { self, nixpkgs, agenix, microvm, srvos }: {
     nixosConfigurations.petms = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
