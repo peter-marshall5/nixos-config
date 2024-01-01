@@ -18,7 +18,8 @@
         }
         microvm.nixosModules.host
         srvos.nixosModules.server
-        ./configuration.nix
+        ./utils/ddns.nix
+        ./hosts/petms/configuration.nix
       ];
     };
   };
