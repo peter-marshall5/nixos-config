@@ -8,6 +8,7 @@
   imports =
     [
       ./hardware-configuration.nix
+      ./cloudflared.nix
       ./vms.nix
     ];
 
@@ -72,7 +73,7 @@
   users.users.petms = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
-    openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILAtjD6VShP3fXpM6Slv458S4Uuhvd/14gnK7oWoRSjK petms@peter-chromebook"];
+    openssh.authorizedKeys.keys = import ../../ssh-keys.nix "petms";
     shell = pkgs.nushell;
   };
 
