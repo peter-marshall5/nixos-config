@@ -13,7 +13,7 @@
   outputs = { self, nixpkgs, agenix, microvm, srvos, nixos-appliance, nixos-veyron-speedy }: 
   let
     util = (import ./lib) {
-      inherit nixpkgs;
+      inherit nixpkgs agenix microvm srvos;
     };
     inherit (util) host modules;
   in
@@ -24,12 +24,6 @@
       isServer = true;
       NICs = ["ens2"];
       extraModules = [
-        agenix.nixosModules.default
-        {
-          environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
-        }
-        microvm.nixosModules.host
-        srvos.nixosModules.server
         modules.ddns
       ];
     };
