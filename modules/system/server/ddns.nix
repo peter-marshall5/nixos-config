@@ -1,11 +1,11 @@
 { config, lib, ... }:
 let
-  cfg = config.services.ddns;
+  cfg = config.ab.ddns;
 in
 {
 
   options = {
-    services.ddns = {
+    ab.ddns = {
       enable = lib.mkOption {
         default = false;
         type = lib.types.bool;
@@ -25,7 +25,7 @@ in
     };
   };
 
-  config = {
+  config = lib.mkIf cfg.enable {
     systemd.timers."ddns" = {
       wantedBy = [ "timers.target" ];
       wants = [ "network-online.target" ];

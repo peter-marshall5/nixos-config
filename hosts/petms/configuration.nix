@@ -8,7 +8,6 @@
   imports =
     [
       ./hardware-configuration.nix
-      ./cloudflared.nix
       ./vms.nix
     ];
 
@@ -43,14 +42,6 @@
 
   age.secrets.duckdns = {
     file = ./secrets/duckdns.age;
-  };
-
-  # Enable the DDNS service.
-  services.ddns = {
-    enable = true;
-    interface = "br0";
-    domains = [ "petms-opcc" ];
-    token = config.age.secrets.duckdns.path;
   };
 
   # Open ports in the firewall.

@@ -2,11 +2,11 @@
 {
 
   options = {
-    networking.bridge.name = lib.mkOption {
+    ab.bridge.name = lib.mkOption {
       default = "br0";
       type = lib.types.str;
     };
-    networking.wan.interfaces = lib.mkOption {
+    ab.wan.interfaces = lib.mkOption {
       default = [];
       type = lib.types.listOf lib.types.str;
     };
@@ -18,9 +18,9 @@
 
     systemd.network = {
       networks."10-lan" = {
-        matchConfig.Name = config.networking.wan.interfaces ++ [ "vm-*" ];
+        matchConfig.Name = config.ab.wan.interfaces ++ [ "vm-*" ];
         networkConfig = {
-          Bridge = config.networking.bridge.name;
+          Bridge = config.ab.bridge.name;
         };
       };
       networks."10-lan-bridge" = {
@@ -33,7 +33,7 @@
       };
       netdevs."10-bridge" = {
         netdevConfig = {
-          Name = config.networking.bridge.name;
+          Name = config.ab.bridge.name;
           Kind = "bridge";
         };
       };

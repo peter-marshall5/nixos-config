@@ -4,7 +4,9 @@
   imports = [
     (modulesPath + "/profiles/headless.nix")
     (modulesPath + "/profiles/minimal.nix")
-    ./network.nix
+    ./bridge-network.nix
+    ./cloudflared.nix
+    ./ddns.nix
   ];
 
   # Enable the OpenSSH daemon.
