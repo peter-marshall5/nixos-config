@@ -137,15 +137,14 @@
     },
     "nixos-veyron-speedy": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2",
         "u-boot": "u-boot"
       },
       "locked": {
-        "lastModified": 1704146492,
-        "narHash": "sha256-GsZ0fUDLg3UIUIQU3jasZVeevF62RGCBJXdqXku8EoI=",
+        "lastModified": 1704147864,
+        "narHash": "sha256-45EeKFdL3fCgIJD+fHD5Vj6E+jzwAAhYxDdWacCVTKI=",
         "owner": "peter-marshall5",
         "repo": "nixos-veyron-speedy",
-        "rev": "4a9443c4303061f61a33f1defbdd3a529e363f53",
+        "rev": "01724a58ec503330617efa40f14246dfcac8c579",
         "type": "github"
       },
       "original": {
@@ -172,21 +171,6 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1703961334,
-        "narHash": "sha256-M1mV/Cq+pgjk0rt6VxoyyD+O8cOUiai8t9Q6Yyq4noY=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "b0d36bd0a420ecee3bc916c91886caca87c894e9",
-        "type": "github"
-      },
-      "original": {
-        "id": "nixpkgs",
-        "ref": "nixos-unstable",
-        "type": "indirect"
-      }
-    },
-    "nixpkgs_3": {
-      "locked": {
         "lastModified": 1703499205,
         "narHash": "sha256-lF9rK5mSUfIZJgZxC3ge40tp1gmyyOXZ+lRY3P8bfbg=",
         "owner": "NixOS",
@@ -201,7 +185,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_4": {
+    "nixpkgs_3": {
       "locked": {
         "lastModified": 1703961334,
         "narHash": "sha256-M1mV/Cq+pgjk0rt6VxoyyD+O8cOUiai8t9Q6Yyq4noY=",
@@ -217,7 +201,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_5": {
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1704015712,
         "narHash": "sha256-GrsuUCEH5T629Py4jt6tsIzu9nEL/fD2Qt986ib13WI=",
@@ -239,7 +223,7 @@
         "microvm": "microvm",
         "nixos-appliance": "nixos-appliance",
         "nixos-veyron-speedy": "nixos-veyron-speedy",
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": "nixpkgs_3",
         "srvos": "srvos"
       }
     },
@@ -262,7 +246,7 @@
     "srvos": {
       "inputs": {
         "nixos-stable": "nixos-stable",
-        "nixpkgs": "nixpkgs_5"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1704074312,
@@ -310,7 +294,7 @@
     },
     "u-boot": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "lastModified": 1703715446,
