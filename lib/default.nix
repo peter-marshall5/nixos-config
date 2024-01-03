@@ -1,6 +1,6 @@
 { nixpkgs }:
 {
-  defineHost = { system, isServer, extraModules, hostName, NICs}:
+  host.defineHost = { system, isServer, extraModules, hostName, NICs ? []}:
     nixpkgs.lib.nixosSystem {
       inherit system;
       modules =
@@ -18,4 +18,7 @@
           ./desktop.nix
         ]) ++ extraModules;
     };
+  modules = {
+    ddns = ./ddns.nix;
+  };
 }

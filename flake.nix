@@ -15,10 +15,10 @@
     util = (import ./lib) {
       inherit nixpkgs;
     };
-    inherit (util) defineHost;
+    inherit (util) host modules;
   in
   {
-    nixosConfigurations.petms = defineHost {
+    nixosConfigurations.petms = host.defineHost {
       system = "x86_64-linux";
       hostName = "petms";
       isServer = true;
@@ -30,14 +30,13 @@
         }
         microvm.nixosModules.host
         srvos.nixosModules.server
-        ./lib/ddns.nix
+        modules.ddns
       ];
     };
-    nixosConfigurations.peter-chromebook = defineHost {
+    nixosConfigurations.peter-chromebook = host.defineHost {
       system = "armv7l-linux";
       hostName = "peter-chromebook";
       isServer = false;
-      NICs = ["wlan0"];
       extraModules = [
         nixos-appliance.nixosModules.appliance-image
         nixos-veyron-speedy.nixosModules.cross-armv7
