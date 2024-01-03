@@ -1,31 +1,34 @@
 { config, lib, ... }:
 let
-  cfg = config.ab.ddns;
+  cfg = config.ab.duckdns;
 in
 {
 
-  options = {
-    ab.ddns = {
-      enable = lib.mkOption {
-        default = false;
-        type = lib.types.bool;
-      };
-      domains = lib.mkOption {
-        default = [];
-        type = lib.types.listOf lib.types.str;
-      };
-      interface = lib.mkOption {
-        default = "eth0";
-        type = lib.types.str;
-      };
-      token = lib.mkOption {
-        default = "";
-        type = lib.types.str;
-      };
+  options.ab.duckdns = {
+    enable = lib.mkOption {
+      default = false;
+      type = lib.types.bool;
+    };
+    domains = lib.mkOption {
+      default = [];
+      type = lib.types.listOf lib.types.str;
+    };
+    interface = lib.mkOption {
+      default = "br0";
+      type = lib.types.str;
+    };
+    token = lib.mkOption {
+      default = ../../../hosts/${config.networking.hostName}/secrets/duckdns.age;
+      type = lib.types.path;
     };
   };
 
   config = lib.mkIf cfg.enable {
+
+    age.secrets.duckdns = {
+      file = cfg.token;
+    };
+
     systemd.timers."ddns" = {
       wantedBy = [ "timers.target" ];
       wants = [ "network-online.target" ];
@@ -61,7 +64,7 @@ in
           "PATH=/run/current-system/sw/bin"
           "IFACE=${cfg.interface}" 
           "DOMAINS=${lib.strings.concatStringsSep "," cfg.domains}"
-          "TOKEN=${cfg.token}"
+          "TOKEN=${config.age.secrets.duckdns.file}"
         ];
       };
     };

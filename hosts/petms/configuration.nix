@@ -39,11 +39,6 @@
   ];
 
   # List services that you want to enable:
-
-  age.secrets.duckdns = {
-    file = ./secrets/duckdns.age;
-  };
-
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ 22 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
