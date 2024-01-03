@@ -27,20 +27,5 @@
     openssh.authorizedKeys.keys = import ../../ssh-keys.nix "petms";
     shell = pkgs.nushell;
   };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    aria2
-    git
-    helix
-  ];
-
-  # List services that you want to enable:
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ 22 ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
 }
 
