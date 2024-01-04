@@ -2,7 +2,7 @@
 
 {
 
-  imports = [ ./fs.nix ./hardware ];
+  imports = [ ./fs.nix ];
 
   options.ab = {
 

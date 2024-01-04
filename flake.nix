@@ -50,10 +50,16 @@
       systemConfig = {
         fs.enable = false;
       };
+      extraConfig = {
+        osName = "nixos";
+        release = "4"; # Bump this on release
+        updateUrl = "https://github.com/peter-marshall5/minimal-server/releases/latest/download/";
+      };
       extraModules = [
         nixos-appliance.nixosModules.appliance-image
         nixos-veyron-speedy.nixosModules.cross-armv7
         nixos-veyron-speedy.nixosModules.veyron-speedy
+        (nixpkgs + "/../profiles/image-based-appliance.nix")
       ];
     };
     nixosImages.peter-chromebook = self.nixosConfigurations.peter-chromebook.config.system.build.release;

@@ -18,7 +18,7 @@ in
       type = lib.types.str;
     };
     token = lib.mkOption {
-      default = ../../../hosts/${config.networking.hostName}/secrets/duckdns.age;
+      default = ../../secrets/${config.networking.hostName}/duckdns.age;
       type = lib.types.path;
     };
   };

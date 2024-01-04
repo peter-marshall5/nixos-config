@@ -19,7 +19,7 @@ in {
       agenix.nixosModules.default
       {
         imports = [
-          ../modules/system
+          ../modules
         ] ++ (map (u: defineSystemUser u) users);
 
         ab = systemConfig; # Abstracted config options
@@ -33,15 +33,13 @@ in {
     ] ++
     (if isServer then 
       [
-        ../modules/system/server
+        ../modules/server
         microvm.nixosModules.host
         srvos.nixosModules.server
-        {
-          ab.wan.interfaces = NICs;
-          ab.hardware.qemu = isQemuGuest;
-        }
+        { ab.wan.interfaces = NICs; }
       ]
     else []
-    );
+    ) ++
+    (if isQemuGuest then [../modules/hardware/qemu.nix] else []);
   };
 }
