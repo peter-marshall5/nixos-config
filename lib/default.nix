@@ -2,13 +2,25 @@
 let
   inherit (nixpkgs) lib;
 in {
-  host.defineHost = { system, systemConfig ? {}, isServer ? false, isQemuGuest ? false, extraModules ? [], hostName, NICs ? []}:
-  lib.nixosSystem {
+  host.defineHost = { system, systemConfig ? {}, isServer ? false, isQemuGuest ? false, extraModules ? [], hostName, NICs ? [], users ? []}:
+  let
+    defineSystemUser = { name, admin }:
+    { pkgs, ...}: {
+      users.users."${name}" = {
+        isNormalUser = true;
+        extraGroups = (if admin then [ "wheel" ] else []);
+        openssh.authorizedKeys.keys = import ../ssh-keys.nix "";
+        shell = pkgs.nushell;
+      };
+    };
+  in lib.nixosSystem {
     inherit system;
     modules = [
       agenix.nixosModules.default
       {
-        imports = [ ../hosts/${hostName}/configuration.nix ../modules/system ];
+        imports = [
+          ../modules/system
+        ] ++ (map (u: defineSystemUser u) users);
 
         ab = systemConfig; # Abstracted config options
 

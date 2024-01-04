@@ -39,6 +39,10 @@
           domains = [ "petms-opcc" ];
         };
       };
+      users = [{
+        name = "petms";
+        admin = true;
+      }];
     };
     nixosConfigurations.peter-chromebook = host.defineHost {
       system = "armv7l-linux";
