@@ -49,6 +49,7 @@
       hostName = "peter-chromebook";
       systemConfig = {
         fs.enable = false;
+        autoUpgrade = false;
       };
       extraModules = [
         nixos-appliance.nixosModules.appliance-image
