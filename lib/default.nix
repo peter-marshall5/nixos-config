@@ -29,6 +29,8 @@ in {
 
         networking.hostName = hostName;
 
+        boot.swraid = lib.mkDefault false;
+
         nixpkgs.hostPlatform = lib.mkDefault system;
       }
     ] ++
