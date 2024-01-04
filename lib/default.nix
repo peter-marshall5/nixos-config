@@ -28,7 +28,7 @@ in {
 
         networking.hostName = hostName;
 
-        nixpkgs.hostPlatform = system;
+        nixpkgs.hostPlatform = lib.mkDefault system;
       }
     ] ++
     (if isServer then 
