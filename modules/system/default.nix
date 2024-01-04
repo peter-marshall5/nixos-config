@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 {
 
+  imports = [ ./fs.nix ];
+
   options.ab = {
 
     autoUpgrade = lib.mkOption {

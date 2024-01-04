@@ -14,30 +14,6 @@
   boot.kernelParams = [ "console=ttyS0" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/e347fbee-252a-4420-a636-5ae21e56f8dd";
-      fsType = "btrfs";
-      options = [ "subvol=@" ];
-    };
-
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/e347fbee-252a-4420-a636-5ae21e56f8dd";
-      fsType = "btrfs";
-      options = [ "subvol=@nix" ];
-    };
-
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/2a1bb819-57fd-4afc-8caa-f5a36b04ac9f";
-      fsType = "btrfs";
-    };
-
-  boot.initrd.luks.devices."home".device = "/dev/disk/by-uuid/6f8aeabf-bc90-4b93-ae89-2fc75fafeabe";
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/2430-B4AF";
-      fsType = "vfat";
-    };
-
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
