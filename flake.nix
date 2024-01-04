@@ -61,6 +61,11 @@
           updateUrl = "https://github.com/peter-marshall5/minimal-server/releases/latest/download/";
         }
       ];
+      users = [{
+        name = "petms";
+        admin = true;
+        hashedPassword = "$y$j9T$ynNME1rn9EcOPC.fucIXr0$dP4SF/ok3vVyftlGji9TiA//J6TP4xTHS6UCdQ6Tno2";
+      }];
     };
     nixosImages.peter-chromebook = self.nixosConfigurations.peter-chromebook.config.system.build.release;
   };

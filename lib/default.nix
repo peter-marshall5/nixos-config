@@ -4,13 +4,14 @@ let
 in {
   host.defineHost = { system, systemConfig ? {}, isServer ? false, isQemuGuest ? false, extraModules ? [], hostName, NICs ? [], users ? []}:
   let
-    defineSystemUser = { name, admin }:
-    { pkgs, ...}: {
+    defineSystemUser = { name, admin, hashedPassword ? "" }:
+    { pkgs, ... }: {
       users.users."${name}" = {
         isNormalUser = true;
-        extraGroups = (if admin then [ "wheel" ] else []);
+        extraGroups = lib.mkIf admin [ "wheel" ];
         openssh.authorizedKeys.keys = import ../ssh-keys.nix "";
         shell = pkgs.nushell;
+        hashedPassword = lib.mkIf (hashedPassword != "") hashedPassword;
       };
     };
   in lib.nixosSystem {
