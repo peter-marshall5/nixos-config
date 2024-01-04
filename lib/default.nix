@@ -40,6 +40,6 @@ in {
       ]
     else []
     ) ++
-    (if isQemuGuest then [../modules/hardware/qemu.nix] else []);
+    (if isQemuGuest then [../modules/hardware/qemu.nix] else []) ++ extraModules;
   };
 }
