@@ -22,6 +22,7 @@
       system = "x86_64-linux";
       hostName = "petms";
       isServer = true;
+      isQemuGuest = true;
       NICs = ["ens2"];
       systemConfig = {
         fs.root.uuid = "e347fbee-252a-4420-a636-5ae21e56f8dd";
@@ -42,7 +43,6 @@
     nixosConfigurations.peter-chromebook = host.defineHost {
       system = "armv7l-linux";
       hostName = "peter-chromebook";
-      isServer = false;
       systemConfig = {
         fs.enable = false;
       };

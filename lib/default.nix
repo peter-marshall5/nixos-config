@@ -2,7 +2,7 @@
 let
   inherit (nixpkgs) lib;
 in {
-  host.defineHost = { system, systemConfig ? {}, isServer, extraModules ? [], hostName, NICs ? []}:
+  host.defineHost = { system, systemConfig ? {}, isServer ? false, isQemuGuest ? false, extraModules ? [], hostName, NICs ? []}:
   lib.nixosSystem {
     inherit system;
     modules = [
@@ -15,6 +15,8 @@ in {
         environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
 
         networking.hostName = hostName;
+
+        nixpkgs.hostPlatform = system;
       }
     ] ++
     (if isServer then 
@@ -22,7 +24,10 @@ in {
         ../modules/system/server
         microvm.nixosModules.host
         srvos.nixosModules.server
-        { ab.wan.interfaces = NICs; }
+        {
+          ab.wan.interfaces = NICs;
+          ab.hardware.qemu = isQemuGuest;
+        }
       ]
     else []
     );

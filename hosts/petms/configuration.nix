@@ -7,19 +7,8 @@
 {
   imports =
     [
-      ./hardware-configuration.nix
       ./vms.nix
     ];
-
-  # Set your time zone.
-  time.timeZone = "America/Toronto";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "us";
-  };
 
   users.users.petms = {
     isNormalUser = true;
