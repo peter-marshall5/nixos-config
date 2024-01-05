@@ -1,8 +1,8 @@
-{ nixpkgs, agenix, microvm, srvos }:
+{ nixpkgs, agenix, microvm, srvos, nixos-appliance }:
 let
   inherit (nixpkgs) lib;
 in {
-  host.defineHost = { system, systemConfig ? {}, isServer ? false, isQemuGuest ? false, extraModules ? [], hostName, NICs ? [], users ? []}:
+  host.defineHost = { system, systemConfig ? {}, isServer ? false, isQemuGuest ? false, extraModules ? [], hostName, NICs ? [], users ? [], appliance ? false}:
   let
     defineSystemUser = { name, admin, hashedPassword ? "" }:
     { pkgs, ... }: {
@@ -10,7 +10,7 @@ in {
         isNormalUser = true;
         extraGroups = lib.mkIf admin [ "wheel" ];
         openssh.authorizedKeys.keys = import ../ssh-keys.nix "";
-        shell = pkgs.nushell;
+        shell = lib.mkIf (!appliance) pkgs.nushell;
         hashedPassword = lib.mkIf (hashedPassword != "") hashedPassword;
       };
     };
@@ -43,6 +43,11 @@ in {
       ]
     else []
     ) ++
-    (if isQemuGuest then [../modules/hardware/qemu.nix] else []) ++ extraModules;
+    (if isQemuGuest then [../modules/hardware/qemu.nix] else []) ++
+    (if appliance then [
+      nixos-appliance.nixosModules.appliance-image
+      (nixpkgs + "/nixos/modules/profiles/image-based-appliance.nix")
+      { ab.fs.enable = false; ab.autoUpgrade = false; }
+    ] else []) ++ extraModules;
   };
 }

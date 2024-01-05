@@ -13,7 +13,7 @@
   outputs = { self, nixpkgs, agenix, microvm, srvos, nixos-appliance, nixos-veyron-speedy }: 
   let
     util = (import ./lib) {
-      inherit nixpkgs agenix microvm srvos;
+      inherit nixpkgs agenix microvm srvos nixos-appliance;
     };
     inherit (util) host modules;
   in
@@ -47,15 +47,10 @@
     nixosConfigurations.peter-chromebook = host.defineHost {
       system = "armv7l-linux";
       hostName = "peter-chromebook";
-      systemConfig = {
-        fs.enable = false;
-        autoUpgrade = false;
-      };
+      appliance = true;
       extraModules = [
-        nixos-appliance.nixosModules.appliance-image
         nixos-veyron-speedy.nixosModules.cross-armv7
         nixos-veyron-speedy.nixosModules.veyron-speedy
-        (nixpkgs + "/nixos/modules/profiles/image-based-appliance.nix")
         {
           osName = "nixos";
           release = "4"; # Bump this on release
