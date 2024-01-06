@@ -19,6 +19,10 @@ let
         type = lib.types.str;
       };
 
+      config = lib.mkOption {
+        default = {};
+      };
+
     };
 
   };
@@ -43,7 +47,7 @@ let
         };
       };
       system.stateVersion = config.system.stateVersion;
-    };
+    } // vm.config;
   };
 
 in
