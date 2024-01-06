@@ -40,11 +40,11 @@ in
       };
     };
 
-    environment.systemPackages = with pkgs; [ iproute2 curl ];
+    environment.systemPackages = with pkgs; [ iproute2 iputils curl ];
 
     systemd.services."ddns" = {
       script = ''
-        PATH="${pkgs.iproute2}/bin:${pkgs.curl}/bin:$PATH"
+        PATH="${pkgs.iproute2}/bin:${pkgs.curl}/bin:${pkgs.iputils}/bin:$PATH"
 
         IFACE="${cfg.interface}"
         DOMAINS="${lib.strings.concatStringsSep "," cfg.domains}"
@@ -59,6 +59,9 @@ in
         )
 
         [ "$ip6" == "" ] && exit 1
+
+        # Required to let the router know our new IPv6 address
+        ping -q -c 4 -I "$ip6" ff02::2%"$IFACE"
 
         # Update our DuckDNS record
         response=$(curl -s "https://www.duckdns.org/update?domains=$DOMAINS&token=$(cat $TOKEN)&ip=&ipv6=$ip6")
