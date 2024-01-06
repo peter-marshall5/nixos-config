@@ -13,7 +13,7 @@
   outputs = { self, nixpkgs, agenix, microvm, srvos, nixos-appliance, nixos-veyron-speedy }: 
   let
     util = (import ./lib) {
-      inherit nixpkgs agenix microvm srvos nixos-appliance;
+      inherit nixpkgs agenix microvm srvos nixos-appliance nixos-veyron-speedy;
     };
     inherit (util) host;
   in
@@ -22,7 +22,7 @@
       system = "x86_64-linux";
       hostName = "petms";
       isServer = true;
-      hardware.qemu = true;
+      hardware = "qemu";
       NICs = ["ens2"];
       systemConfig = {
         fs.root.uuid = "e347fbee-252a-4420-a636-5ae21e56f8dd";
@@ -44,13 +44,13 @@
         admin = true;
       }];
     };
-    nixosConfigurations.peter-chromebook = host.defineHost {
+    packages.x86_64-linux.peter-chromebook = (host.defineHost {
       system = "armv7l-linux";
+      buildPlatform = "x86_64-linux";
       hostName = "peter-chromebook";
       appliance = true;
+      hardware = "veyron-speedy";
       extraModules = [
-        nixos-veyron-speedy.nixosModules.cross-armv7
-        nixos-veyron-speedy.nixosModules.veyron-speedy
         {
           osName = "nixos";
           release = "4"; # Bump this on release
@@ -62,7 +62,6 @@
         admin = true;
         hashedPassword = "$y$j9T$ynNME1rn9EcOPC.fucIXr0$dP4SF/ok3vVyftlGji9TiA//J6TP4xTHS6UCdQ6Tno2";
       }];
-    };
-    nixosImages.peter-chromebook = self.nixosConfigurations.peter-chromebook.config.system.build.release;
+    }).config.system.build.release;
   };
 }

@@ -1,8 +1,8 @@
-{ nixpkgs, agenix, microvm, srvos, nixos-appliance }:
+{ nixpkgs, agenix, microvm, srvos, nixos-appliance, nixos-veyron-speedy }:
 let
   inherit (nixpkgs) lib;
 in {
-  host.defineHost = { system, systemConfig ? {}, isServer ? false, hardware, extraModules ? [], hostName, NICs ? [], users ? [], appliance ? false}:
+  host.defineHost = { system, systemConfig ? {}, isServer ? false, hardware, extraModules ? [], hostName, NICs ? [], users ? [], appliance ? false, buildPlatform ? ""}:
   let
     defineSystemUser = { name, admin, hashedPassword ? "" }:
     { pkgs, ... }: {
@@ -40,7 +40,8 @@ in {
       ];
       ab.wan.interfaces = NICs;
     }) ++
-    (lib.optional hardware.qemu ../modules/hardware/qemu.nix) ++
+    (lib.optional (hardware == "qemu") ../modules/hardware/qemu.nix) ++
+    (lib.optional (hardware == "veyron-speedy") nixos-veyron-speedy.nixosModules.veyron-speedy) ++
     (lib.optional appliance {
       imports = [
         nixos-appliance.nixosModules.appliance-image
@@ -48,6 +49,10 @@ in {
       ];
       ab.fs.enable = false;
       ab.autoUpgrade = false;
+    }) ++
+    (lib.optional (buildPlatform != "") {
+      nixpkgs.config.allowUnsupportedSystem = true;
+      nixpkgs.buildPlatform.system = buildPlatform;
     }) ++
     extraModules;
   };
