@@ -15,14 +15,14 @@
     util = (import ./lib) {
       inherit nixpkgs agenix microvm srvos nixos-appliance;
     };
-    inherit (util) host modules;
+    inherit (util) host;
   in
   {
     nixosConfigurations.petms = host.defineHost {
       system = "x86_64-linux";
       hostName = "petms";
       isServer = true;
-      isQemuGuest = true;
+      hardware.qemu = true;
       NICs = ["ens2"];
       systemConfig = {
         fs.root.uuid = "e347fbee-252a-4420-a636-5ae21e56f8dd";
