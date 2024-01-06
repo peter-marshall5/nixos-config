@@ -7,6 +7,7 @@
     ./bridge-network.nix
     ./cloudflared.nix
     ./ddns.nix
+    ./vms.nix
   ];
 
   # Enable the OpenSSH daemon.
