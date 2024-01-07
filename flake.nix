@@ -39,10 +39,6 @@
           domains = [ "petms-opcc" ];
         };
       };
-      users = [{
-        name = "petms";
-        admin = true;
-      }];
     };
     packages.x86_64-linux.peter-chromebook = (host.defineHost {
       system = "armv7l-linux";
