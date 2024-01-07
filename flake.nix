@@ -39,6 +39,11 @@
           domains = [ "petms-opcc" ];
         };
       };
+      users = [{
+        name = "admin";
+        admin = true;
+        hashedPassword = "$y$j9T$ynNME1rn9EcOPC.fucIXr0$dP4SF/ok3vVyftlGji9TiA//J6TP4xTHS6UCdQ6Tno2";
+      }];
     };
     packages.x86_64-linux.peter-chromebook = (host.defineHost {
       system = "armv7l-linux";
@@ -54,7 +59,7 @@
         }
       ];
       users = [{
-        name = "petms";
+        name = "admin";
         admin = true;
         hashedPassword = "$y$j9T$ynNME1rn9EcOPC.fucIXr0$dP4SF/ok3vVyftlGji9TiA//J6TP4xTHS6UCdQ6Tno2";
       }];
