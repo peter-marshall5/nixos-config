@@ -23,6 +23,7 @@
       aria2
       git
       helix
+      nushell
     ];
 
     # Automatically pull updates from the flake repo during off hours

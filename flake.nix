@@ -7,13 +7,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     srvos.url = "github:nix-community/srvos";
-    nixos-appliance.url = "github:peter-marshall5/nixos-appliance";
     nixos-veyron-speedy.url = "github:peter-marshall5/nixos-veyron-speedy";
   };
-  outputs = { self, nixpkgs, agenix, microvm, srvos, nixos-appliance, nixos-veyron-speedy }: 
+  outputs = { self, nixpkgs, agenix, microvm, srvos, nixos-veyron-speedy }: 
   let
     util = (import ./lib) {
-      inherit nixpkgs agenix microvm srvos nixos-appliance nixos-veyron-speedy;
+      inherit nixpkgs agenix microvm srvos nixos-veyron-speedy;
     };
     inherit (util) mkHost image;
   in
@@ -39,30 +38,12 @@
           domains = [ "petms-opcc" ];
         };
       };
-      users = [{
-        name = "admin";
-        admin = true;
-        hashedPassword = "$y$j9T$ynNME1rn9EcOPC.fucIXr0$dP4SF/ok3vVyftlGji9TiA//J6TP4xTHS6UCdQ6Tno2";
-      }];
     };
-    packages.x86_64-linux.peter-chromebook = image (mkHost {
+    nixosConfigurations.peter-chromebook = mkHost {
       system = "armv7l-linux";
       buildPlatform = "x86_64-linux";
       hostName = "peter-chromebook";
-      appliance = true;
       hardware = "veyron-speedy";
-      extraModules = [
-        {
-          osName = "nixos";
-          release = "4"; # Bump this on release
-          updateUrl = "https://github.com/peter-marshall5/minimal-server/releases/latest/download/";
-        }
-      ];
-      users = [{
-        name = "admin";
-        admin = true;
-        hashedPassword = "$y$j9T$ynNME1rn9EcOPC.fucIXr0$dP4SF/ok3vVyftlGji9TiA//J6TP4xTHS6UCdQ6Tno2";
-      }];
-    });
+    };
   };
 }

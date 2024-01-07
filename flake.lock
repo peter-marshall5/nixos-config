@@ -104,21 +104,6 @@
         "type": "github"
       }
     },
-    "nixos-appliance": {
-      "locked": {
-        "lastModified": 1704488177,
-        "narHash": "sha256-TuDj08dgLmysHxyQskfbupFy3PDwZe5RC4T+FPbDGU4=",
-        "owner": "peter-marshall5",
-        "repo": "nixos-appliance",
-        "rev": "192dbb4899e0076f813650e7403c6ea05c5b57aa",
-        "type": "github"
-      },
-      "original": {
-        "owner": "peter-marshall5",
-        "repo": "nixos-appliance",
-        "type": "github"
-      }
-    },
     "nixos-stable": {
       "locked": {
         "lastModified": 1703992652,
@@ -221,7 +206,6 @@
       "inputs": {
         "agenix": "agenix",
         "microvm": "microvm",
-        "nixos-appliance": "nixos-appliance",
         "nixos-veyron-speedy": "nixos-veyron-speedy",
         "nixpkgs": "nixpkgs_3",
         "srvos": "srvos"
