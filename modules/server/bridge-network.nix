@@ -29,6 +29,7 @@
           DHCP = "ipv4";
           IPv6AcceptRA = true;
         };
+        dhcpV4Config.VendorClassIdentifier = "Linux";
         linkConfig.RequiredForOnline = "routable";
       };
       netdevs."10-bridge" = {
