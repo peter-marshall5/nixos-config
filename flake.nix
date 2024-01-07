@@ -15,10 +15,10 @@
     util = (import ./lib) {
       inherit nixpkgs agenix microvm srvos nixos-appliance nixos-veyron-speedy;
     };
-    inherit (util) host;
+    inherit (util) mkHost image;
   in
   {
-    nixosConfigurations.petms = host.defineHost {
+    nixosConfigurations.petms = mkHost {
       system = "x86_64-linux";
       hostName = "petms";
       isServer = true;
@@ -45,7 +45,7 @@
         hashedPassword = "$y$j9T$ynNME1rn9EcOPC.fucIXr0$dP4SF/ok3vVyftlGji9TiA//J6TP4xTHS6UCdQ6Tno2";
       }];
     };
-    packages.x86_64-linux.peter-chromebook = (host.defineHost {
+    packages.x86_64-linux.peter-chromebook = image (mkHost {
       system = "armv7l-linux";
       buildPlatform = "x86_64-linux";
       hostName = "peter-chromebook";
@@ -63,6 +63,6 @@
         admin = true;
         hashedPassword = "$y$j9T$ynNME1rn9EcOPC.fucIXr0$dP4SF/ok3vVyftlGji9TiA//J6TP4xTHS6UCdQ6Tno2";
       }];
-    }).config.system.build.release;
+    });
   };
 }

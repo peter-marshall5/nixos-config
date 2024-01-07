@@ -2,7 +2,7 @@
 let
   inherit (nixpkgs) lib;
 in {
-  host.defineHost = { system, systemConfig ? {}, isServer ? false, hardware, extraModules ? [], hostName, NICs ? [], users ? [], appliance ? false, buildPlatform ? ""}:
+  mkHost = { system, systemConfig ? {}, isServer ? false, hardware, extraModules ? [], hostName, NICs ? [], users ? [], appliance ? false, buildPlatform ? ""}:
   let
     defineSystemUser = { name, admin, hashedPassword ? "" }:
     { pkgs, ... }: {
@@ -56,4 +56,6 @@ in {
     }) ++
     extraModules;
   };
+
+  image = system: system.config.system.build.release;
 }
