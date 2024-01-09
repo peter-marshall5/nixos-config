@@ -1,4 +1,4 @@
-{ nixpkgs, agenix, microvm, srvos, nixos-veyron-speedy }:
+{ nixpkgs, agenix, microvm, srvos, nixos-veyron-speedy, ... }:
 let
   inherit (nixpkgs) lib;
 in {

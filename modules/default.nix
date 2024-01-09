@@ -64,6 +64,9 @@
     # Use systemd in the initrd  
     boot.initrd.systemd.enable = true;
 
+    # Use the latest kernel
+    boot.kernelPackages = pkgs.linuxPackages_latest;
+
     # Use systemd-networkd for network configuration
     networking.useNetworkd = true;
     systemd.network.enable = true;

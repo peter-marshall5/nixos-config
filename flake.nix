@@ -9,11 +9,9 @@
     srvos.url = "github:nix-community/srvos";
     nixos-veyron-speedy.url = "github:peter-marshall5/nixos-veyron-speedy";
   };
-  outputs = { self, nixpkgs, agenix, microvm, srvos, nixos-veyron-speedy }: 
+  outputs = { self, ... }@inputs: 
   let
-    util = (import ./lib) {
-      inherit nixpkgs agenix microvm srvos nixos-veyron-speedy;
-    };
+    util = (import ./lib) inputs;
     inherit (util) mkHost image;
   in
   {
