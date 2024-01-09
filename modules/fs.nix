@@ -17,6 +17,14 @@ in
     root.uuid = lib.mkOption {
       type = lib.types.str;
     };
+    root.luksUuid = lib.mkOption {
+      default = "";
+      type = lib.types.str;
+    };
+    nixStoreSubvol = lib.mkOption {
+      default = true;
+      type = lib.types.bool;
+    };
     home.type = lib.mkOption {
       default = "btrfs";
       type = lib.types.str;
@@ -45,22 +53,27 @@ in
         options = [ "subvol=@" ];
       };
 
-    fileSystems."/nix" =
+    boot.initrd.luks.devices."root" = lib.mkIf (cfg.root.luksUuid != "")
+      { device = (uuidPath + cfg.root.luksUuid); };
+
+    fileSystems."/nix" = lib.mkIf cfg.nixStoreSubvol
       { device = (uuidPath + cfg.root.uuid);
         fsType = cfg.root.type;
         options = [ "subvol=@nix" ];
       };
 
-    fileSystems."/home" =
+    fileSystems."/home" = lib.mkIf (cfg.home.uuid != "")
       { device = (uuidPath + cfg.home.uuid);
         fsType = "btrfs";
       };
 
-    boot.initrd.luks.devices."home".device = lib.mkIf (cfg.home.luksUuid != "") (uuidPath + cfg.home.luksUuid);
+    boot.initrd.luks.devices."home" = lib.mkIf (cfg.home.luksUuid != "")
+      { device = (uuidPath + cfg.home.luksUuid); };
 
     fileSystems."/boot" =
       { device = (uuidPath + cfg.esp.uuid);
         fsType = cfg.esp.type;
       };
     };
+
 }

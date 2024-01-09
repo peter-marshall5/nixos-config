@@ -2,7 +2,7 @@
 let
   inherit (nixpkgs) lib;
 in {
-  mkHost = { system, systemConfig ? {}, isServer ? false, hardware, extraModules ? [], hostName, NICs ? [], users ? [], buildPlatform ? ""}:
+  mkHost = { system, systemConfig ? {}, isServer ? false, isDesktop ? false, hardware, extraModules ? [], hostName, NICs ? [], users ? [], buildPlatform ? ""}:
   lib.nixosSystem {
     inherit system;
     modules = [{
@@ -27,11 +27,13 @@ in {
       ];
       ab.wan.interfaces = NICs;
     }) ++
+    (lib.optional isDesktop ../modules/desktop.nix) ++
     (lib.optional (hardware == "qemu") ../modules/hardware/qemu.nix) ++
     (lib.optional (hardware == "veyron-speedy") {
       imports = [nixos-veyron-speedy.nixosModules.veyron-speedy];
       boot.swraid.enable = lib.mkDefault false; # Not supported by kernel
     }) ++
+    (lib.optional (hardware == "surface-pro-9") ../modules/hardware/surface-pro-9.nix) ++
     (lib.optional (buildPlatform != "") {
       nixpkgs.config.allowUnsupportedSystem = true;
       nixpkgs.buildPlatform.system = buildPlatform;
