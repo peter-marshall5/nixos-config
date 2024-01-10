@@ -34,7 +34,7 @@ in
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
 
-  boot.initrd.kernelModules = [ "nvme" "xhci_pci" "surface_aggregator" "surface_aggregator_registry" "surface_aggregator_hub" "surface_hid_core" "8250_dw" "surface_hid" "intel_lpss" "intel_lpss_pci" "pinctrl_tigerlake" ];
+  boot.initrd.kernelModules = [ "nvme" "xhci_pci" "hid_generic" "atkbd" "surface_aggregator" "surface_aggregator_registry" "surface_aggregator_hub" "surface_hid_core" "8250_dw" "surface_hid" "intel_lpss" "intel_lpss_pci" "pinctrl_tigerlake" ];
 
   boot.kernelModules = [ "kvm-intel" ];
 
@@ -59,20 +59,8 @@ in
   environment.systemPackages = with pkgs; [
     surface-control
   ];
-  services.udev.packages = [
-    pkgs.iptsd
-    pkgs.surface-control
-  ];
-  systemd.packages = [
-    pkgs.iptsd
-  ];
 
-  #nixpkgs.overlays = [
-  #  (self: super: {
-  #    libwacom = self.callPackage (self.path + "/pkgs/development/libraries/libwacom/surface.nix") {
-  #      inherit (super) libwacom;
-  #    };
-  #  })
-  #];
+  systemd.packages = [ pkgs.iptsd ];
+  services.udev.packages = [ pkgs.iptsd ];
 
 }

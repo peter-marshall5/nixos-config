@@ -27,7 +27,12 @@ in {
       ];
       ab.wan.interfaces = NICs;
     }) ++
-    (lib.optional isDesktop ../modules/desktop.nix) ++
+    (lib.optional isDesktop {
+      imports = [
+        ../modules/desktop.nix
+        srvos.nixosModules.desktop
+      ];
+    }) ++
     (lib.optional (hardware == "qemu") ../modules/hardware/qemu.nix) ++
     (lib.optional (hardware == "veyron-speedy") {
       imports = [nixos-veyron-speedy.nixosModules.veyron-speedy];
