@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ...}:
+{ config, lib, pkgs, modulesPath, ...}:
 
 let
 
@@ -7,6 +7,26 @@ let
     repo = "linux-surface";
     rev = "110ca0d301a08de61f54ee8339fb6477e2acc594";
     hash = "sha256-R3IhFpga+SAVEinrJPPtB+IGh9qdGQvWDBSDIOcMnbQ=";
+  };
+
+  baseKernel = pkgs.linux_6_6;
+
+  customKernel = pkgs.linuxManualConfig {
+    inherit (baseKernel) src modDirVersion;
+    version = "${baseKernel.version}-surface-custom";
+    configfile = ./surface-6.6.config;
+    allowImportFromDerivation = true;
+    kernelPatches = map (pname: {
+      name = "linux-surface-${pname}";
+      patch = (linuxSurface + "/patches/6.6/${pname}.patch");
+    }) [
+      "0004-ipts"
+      "0005-ithc"
+      "0009-surface-typecover"
+      "0010-surface-shutdown"
+      "0011-surface-gpe"
+      "0014-rtc"
+    ];
   };
 
 in
@@ -29,24 +49,7 @@ in
   #hardware.ipu6.platform = "ipu6ep";
 
   # linux-surface kernel
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_6_6;
-  boot.kernelPatches = [ {
-    name = "linux-surface-config";
-    patch = null;
-    extraConfig = lib.replaceStrings [ "CONFIG_" "=" ] [ "" " " ] (lib.readFile
-      ./surface-6.6.config
-    );
-  } ] ++ map (pname: {
-    name = "linux-surface-${pname}";
-    patch = (linuxSurface + "/patches/6.6/${pname}.patch");
-  }) [
-    "0004-ipts"
-    "0005-ithc"
-    "0009-surface-typecover"
-    "0010-surface-shutdown"
-    "0011-surface-gpe"
-    "0014-rtc"
-  ];
+  boot.kernelPackages = lib.mkForce (pkgs.linuxPackagesFor customKernel);
 
   environment.systemPackages = with pkgs; [
     surface-control
