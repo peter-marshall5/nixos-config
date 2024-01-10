@@ -24,6 +24,7 @@
       git
       helix
       nushell
+      sbctl
     ];
 
     # Automatically pull updates from the flake repo during off hours
@@ -70,6 +71,9 @@
     # Use systemd-networkd for network configuration
     networking.useNetworkd = true;
     systemd.network.enable = true;
+
+    # Enable TPM2 support.
+    security.tpm2.enable = true;
 
     # Enable flake support
     nix.settings.experimental-features = [ "nix-command" "flakes" ];

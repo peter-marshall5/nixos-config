@@ -1,6 +1,9 @@
 { config, lib, pkgs, ... }:
 {
 
+  # Disable boot messages.
+  boot.kernelParams = [ "quiet" "loglevel=1" ];
+
   services.xserver.enable = true;
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;

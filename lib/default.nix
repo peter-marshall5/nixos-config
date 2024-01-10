@@ -1,8 +1,8 @@
-{ nixpkgs, agenix, microvm, srvos, nixos-veyron-speedy, ... }:
+{ nixpkgs, agenix, microvm, srvos, nixos-veyron-speedy, lanzaboote, ... }:
 let
   inherit (nixpkgs) lib;
 in {
-  mkHost = { system, systemConfig ? {}, isServer ? false, isDesktop ? false, hardware, extraModules ? [], hostName, NICs ? [], users ? [], buildPlatform ? ""}:
+  mkHost = { system, systemConfig ? {}, isServer ? false, isDesktop ? false, hardware, extraModules ? [], hostName, NICs ? [], users ? [], buildPlatform ? "", enableSecureBoot ? false}:
   lib.nixosSystem {
     inherit system;
     modules = [{
@@ -42,6 +42,14 @@ in {
     (lib.optional (buildPlatform != "") {
       nixpkgs.config.allowUnsupportedSystem = true;
       nixpkgs.buildPlatform.system = buildPlatform;
+    }) ++
+    (lib.optional enableSecureBoot {
+      imports = [lanzaboote.nixosModules.lanzaboote];
+      boot.loader.systemd-boot.enable = lib.mkForce false;
+      boot.lanzaboote = {
+        enable = true;
+        pkiBundle = "/etc/secureboot";
+      };
     }) ++
     extraModules;
   };

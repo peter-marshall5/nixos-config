@@ -8,6 +8,10 @@
     };
     srvos.url = "github:nix-community/srvos";
     nixos-veyron-speedy.url = "github:peter-marshall5/nixos-veyron-speedy";
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.3.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = { self, ... }@inputs: 
   let
@@ -19,6 +23,7 @@
       system = "x86_64-linux";
       hostName = "peter-pc";
       isDesktop = true;
+      enableSecureBoot = true;
       hardware = "surface-pro-9";
       systemConfig = {
         fs.root.uuid = "c131240c-ff03-467c-b518-f5e435ac38a0";
