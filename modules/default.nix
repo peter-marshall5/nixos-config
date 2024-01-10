@@ -75,6 +75,9 @@
     # Enable TPM2 support.
     security.tpm2.enable = true;
 
+    # Enable zram swap space.
+    zramSwap.enable = true;
+
     # Enable flake support
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
