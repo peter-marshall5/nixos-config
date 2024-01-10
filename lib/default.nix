@@ -33,7 +33,7 @@ in {
       imports = [nixos-veyron-speedy.nixosModules.veyron-speedy];
       boot.swraid.enable = lib.mkDefault false; # Not supported by kernel
     }) ++
-    (lib.optional (hardware == "surface-pro-9") ../modules/hardware/surface-pro-9.nix) ++
+    (lib.optional (hardware == "surface-pro-9") ../modules/hardware/surface-pro-9) ++
     (lib.optional (buildPlatform != "") {
       nixpkgs.config.allowUnsupportedSystem = true;
       nixpkgs.buildPlatform.system = buildPlatform;
