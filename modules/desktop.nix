@@ -12,6 +12,9 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  networking.wireless.iwd.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
