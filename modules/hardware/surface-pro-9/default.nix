@@ -34,9 +34,14 @@ in
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
 
-  boot.initrd.kernelModules = [ "surface_aggregator" "surface_aggregator_registry" "surface_aggregator_hub" "surface_hid_core" "8250_dw" "surface_hid" "intel_lpss" "intel_lpss_pci" "pinctrl_tigerlake" ];
+  boot.initrd.kernelModules = [ "nvme" "xhci_pci" "surface_aggregator" "surface_aggregator_registry" "surface_aggregator_hub" "surface_hid_core" "8250_dw" "surface_hid" "intel_lpss" "intel_lpss_pci" "pinctrl_tigerlake" ];
 
   boot.kernelModules = [ "kvm-intel" ];
+
+  boot.swraid.enable = false;
+
+  boot.initrd.luks.cryptoModules = [ "aes" "aes_generic" "cbc" "sha1" "sha256" "sha512" "af_alg" ];
+  boot.initrd.includeDefaultModules = false;
 
   nixpkgs.config.allowUnfree = true;
   hardware.enableAllFirmware = true;
@@ -62,12 +67,12 @@ in
     pkgs.iptsd
   ];
 
-  nixpkgs.overlays = [
-    (self: super: {
-      libwacom = self.callPackage (self.path + "/pkgs/development/libraries/libwacom/surface.nix") {
-        inherit (super) libwacom;
-      };
-    })
-  ];
+  #nixpkgs.overlays = [
+  #  (self: super: {
+  #    libwacom = self.callPackage (self.path + "/pkgs/development/libraries/libwacom/surface.nix") {
+  #      inherit (super) libwacom;
+  #    };
+  #  })
+  #];
 
 }
