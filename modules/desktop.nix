@@ -18,6 +18,9 @@
   networking.wireless.iwd.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
 
+  # Enable bluetooth
+  hardware.bluetooth.enable = true;
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
