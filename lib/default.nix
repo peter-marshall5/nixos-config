@@ -1,7 +1,6 @@
 { nixpkgs, agenix, microvm, srvos, nixos-veyron-speedy, lanzaboote, ... }:
 let
   inherit (nixpkgs) lib;
-in {
   mkHost = { system, systemConfig ? {}, isServer ? false, isDesktop ? false, hardware, extraModules ? [], hostName, NICs ? [], users ? [], buildPlatform ? "", enableSecureBoot ? false}:
   lib.nixosSystem {
     inherit system;
@@ -52,5 +51,11 @@ in {
       };
     }) ++
     extraModules;
+  };
+in {
+  defineHosts = hosts: {
+    nixosConfigurations = builtins.listToAttrs (builtins.map (
+      host: lib.attrsets.nameValuePair "${host.hostName}" (mkHost host)
+    ) hosts);
   };
 }
