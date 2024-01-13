@@ -62,10 +62,5 @@
         domains = [ "petms-opcc" ];
       };
     };
-  } {
-    hostName = "peter-chromebook";
-    system = "armv7l-linux";
-    buildPlatform = "x86_64-linux";
-    hardware = "veyron-speedy";
   }];
 }
