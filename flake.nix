@@ -25,6 +25,7 @@
     hardware = "generic";
     systemConfig = {
       fs.root.uuid = "";
+      fs.home.uuid = "";
       fs.root.luksUuid = "";
       fs.esp.uuid = "";
       #vms = [self.nixosConfigurations.petms];
