@@ -3,6 +3,10 @@ let
 
   inherit (nixpkgs) lib;
 
+in
+
+{
+
   mkHost = { system, systemConfig ? {}, isServer ? false, isDesktop ? false, hardware, extraModules ? [], hostName, NICs ? [], users ? [], buildPlatform ? "", enableSecureBoot ? false}:
   let
 
@@ -59,10 +63,4 @@ let
 
   };
 
-in {
-  defineHosts = hosts: {
-    nixosConfigurations = builtins.listToAttrs (builtins.map (
-      host: lib.attrsets.nameValuePair "${host.hostName}" (mkHost host)
-    ) hosts);
-  };
 }
