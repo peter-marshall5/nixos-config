@@ -2,7 +2,6 @@
 {
 
   imports = [
-    (modulesPath + "/profiles/headless.nix")
     (modulesPath + "/profiles/minimal.nix")
     ./bridge-network.nix
     ./cloudflared.nix

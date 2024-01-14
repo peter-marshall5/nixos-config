@@ -7,7 +7,7 @@ let
   let
 
     hardwareProfiles = {
-      "qemu" = ../modules/hardware/qemu.nix;
+      "virt" = ../modules/hardware/virt.nix;
       "surface-pro-9" = ../modules/hardware/surface-pro-9;
       "generic" = ../modules/hardware/generic.nix;
     };

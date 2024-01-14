@@ -46,7 +46,7 @@
     hostName = "petms";
     system = "x86_64-linux";
     isServer = true;
-    hardware = "qemu";
+    hardware = "virt";
     NICs = ["ens2"];
     systemConfig = {
       fs.root.uuid = "e347fbee-252a-4420-a636-5ae21e56f8dd";
