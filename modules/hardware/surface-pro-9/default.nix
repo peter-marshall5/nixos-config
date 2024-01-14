@@ -38,7 +38,7 @@ in
 
   boot.kernelModules = [ "kvm-intel" ];
 
-  boot.swraid.enable = false;
+  boot.swraid.enable = lib.mkForce false;
 
   boot.initrd.luks.cryptoModules = [ "aes" "aes_generic" "cbc" "sha1" "sha256" "sha512" "af_alg" ];
   boot.initrd.includeDefaultModules = false;
