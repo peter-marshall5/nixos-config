@@ -2,6 +2,8 @@
 
 {
 
+  boot.initrd.availableKernelModules = [ "ahci" "sd_mod" "uas" "usb_storage" ];
+
   boot.kernelModules = [ "kvm_intel" "kvm_amd" ];
 
   nixpkgs.config.allowUnfree = true;
