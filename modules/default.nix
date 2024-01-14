@@ -78,6 +78,9 @@
     # Enable zram swap space.
     zramSwap.enable = true;
 
+    # Enable software raid.
+    boot.swraid.enable = true;
+
     # Enable flake support
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
