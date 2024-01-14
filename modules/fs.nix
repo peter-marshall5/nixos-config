@@ -30,12 +30,16 @@ in
       type = lib.types.str;
     };
     home.uuid = lib.mkOption {
-      default = "";
+      default = if cfg.home.onRoot then cfg.root.uuid else "";
       type = lib.types.str;
     };
     home.luksUuid = lib.mkOption {
       default = "";
       type = lib.types.str;
+    };
+    home.onRoot = lib.mkOption {
+      default = false;
+      type = lib.types.bool;
     };
     esp.uuid = lib.mkOption {
       type = lib.types.str;
@@ -65,6 +69,7 @@ in
     fileSystems."/home" = lib.mkIf (cfg.home.uuid != "")
       { device = (uuidPath + cfg.home.uuid);
         fsType = "btrfs";
+        options = lib.mkIf cfg.home.onRoot [ "subvol=@home" ];
       };
 
     boot.initrd.luks.devices."home" = lib.mkIf (cfg.home.luksUuid != "")
