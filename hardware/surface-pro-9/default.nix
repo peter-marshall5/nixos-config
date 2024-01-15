@@ -9,7 +9,7 @@ let
     hash = "sha256-R3IhFpga+SAVEinrJPPtB+IGh9qdGQvWDBSDIOcMnbQ=";
   };
 
-  baseKernel = pkgs.linux_6_6;
+  baseKernel = pkgs.linux_latest;
 
   customKernel = pkgs.linuxManualConfig {
     inherit (baseKernel) src modDirVersion;
@@ -48,9 +48,8 @@ in
 
   services.thermald.enable = true;
 
-  # Currently broken in unstable, see https://github.com/NixOS/nixpkgs/pull/268618
-  #hardware.ipu6.enable = true;
-  #hardware.ipu6.platform = "ipu6ep";
+  hardware.ipu6.enable = true;
+  hardware.ipu6.platform = "ipu6ep";
 
   # linux-surface kernel
   boot.kernelPackages = lib.mkForce (pkgs.linuxPackagesFor customKernel);

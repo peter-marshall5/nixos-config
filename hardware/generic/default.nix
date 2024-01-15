@@ -19,4 +19,14 @@
 
   sound.enable = false;
 
+  systemd.watchdog = {
+    runtimeTime = "20s";
+    rebootTime = "30s";
+  };
+
+  systemd.sleep.extraConfig = ''
+    AllowSuspend=no
+    AllowHibernation=no
+  '';
+
 }
