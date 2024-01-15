@@ -43,8 +43,7 @@ in
   boot.initrd.luks.cryptoModules = [ "aes" "aes_generic" "cbc" "sha1" "sha256" "sha512" "af_alg" ];
   boot.initrd.includeDefaultModules = false;
 
-  nixpkgs.config.allowUnfree = true;
-  hardware.enableAllFirmware = true;
+  hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = true;
 
   services.thermald.enable = true;
