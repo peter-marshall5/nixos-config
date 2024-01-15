@@ -16,6 +16,7 @@
   let
     util = (import ./lib) inputs;
     inherit (util) mkNixos;
+    pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
   in
   {
     nixosConfigurations = builtins.listToAttrs [
@@ -23,5 +24,8 @@
       (mkNixos "x86_64-linux" "petms")
       (mkNixos "x86_64-linux" "peter-pc")
     ];
+    devShells.x86_64-linux.surface-kernel = (pkgs.callPackage ./hardware/surface-pro-9/kernel.nix {
+      baseKernel = pkgs.linux_latest;
+    }).overrideAttrs (o: {nativeBuildInputs=o.nativeBuildInputs ++ (with pkgs; [ pkg-config ncurses ]);});
   };
 }
