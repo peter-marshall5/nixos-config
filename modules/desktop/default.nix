@@ -56,6 +56,13 @@
     # SSH can be a security hole on desktop systems.
     services.openssh.enable = false;
 
+    services.power-profiles-daemon.enable = false;
+
+    services.tlp.enable = true;
+    services.tlp.settings = {
+      PCIE_ASPM_ON_BAT = "powersupersave";
+    };
+
   };
 
 }
