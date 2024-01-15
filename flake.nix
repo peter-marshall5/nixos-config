@@ -6,7 +6,6 @@
       url = "github:astro/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    srvos.url = "github:nix-community/srvos";
     nixos-veyron-speedy.url = "github:peter-marshall5/nixos-veyron-speedy";
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.3.0";
