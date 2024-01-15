@@ -53,11 +53,20 @@ let
 in
 {
 
-  options.ab.vms = lib.mkOption {
-    default = {};
-    type = with lib.types; attrsOf (submodule vmOpts);
+  options.ab.vms = {
+    enable = lib.mkOption {
+      default = (config.ab.vms.vms != {});
+      type = lib.types.bool;
+    };
+    vms = lib.mkOption {
+      default = {};
+      type = with lib.types; attrsOf (submodule vmOpts);
+    };
   };
 
-  config.microvm.vms = builtins.mapAttrs defineVm config.ab.vms;
+  config.microvm = {
+    host.enable = config.ab.vms.enable;
+    vms = builtins.mapAttrs defineVm config.ab.vms.vms;
+  };
 
 }

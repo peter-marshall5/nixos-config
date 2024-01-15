@@ -113,27 +113,6 @@
         "type": "github"
       }
     },
-    "flake-parts_2": {
-      "inputs": {
-        "nixpkgs-lib": [
-          "srvos",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1704982712,
-        "narHash": "sha256-2Ptt+9h8dczgle2Oo6z5ni5rt/uLMG47UFTR1ry/wgg=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "07f6395285469419cf9d078f59b5b49993198c00",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
     "flake-utils": {
       "inputs": {
         "systems": "systems_2"
@@ -344,22 +323,6 @@
         "type": "github"
       }
     },
-    "nixpkgs_4": {
-      "locked": {
-        "lastModified": 1704916437,
-        "narHash": "sha256-aE35YzfCrPPiBoCOKt0/GLd/Qar0Qq2VtUuC5XrY2Qk=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "5fcfdd4990ab907895fe9bcb1e2e4083d92ca670",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable-small",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "pre-commit-hooks-nix": {
       "inputs": {
         "flake-compat": [
@@ -397,8 +360,7 @@
         "lanzaboote": "lanzaboote",
         "microvm": "microvm",
         "nixos-veyron-speedy": "nixos-veyron-speedy",
-        "nixpkgs": "nixpkgs_3",
-        "srvos": "srvos"
+        "nixpkgs": "nixpkgs_3"
       }
     },
     "rust-overlay": {
@@ -440,25 +402,6 @@
       "original": {
         "type": "git",
         "url": "https://spectrum-os.org/git/spectrum"
-      }
-    },
-    "srvos": {
-      "inputs": {
-        "flake-parts": "flake-parts_2",
-        "nixpkgs": "nixpkgs_4"
-      },
-      "locked": {
-        "lastModified": 1705188027,
-        "narHash": "sha256-y+C4DvT6arQLBAWBbv45jqiISGtT51YRW0xgB77v97g=",
-        "owner": "nix-community",
-        "repo": "srvos",
-        "rev": "c305d68ebeb44a2dd914eb1f309c917fd87bec72",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "srvos",
-        "type": "github"
       }
     },
     "systems": {
