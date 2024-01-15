@@ -3,6 +3,7 @@
 {
 
   imports = [
+    (modulesPath + "/profiles/minimal.nix")
     (modulesPath + "/profiles/headless.nix")
   ];
 

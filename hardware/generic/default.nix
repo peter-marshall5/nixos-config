@@ -1,6 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, modulesPath, ... }:
 
 {
+
+  imports = [
+    (modulesPath + "/profiles/minimal.nix")
+  ];
 
   boot.initrd.availableKernelModules = [ "ahci" "sd_mod" "uas" "usb_storage" ];
 

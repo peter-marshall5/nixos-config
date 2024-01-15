@@ -7,60 +7,49 @@ in
 
 {
 
-  mkHost = { system, systemConfig ? {}, isServer ? false, isDesktop ? false, hardware, extraModules ? [], hostName, NICs ? [], users ? [], buildPlatform ? "", enableSecureBoot ? false}:
+  mkNixos = system: hostName:
   let
 
-    hardwareProfiles = {
-      "virt" = ../modules/hardware/virt.nix;
-      "surface-pro-9" = ../modules/hardware/surface-pro-9;
-      "generic" = ../modules/hardware/generic.nix;
-    };
+    cfg = import ../hosts/${hostName}/default.nix;
 
-  in lib.nixosSystem {
+  in lib.attrsets.nameValuePair hostName (lib.nixosSystem {
     inherit system;
 
     modules = [
       agenix.nixosModules.default
+      lanzaboote.nixosModules.lanzaboote
+      microvm.nixosModules.host
       ../modules
-      hardwareProfiles."${hardware}"
+      ../hardware/${cfg.hardware}
       {
-        ab = systemConfig; # Abstracted config options
+        ab = cfg; # Abstracted config options
         environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
-        networking.hostName = hostName;
+        networking.hostName = lib.mkDefault hostName;
         nixpkgs.hostPlatform = lib.mkDefault system;
       }
-    ] ++
-
-    (lib.optionals isServer [
-      ../modules/server
-      microvm.nixosModules.host
-      srvos.nixosModules.server
       {
-        ab.wan.interfaces = NICs;
-      }
-    ]) ++
-
-    (lib.optionals isDesktop [
-      ../modules/desktop.nix
-      srvos.nixosModules.desktop
-    ]) ++
-
-    (lib.optional (buildPlatform != "") {
-      nixpkgs.config.allowUnsupportedSystem = true;
-      nixpkgs.buildPlatform.system = buildPlatform;
-    }) ++
-
-    (lib.optionals enableSecureBoot [
-      lanzaboote.nixosModules.lanzaboote
-      {
-        boot.loader.systemd-boot.enable = lib.mkForce false;
-        boot.lanzaboote = {
-          enable = true;
-          pkiBundle = "/etc/secureboot";
+        options.ab = {
+          hardware = lib.mkOption {
+            type = lib.types.str;
+          };
         };
       }
-    ]) ++ extraModules;
+    ];
 
-  };
+    # (lib.optionals cfg.isServer [ 
+    #   srvos.nixosModules.server
+    # ]) ++
+
+    # (lib.optionals cfg.isDesktop [
+    #   srvos.nixosModules.desktop
+    # ]) ++
+
+    # Cross-compiled systems
+    # (lib.optional (cfg.buildPlatform != system) {
+    #   nixpkgs.config.allowUnsupportedSystem = true;
+    #   nixpkgs.buildPlatform.system = cfg.buildPlatform;
+    # })
+
+  });
 
 }

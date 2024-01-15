@@ -21,7 +21,7 @@ in
       type = lib.types.attrsOf lib.types.str;
     };
 
-    webSSHDomain = lib.mkOption {
+    ssh.domain = lib.mkOption {
       default = "";
       type = lib.types.str;
     };
@@ -32,7 +32,7 @@ in
 
     age.secrets.cloudflare-tunnel = {
 
-      file = ../../secrets/${config.networking.hostName}/cloudflared/${cfg.tunnelId}.json.age;
+      file = ../../hosts/${config.networking.hostName}/secrets/cloudflared/${cfg.tunnelId}.json.age;
 
       owner = config.services.cloudflared.user;
       group = config.services.cloudflared.group;
@@ -49,7 +49,7 @@ in
 
           ingress = lib.mkMerge [
             (builtins.mapAttrs (name: value: { service = "${value}"; }) cfg.ingress)
-            (lib.mkIf (cfg.webSSHDomain != "") { "${cfg.webSSHDomain}" = "ssh://localhost:22"; })
+            (lib.mkIf (cfg.ssh.domain != "") { "${cfg.ssh.domain}" = "ssh://localhost:22"; })
           ];
 
           default = "http_status:404";

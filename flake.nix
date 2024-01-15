@@ -13,12 +13,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { self, ... }@inputs: 
+  outputs = inputs:
   let
     util = (import ./lib) inputs;
-    inherit (util) mkHost;
+    inherit (util) mkNixos;
   in
   {
-    nixosConfigurations = builtins.mapAttrs (n: h: (mkHost (h // { hostName = n; }))) ((import ./hosts.nix) {});
+    nixosConfigurations = builtins.listToAttrs [
+      (mkNixos "x86_64-linux" "opcc")
+      (mkNixos "x86_64-linux" "petms")
+      (mkNixos "x86_64-linux" "peter-pc")
+    ];
   };
 }

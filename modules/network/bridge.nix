@@ -1,26 +1,37 @@
 { config, lib, pkgs, ... }:
+
+let
+
+  cfg = config.ab.net.bridge;
+
+in
+
 {
 
-  options = {
-    ab.bridge.name = lib.mkOption {
+  options.ab.net.bridge = {
+    enable = lib.mkOption {
+      default = false;
+      type = lib.types.bool;
+    };
+    name = lib.mkOption {
       default = "br0";
       type = lib.types.str;
     };
-    ab.wan.interfaces = lib.mkOption {
+    interfaces = lib.mkOption {
       default = [];
       type = lib.types.listOf lib.types.str;
     };
   };
 
-  config = {
+  config = lib.mkIf cfg.enable {
 
     networking.useDHCP = lib.mkForce true;
 
     systemd.network = {
       networks."10-lan" = {
-        matchConfig.Name = config.ab.wan.interfaces ++ [ "vm-*" ];
+        matchConfig.Name = cfg.interfaces ++ [ "vm-*" ];
         networkConfig = {
-          Bridge = config.ab.bridge.name;
+          Bridge = cfg.name;
         };
       };
       networks."10-lan-bridge" = {
@@ -34,7 +45,7 @@
       };
       netdevs."10-bridge" = {
         netdevConfig = {
-          Name = config.ab.bridge.name;
+          Name = cfg.name;
           Kind = "bridge";
         };
       };
