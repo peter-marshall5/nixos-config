@@ -24,6 +24,7 @@ in linuxManualConfig {
   }) [
     "0004-ipts"
     "0005-ithc"
+    "0006-surface-sam"
     "0009-surface-typecover"
     "0010-surface-shutdown"
     "0011-surface-gpe"
