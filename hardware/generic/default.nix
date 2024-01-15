@@ -15,10 +15,6 @@
   hardware.cpu.intel.updateMicrocode = true;
   hardware.cpu.amd.updateMicrocode = true;
 
-  fonts.fontconfig.enable = lib.mkDefault false;
-
-  sound.enable = false;
-
   systemd.watchdog = {
     runtimeTime = "20s";
     rebootTime = "30s";

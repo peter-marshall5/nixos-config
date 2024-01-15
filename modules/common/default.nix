@@ -36,7 +36,14 @@
       randomizedDelaySec = "45min";
     };
 
-    security.sudo.wheelNeedsPassword = lib.mkDefault (! config.ab.desktop.enable);
+    security.sudo.wheelNeedsPassword = lib.mkDefault false;
+
+    fonts.fontconfig.enable = lib.mkDefault false;
+
+    sound.enable = lib.mkDefault false;
+
+    # Enable the OpenSSH daemon.
+    services.openssh.enable = lib.mkDefault true;
 
     # Use systemd-homed to manage users.
     services.homed.enable = true;

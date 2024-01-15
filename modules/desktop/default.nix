@@ -19,6 +19,8 @@
 
     services.flatpak.enable = true;
 
+    security.sudo.wheelNeedsPassword = true;
+
     # Enable networking
     ab.net.networkmanager.enable = true;
 
@@ -45,8 +47,14 @@
       #media-session.enable = true;
     };
 
+    # Enable console font configration.
+    fonts.fontconfig.enable = true;
+
     # Allow unfree packages
     nixpkgs.config.allowUnfree = true;
+
+    # SSH can be a security hole on desktop systems.
+    services.openssh.enable = false;
 
   };
 
