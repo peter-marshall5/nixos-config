@@ -36,6 +36,8 @@
       randomizedDelaySec = "45min";
     };
 
+    security.sudo.wheelNeedsPassword = lib.mkDefault (! config.ab.desktop.enable);
+
     # Use systemd-homed to manage users.
     services.homed.enable = true;
 
