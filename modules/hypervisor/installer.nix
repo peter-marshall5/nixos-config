@@ -79,6 +79,12 @@ let
     services.openssh.enable = true;
     services.openssh.settings.PermitRootLogin = "yes";
 
+    environment.systemPackages = with pkgs; [
+      e2fsprogs
+      btrfs-progs
+      cryptsetup
+    ];
+
     system.stateVersion = "24.05";
 
   };
