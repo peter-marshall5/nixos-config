@@ -53,7 +53,7 @@ in
 
   options.ab.hypervisor = {
     enable = lib.mkOption {
-      default = (cfg.hypervisor.hosts != {});
+      default = false;
       type = lib.types.bool;
     };
     guests = lib.mkOption {

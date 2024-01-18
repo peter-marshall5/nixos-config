@@ -30,15 +30,15 @@ in
       type = lib.types.str;
     };
     home.uuid = lib.mkOption {
-      default = if cfg.home.onRoot then cfg.root.uuid else "";
+      default = cfg.root.uuid;
       type = lib.types.str;
     };
     home.luksUuid = lib.mkOption {
-      default = "";
+      default = cfg.root.luksUuid;
       type = lib.types.str;
     };
     home.onRoot = lib.mkOption {
-      default = false;
+      default = (cfg.root.uuid == cfg.home.uuid);
       type = lib.types.bool;
     };
     esp.uuid = lib.mkOption {
