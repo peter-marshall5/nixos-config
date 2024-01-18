@@ -45,27 +45,13 @@
     # Enable the OpenSSH daemon.
     services.openssh.enable = lib.mkDefault true;
 
-    # Use systemd-homed to manage users.
-    services.homed.enable = true;
-
     # Allow setting the root password manually.
     users.mutableUsers = true;
 
     # Require both public key and password to log in via ssh.
     services.openssh = {
-      authorizedKeysCommand = "/etc/ssh/authorized_keys_command_userdbctl %u";
-      authorizedKeysCommandUser = "root";
       settings.PasswordAuthentication = lib.mkForce true;
       settings.AuthenticationMethods = "publickey,password";
-    };
-
-    # Home dirs are encrypted, so fetch authorized keys from userdb.
-    environment.etc."ssh/authorized_keys_command_userdbctl" = {
-      mode = "0755";
-      text = ''
-        #!/bin/sh
-        exec ${pkgs.systemd}/bin/userdbctl ssh-authorized-keys "$@"
-      '';
     };
 
     # Use the systemd-boot EFI boot loader.

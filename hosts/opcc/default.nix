@@ -5,6 +5,7 @@
   fs.esp.uuid = "64C1-9B6E";
   net.bridge.enable = true;
   net.bridge.interfaces = ["enp1s0f1"];
+  users = [ "petms" ];
   hypervisor.enable = true;
   hypervisor.guests = {
     petms = {

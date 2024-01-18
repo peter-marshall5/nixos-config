@@ -76,6 +76,9 @@
       CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
     };
 
+    # Use systemd-homed to manage users.
+    services.homed.enable = true;
+
   };
 
 }

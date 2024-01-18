@@ -4,6 +4,7 @@
 
   imports = [
     ./common
+    ./users
     ./desktop
     ./fs
     ./secureboot

@@ -1,5 +1,6 @@
 {
   hardware = "virt";
+  users = [ "petms" ];
   net.bridge = {
     enable = true;
     interfaces = ["ens2"];
