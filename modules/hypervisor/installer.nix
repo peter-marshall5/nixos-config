@@ -32,7 +32,6 @@ let
         repartConfig = {
           Type = "esp";
           Format = "vfat";
-          Label = "esp-src";
           SizeMinBytes = "96M";
         };
       };
@@ -40,8 +39,8 @@ let
         storePaths = [ config.system.build.toplevel ];
         repartConfig = {
           Type = "root";
-          Format = "btrfs";
-          Label = "nixos-src";
+          Format = "squashfs";
+          Label = "nixos";
           Minimize = "guess";
         };
       };
@@ -49,38 +48,47 @@ let
 
     boot.loader.systemd-boot.enable = true;
 
-    users.mutableUsers = lib.mkForce true;
-    users.users.root.password = "changeme";
+    boot.kernelParams = [
+      "console=ttyS0"
+      "loglevel=2"
+      "systemd.volatile=overlay"
+      "nomodeset"
+    ];
 
-    boot.initrd.systemd.repart = {
-      enable = true;
-      device = "/dev/vda";
-    };
-    systemd.repart.partitions = {
-      "10-esp" = {
-        Type = "esp";
-        CopyBlocks = "/dev/disk/by-label/esp-src";
-        SizeMinBytes = "96M";
-        SizeMaxBytes = "96M";
-      };
-      "20-root" = {
-        Type = "root";
-        CopyBlocks = "/dev/disk/by-label/nixos-src";
-        Label = "nixos";
-      };
-    };
+    users.mutableUsers = false;
+    users.users.root.password = "changeme";
 
     fileSystems."/" = {
       device = "/dev/disk/by-partlabel/nixos";
+      fsType = "squashfs";
     };
+
+    boot.initrd = {
+      kernelModules = [ "loop" "overlay" ];
+      systemd = {
+        enable = true;
+        additionalUpstreamUnits = ["systemd-volatile-root.service"];
+        storePaths = [
+          "${config.boot.initrd.systemd.package}/lib/systemd/systemd-volatile-root"
+        ];
+      };
+    };
+
+    networking.useNetworkd = true;
+
+    services.openssh.enable = true;
+    services.openssh.settings.PermitRootLogin = "yes";
+
+    system.stateVersion = "24.05";
 
   };
 
   installSystem = nixpkgs.lib.nixosSystem {
-    system = pkgs.system;
+    inherit (pkgs) system;
     modules = [
       (modulesPath + "/image/repart.nix")
-      (modulesPath + "/profiles/image-based-appliance.nix")
+      (modulesPath + "/profiles/minimal.nix")
+      (modulesPath + "/profiles/qemu-guest.nix")
       systemConfig
     ];
   };
