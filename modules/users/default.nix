@@ -7,6 +7,7 @@ let
     createHome = true;
     shell = pkgs.nushell;
     extraGroups = [ "wheel" ];
+    openssh.authorizedKeys.keys = import ../../ssh-keys.nix "";
   };
 
 in

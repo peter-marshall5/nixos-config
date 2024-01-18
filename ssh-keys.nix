@@ -8,4 +8,4 @@ let
     petms = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOviPnrK/SPf3RVqkS18zmMguNE96OuDsJvHuai919Rw petms@petms";
   };
 in
-globalTrustedKeys ++ (if (host == null) then [hostKeys."${host}"] else [])
+globalTrustedKeys ++ (if host != "" then [hostKeys."${host}"] else [])
