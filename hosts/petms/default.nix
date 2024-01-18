@@ -4,8 +4,8 @@
     enable = true;
     interfaces = ["ens2"];
   };
-  fs.root.uuid = "041bc940-7256-453e-b582-6e4688141836";
-  fs.esp.uuid = "06B3-42DD";
+  fs.root.uuid = "6ac99c27-da1c-421f-90b0-127225b34f5d";
+  fs.esp.uuid = "7839-D16C";
   cloudflare = {
     enable = true;
     tunnelId = "ada56c81-89c9-403b-8d18-c20c39ab973c";
