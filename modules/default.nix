@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, nixpkgs, ... }:
 
 {
 
@@ -10,7 +10,7 @@
     ./network
     ./cloudflared
     ./ddns
-    ./vms
+    ./hypervisor
   ];
 
 }

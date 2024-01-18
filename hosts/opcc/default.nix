@@ -4,5 +4,14 @@
   fs.root.luksUuid = "388cf94a-5063-41ec-8830-1b62b506fe47";
   fs.home.onRoot = true;
   fs.esp.uuid = "64C1-9B6E";
-  #vms = [self.nixosConfigurations.petms];
+  hypervisor.enable = true;
+  hypervisor.guests = {
+    petms = {
+      memory = "2G";
+      diskSize = "100g";
+      cpus = 2;
+      os = "nixos";
+      macAddress = "02:00:00:00:00:01";
+    };
+  };
 }

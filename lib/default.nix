@@ -1,4 +1,4 @@
-{ nixpkgs, agenix, microvm, lanzaboote, ... }:
+{ nixpkgs, agenix, lanzaboote, ... }:
 let
 
   inherit (nixpkgs) lib;
@@ -18,7 +18,6 @@ in
     modules = [
       agenix.nixosModules.default
       lanzaboote.nixosModules.lanzaboote
-      microvm.nixosModules.host
       ../modules
       ../hardware/${cfg.hardware}
       {
@@ -36,19 +35,13 @@ in
       }
     ];
 
-    # (lib.optionals cfg.isServer [ 
-    #   srvos.nixosModules.server
-    # ]) ++
-
-    # (lib.optionals cfg.isDesktop [
-    #   srvos.nixosModules.desktop
-    # ]) ++
-
     # Cross-compiled systems
     # (lib.optional (cfg.buildPlatform != system) {
     #   nixpkgs.config.allowUnsupportedSystem = true;
     #   nixpkgs.buildPlatform.system = cfg.buildPlatform;
     # })
+
+    specialArgs = { inherit nixpkgs; };
 
   });
 
