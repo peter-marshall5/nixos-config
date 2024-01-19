@@ -23,6 +23,7 @@
       helix
       nushell
       sbctl
+      cloudflared
     ];
 
     # Automatically pull updates from the flake repo during off hours

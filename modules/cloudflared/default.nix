@@ -21,6 +21,11 @@ in
       type = lib.types.attrsOf lib.types.str;
     };
 
+    ssh.enable = lib.mkOption {
+      default = (cfg.ssh.domain != "");
+      type = lib.types.bool;
+    };
+
     ssh.domain = lib.mkOption {
       default = "";
       type = lib.types.str;
@@ -49,7 +54,7 @@ in
 
           ingress = lib.mkMerge [
             (builtins.mapAttrs (name: value: { service = "${value}"; }) cfg.ingress)
-            (lib.mkIf (cfg.ssh.domain != "") { "${cfg.ssh.domain}" = "ssh://localhost:22"; })
+            (lib.mkIf (cfg.ssh.enable) { "${cfg.ssh.domain}" = "ssh://localhost:22"; })
           ];
 
           default = "http_status:404";
@@ -58,6 +63,13 @@ in
 
     };
 
-    services.openssh.settings.Macs = [ "hmac-sha2-512" ];
+    services.openssh = lib.mkIf cfg.ssh.enable {
+      Macs = [ "hmac-sha2-512" ];
+      extraConfig = ''
+        TrustedUserCAKeys /etc/ssh/ca.pub
+        Match address ::1
+          AuthenticationMethods publickey
+      '';
+    };
   };
 }
