@@ -64,7 +64,7 @@ in
     };
 
     services.openssh = lib.mkIf cfg.ssh.enable {
-      Macs = [ "hmac-sha2-512" ];
+      settings.Macs = [ "hmac-sha2-512" ];
       extraConfig = ''
         TrustedUserCAKeys /etc/ssh/ca.pub
         Match address ::1
