@@ -13,7 +13,6 @@
       diskSize = "100g";
       cpus = 2;
       os = "nixos";
-      macAddress = "02:00:00:00:00:01";
     };
   };
 }

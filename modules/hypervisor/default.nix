@@ -12,10 +12,6 @@ let
         type = lib.types.str;
       };
 
-      macAddress = lib.mkOption {
-        type = lib.types.str;
-      };
-
       memory = lib.mkOption {
         type = lib.types.str;
       };
