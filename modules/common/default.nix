@@ -43,6 +43,10 @@
 
     sound.enable = lib.mkDefault false;
 
+    environment.noXlibs = lib.mkDefault true;
+
+    documentation.enable = lib.mkDefault false;
+
     # Enable the OpenSSH daemon.
     services.openssh.enable = lib.mkDefault true;
 
@@ -59,7 +63,7 @@
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
 
-    # Use systemd in the initrd  
+    # Use systemd in the initrd
     boot.initrd.systemd.enable = true;
 
     # Use the latest kernel

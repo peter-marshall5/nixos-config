@@ -11,6 +11,10 @@
     # Disable boot messages.
     boot.kernelParams = [ "quiet" "loglevel=1" ];
 
+    documentation.enable = true;
+
+    environment.noXlibs = false;
+
     services.xserver.enable = true;
     services.xserver.displayManager.sddm.enable = true;
     services.xserver.desktopManager.plasma5.enable = true;

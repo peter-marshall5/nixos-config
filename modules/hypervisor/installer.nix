@@ -99,4 +99,4 @@ let
     ];
   };
 
-in (installSystem.config.system.build.image + "/image.raw")
+in installSystem.config.system.build.image

@@ -23,5 +23,9 @@
     devShells.x86_64-linux.surface-kernel = (pkgs.callPackage ./hardware/surface-pro-9/kernel.nix {
       baseKernel = pkgs.linux_latest;
     }).overrideAttrs (o: {nativeBuildInputs=o.nativeBuildInputs ++ (with pkgs; [ pkg-config ncurses ]);});
+    packages.x86_64-linux.installer = pkgs.callPackage ./modules/hypervisor/installer.nix {
+      inherit (inputs) nixpkgs;
+      modulesPath = (inputs.nixpkgs + "/nixos/modules");
+    };
   };
 }
