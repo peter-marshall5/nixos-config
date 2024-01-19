@@ -3,5 +3,5 @@ let
 in
 {
   "duckdns.age".publicKeys = trustedKeys;
-  "cloudflared/ada56c81-89c9-403b-8d18-c20c39ab973c.json.age".publicKeys = trustedKeys;
+  "cloudflared/24eb600a-ff9a-419d-bf8f-fc06df91207f.json.age".publicKeys = trustedKeys;
 }
