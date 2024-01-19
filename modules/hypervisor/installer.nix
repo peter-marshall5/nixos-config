@@ -1,6 +1,7 @@
 { lib, pkgs
 , nixpkgs
 , modulesPath
+, trustedKeys
 , ...}:
 
 let
@@ -56,7 +57,14 @@ let
     ];
 
     users.mutableUsers = false;
-    users.users.root.password = "changeme";
+    users.users.nixos = {
+      isNormalUser = true;
+      extraGroups = [ "wheel" "networkmanager" "video" ];
+      initialHashedPassword = "";
+      openssh.authorizedKeys.keys = trustedKeys;
+    };
+    users.users.root.initialHashedPassword = "";
+    services.getty.autologinUser = "nixos";
 
     fileSystems."/" = {
       device = "/dev/disk/by-partlabel/nixos";

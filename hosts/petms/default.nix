@@ -1,4 +1,5 @@
 {
+  system = "x86_64-linux";
   hardware = "virt";
   users = [ "petms" ];
   net.bridge = {

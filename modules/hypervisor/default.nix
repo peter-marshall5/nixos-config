@@ -1,4 +1,4 @@
-{ config, lib, pkgs, nixpkgs, modulesPath, ... }:
+{ config, lib, pkgs, nixpkgs, modulesPath, trustedKeys, ... }:
 let
 
   cfg = config.ab.hypervisor;
@@ -41,7 +41,7 @@ let
   };
 
   installerImage = pkgs.callPackage ./installer.nix {
-    inherit nixpkgs modulesPath;
+    inherit nixpkgs modulesPath trustedKeys;
   };
 
   installerPath = installerImage + "/image.raw";

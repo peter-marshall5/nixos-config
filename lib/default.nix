@@ -3,17 +3,38 @@ let
 
   inherit (nixpkgs) lib;
 
+  systemConfig = { config, ... }: {
+    options.ab = {
+      system = lib.mkOption {
+        type = lib.types.str;
+      };
+      buildPlatform = lib.mkOption {
+        default = "x86_64-linux";
+        type = lib.types.str;
+      };
+      hardware = lib.mkOption {
+        type = lib.types.str;
+      };
+    };
+    config = {
+      nixpkgs.hostPlatform = config.ab.system;
+      nixpkgs.buildPlatform.system = config.ab.buildPlatform;
+      nixpkgs.config.allowUnsupportedSystem = true;
+      environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
+    };
+  };
+
 in
 
 {
 
-  mkNixos = system: hostName:
+  mkNixos = hostName:
   let
 
     cfg = import ../hosts/${hostName}/default.nix;
 
   in lib.attrsets.nameValuePair hostName (lib.nixosSystem {
-    inherit system;
+    inherit (cfg) system;
 
     modules = [
       agenix.nixosModules.default
@@ -22,26 +43,15 @@ in
       ../hardware/${cfg.hardware}
       {
         ab = cfg; # Abstracted config options
-        environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
         networking.hostName = lib.mkDefault hostName;
-        nixpkgs.hostPlatform = lib.mkDefault system;
       }
-      {
-        options.ab = {
-          hardware = lib.mkOption {
-            type = lib.types.str;
-          };
-        };
-      }
+      systemConfig
     ];
 
-    # Cross-compiled systems
-    # (lib.optional (cfg.buildPlatform != system) {
-    #   nixpkgs.config.allowUnsupportedSystem = true;
-    #   nixpkgs.buildPlatform.system = cfg.buildPlatform;
-    # })
-
-    specialArgs = { inherit nixpkgs; };
+    specialArgs = {
+      inherit nixpkgs;
+      trustedKeys = import ../ssh-keys.nix "";
+    };
 
   });
 

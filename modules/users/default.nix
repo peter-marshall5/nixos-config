@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, trustedKeys, ... }:
 
 let
 
@@ -7,7 +7,7 @@ let
     createHome = true;
     shell = pkgs.nushell;
     extraGroups = [ "wheel" ];
-    openssh.authorizedKeys.keys = import ../../ssh-keys.nix "";
+    openssh.authorizedKeys.keys = trustedKeys;
   };
 
 in

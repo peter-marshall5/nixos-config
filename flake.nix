@@ -16,9 +16,9 @@
   in
   {
     nixosConfigurations = builtins.listToAttrs [
-      (mkNixos "x86_64-linux" "opcc")
-      (mkNixos "x86_64-linux" "petms")
-      (mkNixos "x86_64-linux" "peter-pc")
+      (mkNixos "opcc")
+      (mkNixos "petms")
+      (mkNixos "peter-pc")
     ];
     devShells.x86_64-linux.surface-kernel = (pkgs.callPackage ./hardware/surface-pro-9/kernel.nix {
       baseKernel = pkgs.linux_latest;
