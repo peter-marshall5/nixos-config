@@ -3,6 +3,59 @@
 let
   cfg = config.ab.fs;
   uuidPath = "/dev/disk/by-uuid/";
+
+  fsOpts = { name, config, ... }: {
+    options = {
+      name = lib.mkOption {
+        type = lib.types.str;
+        default = if name == "root" then "" else name;
+      };
+      path = lib.mkOption {
+        default = ("/" + (builtins.replaceStrings ["-"] ["/"] config.name));
+        type = lib.types.str;
+      };
+      subvol = lib.mkOption {
+        default = ("/" + (builtins.replaceStrings ["-"] ["@"] config.name));
+        type = lib.types.str;
+      };
+      fsType = lib.mkOption {
+        type = lib.types.str;
+        default = if name == "boot" then "vfat" else "btrfs";
+      };
+      uuid = lib.mkOption {
+        type = lib.types.str;
+        default = "";
+      };
+      device = lib.mkOption {
+        type = lib.types.str;
+        default = if config.uuid != "" then uuidPath + config.uuid else null;
+      };
+      luks = {
+        enable = lib.mkOption {
+          type = lib.types.bool;
+          default = (config.luks.uuid != "");
+        };
+        uuid = lib.mkOption {
+          type = lib.types.str;
+          default = "";
+        };
+        device = lib.mkOption {
+          type = lib.types.str;
+          default = lib.mkIf (config.luks.uuid) (uuidPath + config.luks.uuid);
+        };
+      };
+    };
+  };
+
+  makeFs = name: fs: lib.nameValuePair "${fs.path}" {
+    inherit (fs) device fsType;
+    options = lib.mkIf (fs.fsType == "btrfs") [ "subvol=${fs.subvol}" ];
+  };
+
+  makeLuks = name: fs: lib.nameValuePair "${name}"  {
+    inherit (fs.luks) device;
+  };
+
 in
 {
   options.ab.fs = {
@@ -10,75 +63,17 @@ in
       default = true;
       type = lib.types.bool;
     };
-    root.type = lib.mkOption {
-      default = "btrfs";
-      type = lib.types.str;
-    };
-    root.uuid = lib.mkOption {
-      type = lib.types.str;
-    };
-    root.luksUuid = lib.mkOption {
-      default = "";
-      type = lib.types.str;
-    };
-    nixStoreSubvol = lib.mkOption {
-      default = true;
-      type = lib.types.bool;
-    };
-    home.type = lib.mkOption {
-      default = "btrfs";
-      type = lib.types.str;
-    };
-    home.uuid = lib.mkOption {
-      default = cfg.root.uuid;
-      type = lib.types.str;
-    };
-    home.luksUuid = lib.mkOption {
-      default = cfg.root.luksUuid;
-      type = lib.types.str;
-    };
-    home.onRoot = lib.mkOption {
-      default = (cfg.root.uuid == cfg.home.uuid);
-      type = lib.types.bool;
-    };
-    esp.uuid = lib.mkOption {
-      type = lib.types.str;
-    };
-    esp.type = lib.mkOption {
-      default = "vfat";
-      type = lib.types.str;
+    fs = lib.mkOption {
+      default = {};
+      type = with lib.types; attrsOf (submodule fsOpts);
     };
   };
 
   config = lib.mkIf cfg.enable {
-    fileSystems."/" =
-      { device = (uuidPath + cfg.root.uuid);
-        fsType = cfg.root.type;
-        options = [ "subvol=@" ];
-      };
 
-    boot.initrd.luks.devices."root" = lib.mkIf (cfg.root.luksUuid != "")
-      { device = (uuidPath + cfg.root.luksUuid); };
+    fileSystems = lib.mapAttrs' makeFs cfg.fs;
 
-    fileSystems."/nix" = lib.mkIf cfg.nixStoreSubvol
-      { device = (uuidPath + cfg.root.uuid);
-        fsType = cfg.root.type;
-        options = [ "subvol=@nix" ];
-      };
+    boot.initrd.luks.devices = lib.mapAttrs' makeLuks (lib.filterAttrs (n: fs: fs.luks.enable) cfg.fs);
 
-    fileSystems."/home" = lib.mkIf (cfg.home.uuid != "")
-      { device = (uuidPath + cfg.home.uuid);
-        fsType = "btrfs";
-        options = lib.mkIf cfg.home.onRoot [ "subvol=@home" ];
-      };
-
-    boot.initrd.luks.devices."home" = lib.mkIf (cfg.home.luksUuid != "")
-      { device = (uuidPath + cfg.home.luksUuid); };
-
-    fileSystems."/boot" =
-      { device = (uuidPath + cfg.esp.uuid);
-        fsType = cfg.esp.type;
-      };
-    };
-
+  };
 }

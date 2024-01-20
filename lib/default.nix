@@ -47,6 +47,7 @@ in rec {
     specialArgs = {
       inherit nixpkgs;
       trustedKeys = import ../ssh-keys.nix "";
+      inherit (self) nixosConfigurations;
     };
 
   });

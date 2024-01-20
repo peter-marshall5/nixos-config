@@ -1,4 +1,4 @@
-{ config, lib, pkgs, trustedKeys, ... }:
+{ config, lib, pkgs, nixosConfigurations, trustedKeys, ... }:
 
 let
 
@@ -13,6 +13,26 @@ let
         type = lib.types.int;
       };
     };
+  };
+
+  mkVmService = name: vm: let
+    system = nixosConfigurations."${name}";
+  in lib.nameValuePair "vm-${name}" {
+    wantedBy = [ "multi-user.target" ];
+    script = ''
+      ${pkgs.cloud-hypervisor}/bin/cloud-hypervisor \
+        --kernel "${system.config.boot.kernelPackages.kernel}/${system.config.system.boot.loader.kernelFile}" \
+        --initramfs "${system.config.system.build.initialRamdisk}/${system.config.system.boot.loader.initrdFile}" \
+        --cmdline "init=${system.config.system.build.toplevel}/init ${toString system.config.boot.kernelParams}" \
+        --memory size=128M --balloon size="${vm.memory}" \
+        --cpus boot="${toString vm.cpus}" \
+        --fs tag=nix-store,socket= \
+        --api-socket "/run/vm-${name}.api.sock"
+    '';
+    preStop = ''
+      ${pkgs.cloud-hypervisor}/bin/ch-remote --api-socket "/run/vm-${name}.api.sock" power-button
+      sleep 10
+    '';
   };
 
 in
@@ -38,20 +58,7 @@ in
 
     environment.systemPackages = [ pkgs.cloud-hypervisor ];
 
-    systemd.services = lib.mapAttrs' (name: vm: lib.nameValuePair "vm-${name}" {
-      wantedBy = [ "multi-user.target" ];
-      script = ''
-        ${pkgs.cloud-hypervisor}/bin/cloud-hypervisor --kernel "$kernel" --initramfs "$initrd" --cmdline "$cmdline" \
-          --memory size=128M --balloon size="${vm.memory}" \
-          --cpus boot="${vm.cpus}" \
-          --fs tag=nix-store,socket= \
-          --api-socket "/run/vm-${name}.api.sock"
-      '';
-      preStop = ''
-        ${pkgs.cloud-hypervisor}/bin/ch-remote --api-socket "/run/vm-${name}.api.sock" power-button
-        sleep 10
-      '';
-    }) cfg.vms;
+    systemd.services = lib.mapAttrs' mkVmService cfg.vms;
 
   };
 
