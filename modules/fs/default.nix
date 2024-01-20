@@ -15,7 +15,7 @@ let
         type = lib.types.str;
       };
       subvol = lib.mkOption {
-        default = ("/" + (builtins.replaceStrings ["-"] ["@"] config.name));
+        default = ("@" + (builtins.replaceStrings ["-"] ["@"] config.name));
         type = lib.types.str;
       };
       fsType = lib.mkOption {
