@@ -25,7 +25,7 @@
   standalone-vms = {
     enable = true;
     guests.petms = {
-      memory = "2G";
+      memory = "4G";
       diskSize = "100g";
       cpus = 2;
       os = "nixos";
