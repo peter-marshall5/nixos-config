@@ -41,7 +41,7 @@ let
         };
         device = lib.mkOption {
           type = lib.types.str;
-          default = lib.mkIf (config.luks.uuid) (uuidPath + config.luks.uuid);
+          default = if config.luks.uuid != "" then uuidPath + config.luks.uuid else null;
         };
       };
     };

@@ -12,6 +12,10 @@ let
       cpus = lib.mkOption {
         type = lib.types.int;
       };
+      macAddress = lib.mkOption {
+        default = "";
+        type = lib.types.str;
+      };
     };
   };
 
@@ -59,6 +63,8 @@ in
     environment.systemPackages = [ pkgs.cloud-hypervisor ];
 
     systemd.services = lib.mapAttrs' mkVmService cfg.vms;
+
+    ab.net.bridge.vmTaps = lib.mapAttrs (name: guest: { inherit (guest) macAddress; }) cfg.vms;
 
   };
 

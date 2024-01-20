@@ -1,7 +1,7 @@
 {
 
   imports = [
-    ./bridge.nix
+    ./bridge
     ./networkmanager.nix
   ];
 
