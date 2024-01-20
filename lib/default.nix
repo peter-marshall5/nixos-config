@@ -1,7 +1,9 @@
-{ nixpkgs, agenix, lanzaboote, ... }:
+{ self, nixpkgs, agenix, lanzaboote, ... }:
 let
 
   inherit (nixpkgs) lib;
+
+in rec {
 
   systemConfig = { config, ... }: {
     options.ab = {
@@ -24,15 +26,9 @@ let
     };
   };
 
-in
-
-{
-
   mkNixos = hostName:
   let
-
     cfg = import ../hosts/${hostName}/default.nix;
-
   in lib.attrsets.nameValuePair hostName (lib.nixosSystem {
     inherit (cfg) system;
 
@@ -54,5 +50,7 @@ in
     };
 
   });
+
+  mkHosts = hostNames: builtins.listToAttrs (map mkNixos hostNames);
 
 }

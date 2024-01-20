@@ -1,8 +1,17 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 
 let
 
   cfg = config.ab.net.bridge;
+
+  vmTapOpts = { name, ... }: {
+    options = {
+      macAddress = lib.mkOption {
+        default = "";
+        type = lib.types.str;
+      };
+    };
+  };
 
 in
 
@@ -20,6 +29,10 @@ in
     interfaces = lib.mkOption {
       default = [];
       type = lib.types.listOf lib.types.str;
+    };
+    vmTaps = lib.mkOption {
+      default = {};
+      type = with lib.types; attrsOf (submodule vmTapOpts);
     };
   };
 
@@ -49,7 +62,13 @@ in
           Kind = "bridge";
         };
       };
-    };
+    } // lib.mapAttrs' (name: info: lib.nameValuePair "99-vm-${name}" {
+      netdevConfig = {
+        Kind = "tap";
+        Name = "vm-${name}";
+        MacAddress = "${info.macAddress}";
+      };
+    }) cfg.vmTaps;
 
   };
 

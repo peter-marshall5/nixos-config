@@ -9,7 +9,7 @@
     ./network
     ./cloudflared
     ./ddns
-    ./hypervisor
+    ./vms
   ];
 
 }

@@ -7,9 +7,9 @@
   net.bridge.enable = true;
   net.bridge.interfaces = ["enp1s0f1"];
   users = [ "petms" ];
-  hypervisor.enable = true;
-  hypervisor.guests = {
-    petms = {
+  standalone-vms = {
+    enable = true;
+    guests.petms = {
       memory = "2G";
       diskSize = "100g";
       cpus = 2;

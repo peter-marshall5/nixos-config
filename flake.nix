@@ -11,14 +11,14 @@
   outputs = inputs:
   let
     util = (import ./lib) inputs;
-    inherit (util) mkNixos;
+    inherit (util) mkHosts;
     pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
   in
   {
-    nixosConfigurations = builtins.listToAttrs [
-      (mkNixos "opcc")
-      (mkNixos "petms")
-      (mkNixos "peter-pc")
+    nixosConfigurations = mkHosts [
+      "opcc"
+      "petms"
+      "peter-pc"
     ];
     devShells.x86_64-linux.surface-kernel = (pkgs.callPackage ./hardware/surface-pro-9/kernel.nix {
       baseKernel = pkgs.linux_latest;

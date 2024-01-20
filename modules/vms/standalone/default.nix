@@ -1,36 +1,8 @@
-{ config, lib, pkgs, nixpkgs, modulesPath, trustedKeys, ... }:
+{ config, lib, pkgs, modulesPath, nixpkgs, trustedKeys, ... }:
+
 let
 
-  cfg = config.ab.hypervisor;
-
-  vmOpts = { name, ... }: {
-
-    options = {
-
-      hostName = lib.mkOption {
-        default = name;
-        type = lib.types.str;
-      };
-
-      memory = lib.mkOption {
-        type = lib.types.str;
-      };
-
-      diskSize = lib.mkOption {
-        type = lib.types.str;
-      };
-
-      cpus = lib.mkOption {
-        type = lib.types.int;
-      };
-
-      os = lib.mkOption {
-        type = lib.types.str;
-      };
-
-    };
-
-  };
+  cfg = config.ab.standalone-vms;
 
   tinyQemu = pkgs.qemu_kvm.override {
     nixosTestRunner = true;
@@ -46,10 +18,37 @@ let
 
   installerPath = installerImage + "/image.raw";
 
+  vmOpts = { name, ... }: {
+    options = {
+      hostName = lib.mkOption {
+        default = name;
+        type = lib.types.str;
+      };
+      memory = lib.mkOption {
+        type = lib.types.str;
+      };
+      diskSize = lib.mkOption {
+        type = lib.types.str;
+      };
+      cpus = lib.mkOption {
+        type = lib.types.int;
+      };
+      os = lib.mkOption {
+        type = lib.types.str;
+      };
+      macAddress = lib.mkOption {
+        default = "";
+        type = lib.types.str;
+      };
+    };
+
+  };
+
 in
+
 {
 
-  options.ab.hypervisor = {
+  options.ab.standalone-vms = {
     enable = lib.mkOption {
       default = false;
       type = lib.types.bool;
@@ -61,7 +60,13 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+
+    assertions = [
+      { assertion = config.ab.net.bridge.enable; }
+    ];
+
     environment.systemPackages = [ tinyQemu ];
+
     systemd.services = lib.mapAttrs' (name: guest: lib.nameValuePair "guest-${name}" {
       wantedBy = [ "multi-user.target" ];
       script = ''
@@ -87,12 +92,7 @@ in
         sleep 10
       '';
     }) cfg.guests;
-    systemd.network.netdevs = lib.mapAttrs' (name: guest: lib.nameValuePair "99-vm-${name}" {
-      netdevConfig = {
-        Kind = "tap";
-        Name = "vm-${name}";
-      };
-    }) cfg.guests;
-  };
 
+    ab.net.bridge.vmTaps = lib.mapAttrs (name: guest: { inherit (guest) macAddress; }) cfg.guests;
+  };
 }

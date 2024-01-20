@@ -1,0 +1,8 @@
+{
+
+  imports = [
+    ./standalone
+    ./integrated.nix
+  ];
+
+}
