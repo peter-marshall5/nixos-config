@@ -47,17 +47,8 @@
 
     documentation.enable = lib.mkDefault false;
 
-    # Enable the OpenSSH daemon.
-    services.openssh.enable = lib.mkDefault true;
-
     # Allow setting the root password manually.
     users.mutableUsers = true;
-
-    # Require both public key and password to log in via ssh.
-    services.openssh = {
-      settings.PasswordAuthentication = lib.mkForce true;
-      settings.AuthenticationMethods = "publickey,password";
-    };
 
     # Use the systemd-boot EFI boot loader.
     boot.loader.systemd-boot.enable = true;

@@ -7,6 +7,7 @@
     ./fs
     ./secureboot
     ./network
+    ./sshd
     ./cloudflared
     ./ddns
     ./vms
