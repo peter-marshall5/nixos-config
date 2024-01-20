@@ -18,7 +18,7 @@
     nixosConfigurations = mkHosts [
       "opcc"
       "petms"
-      # "peter-pc"
+      "peter-pc"
       "test"
     ];
     devShells.x86_64-linux.surface-kernel = (pkgs.callPackage ./hardware/surface-pro-9/kernel.nix {
