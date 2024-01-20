@@ -13,6 +13,15 @@
   net.bridge.enable = true;
   net.bridge.interfaces = ["enp1s0f1"];
   users = [ "petms" ];
+  cloudflare = {
+    enable = true;
+    tunnelId = "c7f932c2-213b-4cca-9e6e-87052a5a849a";
+    ssh.domain = "console.opcc.tk";
+  };
+  duckdns = {
+    enable = true;
+    domains = [ "opcc" ];
+  };
   standalone-vms = {
     enable = true;
     guests.petms = {
