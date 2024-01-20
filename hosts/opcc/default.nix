@@ -7,6 +7,7 @@
       luks.uuid = "388cf94a-5063-41ec-8830-1b62b506fe47";
     };
     nix.uuid = root.uuid;
+    home.uuid = root.uuid;
     boot.uuid = "64C1-9B6E";
   };
   net.bridge.enable = true;
