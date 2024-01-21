@@ -22,7 +22,7 @@
     enable = true;
     domains = [ "opcc" ];
   };
-  standalone-vms = {
+  vms = {
     enable = true;
     guests.petms = {
       memory = "4G";

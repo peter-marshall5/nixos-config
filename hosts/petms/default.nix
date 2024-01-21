@@ -21,11 +21,4 @@
     enable = true;
     domains = [ "petms-opcc" ];
   };
-  vms.enable = true;
-  vms.vms = {
-    test = {
-      cpus = 1;
-      memory = "512M";
-    };
-  };
 }

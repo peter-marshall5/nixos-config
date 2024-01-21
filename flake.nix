@@ -19,7 +19,6 @@
       "opcc"
       "petms"
       "peter-pc"
-      "test"
     ];
     devShells.x86_64-linux.surface-kernel = (pkgs.callPackage ./hardware/surface-pro-9/kernel.nix {
       baseKernel = pkgs.linux_latest;
