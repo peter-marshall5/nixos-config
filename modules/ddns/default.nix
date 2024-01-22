@@ -1,10 +1,22 @@
 { config, lib, pkgs, ... }:
 let
-  cfg = config.ab.duckdns;
+
+  cfg = config.ab.ddns;
+
+  tokenPath = config.age.secrets.ddns.path;
+
+  getIpv6 = pkgs.writeScript "get-ipv6.sh" ''
+    ${pkgs.iproute2}/bin/ip -6 addr show dev "$1" scope global |
+    ${pkgs.gnugrep}/bin/grep inet6 |
+    ${pkgs.coreutils}/bin/cut -d' ' -f6 | ${pkgs.coreutils}/bin/cut -d'/' -f1 |
+    ${pkgs.gnugrep}/bin/grep -v '^f' |
+    ${pkgs.coreutils}/bin/head -n 1
+  '';
+
 in
 {
 
-  options.ab.duckdns = {
+  options.ab.ddns = {
     enable = lib.mkOption {
       default = false;
       type = lib.types.bool;
@@ -17,60 +29,53 @@ in
       default = "br0";
       type = lib.types.str;
     };
+    protocol = lib.mkOption {
+      default = "duckdns";
+      type = lib.types.str;
+    };
     token = lib.mkOption {
-      default = ../../hosts/${config.networking.hostName}/secrets/duckdns.age;
+      default = ../../hosts/${config.networking.hostName}/secrets/${cfg.protocol}.age;
       type = lib.types.path;
     };
-  };
-
-  config = lib.mkIf cfg.enable {
-
-    age.secrets.duckdns = {
-      file = cfg.token;
-    };
-
-    systemd.timers."ddns" = {
-      wantedBy = [ "timers.target" ];
-      wants = [ "network-online.target" ];
-      after = [ "network-online.target" ];
-      timerConfig = {
-        OnBootSec = "1m";
-        OnUnitActiveSec = "5m";
-        Unit = "ddns.service";
-      };
-    };
-
-    environment.systemPackages = with pkgs; [ iproute2 iputils curl ];
-
-    systemd.services."ddns" = {
-      script = ''
-        PATH="${pkgs.iproute2}/bin:${pkgs.curl}/bin:${pkgs.iputils}/bin:$PATH"
-
-        IFACE="${cfg.interface}"
-        DOMAINS="${lib.strings.concatStringsSep "," cfg.domains}"
-        TOKEN="${config.age.secrets.duckdns.path}"
-
-        ip6=$(
-          ip -6 addr show dev $IFACE scope global |
-          grep inet6 |
-          cut -d' ' -f6 | cut -d'/' -f1 |
-          grep -v '^f' |
-          head -n 1
-        )
-
-        [ "$ip6" == "" ] && exit 1
-
-        # Required to let the router know our new IPv6 address
-        ping -q -c 4 -I "$ip6" ff02::2%"$IFACE"
-
-        # Update our DuckDNS record
-        response=$(curl -s "https://www.duckdns.org/update?domains=$DOMAINS&token=$(cat $TOKEN)&ip=&ipv6=$ip6")
-        [ "$response" == "OK" ] || exit 1
-      '';
-      serviceConfig = {
-        Type = "oneshot";
-        User = "root";
-      };
+    ip-discovery.enable = lib.mkOption {
+      default = true;
+      type = lib.types.bool;
     };
   };
+
+  config = lib.mkIf cfg.enable (lib.mkMerge [
+    {
+      age.secrets.ddns = {
+        file = cfg.token;
+      };
+    }
+    (lib.mkIf cfg.ip-discovery.enable {
+      systemd.timers."ip-discovery" = {
+        wantedBy = [ "timers.target" ];
+        wants = [ "network-online.target" ];
+        after = [ "network-online.target" ];
+        timerConfig = {
+          OnBootSec = "1m";
+          OnUnitActiveSec = "5m";
+          Unit = "ip-discovery.service";
+        };
+      };
+
+      systemd.services."ip-discovery" = {
+        script = ''
+          iface="${cfg.interface}"
+          ip6="$(${getIpv6} "$iface")"
+          [ "$ip6" == "" ] && exit 1
+          ${pkgs.iputils}/bin/ping -q -c 4 -I "$ip6" ff02::2%"$iface"
+        '';
+        serviceConfig = {
+          Type = "oneshot";
+          User = "root";
+        };
+      };
+    })
+    (lib.mkIf (cfg.protocol == "duckdns") ((import ./duckdns.nix) {
+      inherit lib pkgs cfg getIpv6 tokenPath;
+    }))
+  ]);
 }
