@@ -18,6 +18,7 @@
       "opcc"
       "petms"
       "peter-pc"
+      "cheesecraft"
     ];
     devShells.x86_64-linux.surface-kernel = let
      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;

@@ -30,5 +30,11 @@
       cpus = 2;
       os = "nixos";
     };
+    guests.cheesecraft = {
+      memory = "500M";
+      diskSize = "40g";
+      cpus = 1;
+      os = "nixos";
+    };
   };
 }
