@@ -71,6 +71,8 @@ in
   users.users.root.initialHashedPassword = "";
   services.getty.autologinUser = "nixos";
 
+  security.sudo.wheelNeedsPassword = false;
+
   fileSystems."/" = {
     device = "/dev/disk/by-partlabel/nixos";
     fsType = "squashfs";
@@ -90,7 +92,10 @@ in
   networking.useNetworkd = true;
 
   services.openssh.enable = true;
-  services.openssh.settings.PermitRootLogin = "yes";
+  services.openssh.settings = {
+    PasswordAuthentication = true;
+    AuthenticationMethods = "publickey,password";
+  };
 
   environment.systemPackages = with pkgs; [
     e2fsprogs
