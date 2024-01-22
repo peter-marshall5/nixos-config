@@ -17,7 +17,7 @@
     tunnelId = "24eb600a-ff9a-419d-bf8f-fc06df91207f";
     ssh.domain = "ssh-petms.opcc.tk";
   };
-  duckdns = {
+  ddns = {
     enable = true;
     domains = [ "petms-opcc" ];
   };

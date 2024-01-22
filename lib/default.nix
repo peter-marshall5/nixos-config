@@ -3,6 +3,10 @@ let
 
   inherit (nixpkgs) lib;
 
+  pkgs = nixpkgs.legacyPackages.x86_64-linux;
+
+  trustedKeys = import ../ssh-keys.nix "";
+
 in rec {
 
   systemConfig = { config, ... }: {
@@ -45,13 +49,17 @@ in rec {
     ];
 
     specialArgs = {
-      inherit nixpkgs;
-      trustedKeys = import ../ssh-keys.nix "";
+      inherit nixpkgs trustedKeys;
       inherit (self) nixosConfigurations;
+      nixosInstaller = (installerImage + "/image.raw");
     };
 
   });
 
   mkHosts = hostNames: builtins.listToAttrs (map mkNixos hostNames);
+
+  installerImage = pkgs.callPackage ../installer {
+    inherit nixpkgs trustedKeys;
+  };
 
 }

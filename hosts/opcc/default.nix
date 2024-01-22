@@ -18,7 +18,7 @@
     tunnelId = "c7f932c2-213b-4cca-9e6e-87052a5a849a";
     ssh.domain = "console.opcc.tk";
   };
-  duckdns = {
+  ddns = {
     enable = true;
     domains = [ "opcc" ];
   };
