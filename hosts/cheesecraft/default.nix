@@ -7,9 +7,9 @@
     interfaces = ["ens2"];
   };
   fs.fs = rec {
-    root.uuid = "6ac99c27-da1c-421f-90b0-127225b34f5d";
+    root.uuid = "bebde0fb-60d8-43ac-8c37-2dee847a2cfe";
     nix.uuid = root.uuid;
     home.uuid = root.uuid;
-    boot.uuid = "7839-D16C";
+    boot.uuid = "7C5D-1030";
   };
 }
