@@ -93,8 +93,7 @@ in
 
   services.openssh.enable = true;
   services.openssh.settings = {
-    PasswordAuthentication = true;
-    AuthenticationMethods = "publickey,password";
+    AuthenticationMethods = "publickey";
   };
 
   environment.systemPackages = with pkgs; [
