@@ -87,7 +87,7 @@ in
 
         # Run the installation process
         if ! test -f $hda.installed; then
-          ${tinyQemu}/bin/qemu-kvm -drive file=$hda,if=virtio,format=raw,media=disk -drive file=${nixosInstaller},if=virtio,format=raw,media=disk,readonly=on -nic tap,id=net0,ifname="vm-$name",model=virtio,script=no,downscript=no -nographic -vga none -serial file:$hda.console.log -cpu host -m 2G -drive if=pflash,format=raw,unit=0,file=$firmware,readonly=on -drive if=pflash,format=raw,unit=1,file=$vars -monitor unix:$sock,server,nowait
+          ${tinyQemu}/bin/qemu-kvm -drive file=${nixosInstaller},if=virtio,format=raw,media=disk,readonly=on -drive file=$hda,if=virtio,format=raw,media=disk -nic tap,id=net0,ifname="vm-$name",model=virtio,script=no,downscript=no -nographic -vga none -serial file:$hda.console.log -cpu host -m 2G -drive if=pflash,format=raw,unit=0,file=$firmware,readonly=on -drive if=pflash,format=raw,unit=1,file=$vars -monitor unix:$sock,server,nowait
           touch $hda.installed
         fi
 
