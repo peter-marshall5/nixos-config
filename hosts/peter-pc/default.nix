@@ -5,12 +5,12 @@
   secureboot.enable = true;
   fs.fs = rec {
     root = {
-      uuid = "c131240c-ff03-467c-b518-f5e435ac38a0";
-      luks.uuid = "6d738085-91c8-457d-b3d9-1c507c7ce6f2";
+      uuid = "f8a050ce-76d3-430a-a734-00bed678aeb6";
+      luks.uuid = "990ec395-607a-4df8-b8a4-7680f27f4ecf";
     };
     home.uuid = root.uuid;
     nix.uuid = root.uuid;
-    boot.uuid = "ED65-FF95";
+    boot.uuid = "940E-785F";
   };
   fs.boot.lvm.enable = true;
 }
