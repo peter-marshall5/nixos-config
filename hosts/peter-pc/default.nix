@@ -12,4 +12,5 @@
     nix.uuid = root.uuid;
     boot.uuid = "ED65-FF95";
   };
+  fs.boot.lvm.enable = true;
 }
