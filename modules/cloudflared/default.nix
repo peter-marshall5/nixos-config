@@ -31,6 +31,11 @@ in
       type = lib.types.str;
     };
 
+    notifyFailures = lib.mkOption {
+      default = true;
+      type = lib.types.bool;
+    };
+
   };
 
   config = lib.mkIf cfg.enable {
@@ -71,5 +76,8 @@ in
           AuthenticationMethods publickey
       '';
     };
+
+    ab.logs.notify.services = lib.mkIf cfg.notifyFailures [ "cloudflared-tunnel-${cfg.tunnelId}.service" ];
+
   };
 }

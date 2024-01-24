@@ -41,6 +41,10 @@ in
       default = true;
       type = lib.types.bool;
     };
+    notifyFailures = lib.mkOption {
+      default = true;
+      type = lib.types.bool;
+    };
   };
 
   config = lib.mkIf cfg.enable (lib.mkMerge [

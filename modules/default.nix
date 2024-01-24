@@ -11,6 +11,7 @@
     ./cloudflared
     ./ddns
     ./vms
+    ./logs
   ];
 
 }

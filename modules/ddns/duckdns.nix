@@ -31,4 +31,6 @@
     };
   };
 
+  ab.logs.notify.services = lib.mkIf cfg.notifyFailures [ "ddns.service" ];
+
 }

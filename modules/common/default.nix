@@ -32,6 +32,7 @@
       flake = "github:peter-marshall5/nixos-config";
       flags = [
         "-L" # print build logs
+        "--refresh" # always use latest version
       ];
       dates = "02:00";
       randomizedDelaySec = "45min";
