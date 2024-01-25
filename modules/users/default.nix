@@ -5,7 +5,6 @@ let
   mkUser = u: lib.nameValuePair "${u}" {
     isNormalUser = true;
     createHome = true;
-    shell = pkgs.nushell;
     extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = trustedKeys;
   };

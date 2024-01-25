@@ -24,8 +24,6 @@
       wget
       aria2
       git
-      helix
-      nushell
       sbctl
       cloudflared
     ];
