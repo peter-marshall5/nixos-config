@@ -7,11 +7,15 @@
       url = "github:nix-community/lanzaboote/v0.3.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs:
   let
     util = (import ./lib) inputs;
-    inherit (util) mkHosts;
+    inherit (util) mkHosts mkHomes;
   in
   {
     nixosConfigurations = mkHosts [
@@ -19,6 +23,9 @@
       "petms"
       "peter-pc"
       "cheesecraft"
+    ];
+    homeConfigurations = mkHomes [
+      "petms"
     ];
     devShells.x86_64-linux.surface-kernel = let
      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;

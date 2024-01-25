@@ -1,4 +1,4 @@
-{ self, nixpkgs, agenix, lanzaboote, ... }:
+{ self, nixpkgs, agenix, lanzaboote, home-manager, ... }:
 let
 
   inherit (nixpkgs) lib;
@@ -33,7 +33,7 @@ in rec {
   mkNixos = hostName:
   let
     cfg = import ../hosts/${hostName}/default.nix;
-  in lib.attrsets.nameValuePair hostName (lib.nixosSystem {
+  in lib.nameValuePair hostName (lib.nixosSystem {
     inherit (cfg) system;
 
     modules = [
@@ -56,7 +56,15 @@ in rec {
 
   });
 
-  mkHosts = hostNames: builtins.listToAttrs (map mkNixos hostNames);
+  mkHome = username:
+  lib.nameValuePair username (home-manager.lib.homeManagerConfiguration {
+    inherit pkgs;
+    modules = [ ../homes/${username}/home.nix ];
+  });
+
+  mkHosts = hostNames: lib.listToAttrs (map mkNixos hostNames);
+
+  mkHomes = users: lib.listToAttrs (map mkHome users);
 
   installerImage = pkgs.callPackage ../installer {
     inherit nixpkgs trustedKeys;
