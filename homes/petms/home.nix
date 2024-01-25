@@ -43,8 +43,6 @@
     envFile.source = dotfiles/nushell/env.nu;
   };
 
-  programs.carapace.enable = true;
-
   programs.helix = {
     enable = true;
     defaultEditor = true;
