@@ -48,6 +48,7 @@
     defaultEditor = true;
     settings = {
       theme = "catppuccin_frappe";
+      editor.true-color = true;
     };
   };
 
