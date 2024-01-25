@@ -43,12 +43,22 @@
     envFile.source = dotfiles/nushell/env.nu;
   };
 
+  programs.carapace.enable = true;
+
   programs.helix = {
     enable = true;
     defaultEditor = true;
     settings = {
       theme = "catppuccin_frappe";
     };
+  };
+
+  programs.ssh.enable = true;
+
+  programs.git = {
+    enable = true;
+    userEmail = "petms@proton.me";
+    userName = "Peter Marshall";
   };
 
   # home.sessionVariables = {
