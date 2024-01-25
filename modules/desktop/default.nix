@@ -60,9 +60,6 @@
     # Enable console font configration.
     fonts.fontconfig.enable = true;
 
-    # Allow unfree packages
-    nixpkgs.config.allowUnfree = true;
-
     # SSH can be a security hole on desktop systems.
     services.openssh.enable = false;
 

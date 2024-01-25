@@ -18,6 +18,9 @@
 
   services.thermald.enable = true;
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   hardware.ipu6.enable = true;
   hardware.ipu6.platform = "ipu6ep";
 
