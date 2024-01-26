@@ -21,8 +21,9 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  hardware.ipu6.enable = true;
-  hardware.ipu6.platform = "ipu6ep";
+  # IPU6 camera drivers. This doesn't work yet and causes weird issues
+  # hardware.ipu6.enable = true;
+  # hardware.ipu6.platform = "ipu6ep";
 
   # linux-surface kernel
   boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel.nix {
