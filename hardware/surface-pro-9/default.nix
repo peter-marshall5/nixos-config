@@ -26,7 +26,7 @@
   # hardware.ipu6.platform = "ipu6ep";
 
   # linux-surface kernel
-  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel.nix {
+  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel {
     baseKernel = pkgs.linux_latest;
   });
 
@@ -34,7 +34,6 @@
     surface-control
   ];
 
-  systemd.packages = [ pkgs.iptsd ];
-  services.udev.packages = [ pkgs.iptsd ];
+  services.iptsd.enable = true;
 
 }

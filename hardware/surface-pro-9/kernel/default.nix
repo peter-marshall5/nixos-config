@@ -16,7 +16,7 @@ let
 in linuxManualConfig {
   inherit (baseKernel) src modDirVersion;
   version = "${baseKernel.version}-surface-custom";
-  configfile = ./surface-6.6.config;
+  configfile = ./surface-6.7.config;
   allowImportFromDerivation = true;
   kernelPatches = map (pname: {
     name = "linux-surface-${pname}";
