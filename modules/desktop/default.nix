@@ -21,6 +21,8 @@
 
     services.xserver.displayManager.defaultSession = "plasmawayland";
 
+    environment.systemPackages = [ pkgs.maliit-keyboard ];
+
     services.flatpak.enable = true;
 
     security.sudo.wheelNeedsPassword = true;
