@@ -9,7 +9,7 @@
   config = lib.mkIf config.ab.desktop.enable {
 
     # Disable boot messages.
-    boot.kernelParams = [ "quiet" "loglevel=1" ];
+    boot.kernelParams = [ "quiet" "loglevel=0" ];
 
     documentation.enable = true;
 
