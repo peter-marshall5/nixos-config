@@ -8,10 +8,8 @@
 
   config = lib.mkIf config.ab.desktop.enable {
 
-    boot.kernelParams = [
-      "quiet" "loglevel=0" # Disable boot messages
-      "workqueue.power_efficient=1" # Improve scheduling power efficiency
-    ];
+    # Disable boot messages.
+    boot.kernelParams = [ "quiet" "loglevel=0" ];
 
     documentation.enable = true;
 
@@ -60,29 +58,8 @@
     # SSH can be a security hole on desktop systems.
     services.openssh.enable = false;
 
-    services.power-profiles-daemon.enable = false;
-
-    services.tlp.enable = true;
-    services.tlp.settings = {
-      PCIE_ASPM_ON_BAT = "powersupersave";
-      SOUND_POWER_SAVE_CONTROLLER = false;
-      PLATFORM_PROFILE_ON_AC = "balanced";
-      PLATFORM_PROFILE_ON_BAT = "low-power";
-      RUNTIME_PM_ON_AC = "auto";
-      RUNTIME_PM_ON_BAT = "auto";
-      CPU_SCALING_GOVERNOR_ON_AC = "powersave";
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      CPU_MIN_PERF_ON_AC = 0;
-      CPU_MAX_PERF_ON_AC = 100;
-      CPU_MIN_PERF_ON_BAT = 0;
-      CPU_MAX_PERF_ON_BAT = 30;
-      CPU_BOOST_ON_AC = 1;
-      CPU_BOOST_ON_BAT = 0;
-      CPU_HWP_DYN_BOOST_ON_AC = 1;
-      CPU_HWP_DYN_BOOST_ON_BAT = 0;
-    };
+    # Enable power management for portable devices.
+    ab.powerManagement.enable = true;
 
     # Use systemd-homed to manage users.
     services.homed.enable = true;

@@ -4,6 +4,7 @@
     ./common
     ./users
     ./desktop
+    ./power
     ./fs
     ./secureboot
     ./network
