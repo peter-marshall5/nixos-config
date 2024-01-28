@@ -8,8 +8,10 @@
 
   config = lib.mkIf config.ab.desktop.enable {
 
-    # Disable boot messages.
-    boot.kernelParams = [ "quiet" "loglevel=0" ];
+    boot.kernelParams = [
+      "quiet" "loglevel=0" # Disable boot messages
+      "workqueue.power_efficient=1" # Improve scheduling power efficiency
+    ];
 
     documentation.enable = true;
 
@@ -49,14 +51,7 @@
     services.pipewire = {
       enable = true;
       alsa.enable = true;
-      # alsa.support32Bit = true;
       pulse.enable = true;
-      # If you want to use JACK applications, uncomment this
-      #jack.enable = true;
-
-      # use the example session manager (no others are packaged yet so this is enabled by default,
-      # no need to redefine it in your config for now)
-      #media-session.enable = true;
     };
 
     # Enable console font configration.
@@ -75,8 +70,18 @@
       PLATFORM_PROFILE_ON_BAT = "low-power";
       RUNTIME_PM_ON_AC = "auto";
       RUNTIME_PM_ON_BAT = "auto";
+      CPU_SCALING_GOVERNOR_ON_AC = "powersave";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
       CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 30;
+      CPU_BOOST_ON_AC = 1;
+      CPU_BOOST_ON_BAT = 0;
+      CPU_HWP_DYN_BOOST_ON_AC = 1;
+      CPU_HWP_DYN_BOOST_ON_BAT = 0;
     };
 
     # Use systemd-homed to manage users.
