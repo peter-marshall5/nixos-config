@@ -13,6 +13,7 @@
     ./ddns
     ./vms
     ./logs
+    ./autoupgrade
   ];
 
 }
