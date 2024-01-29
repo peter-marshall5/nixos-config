@@ -57,11 +57,11 @@
     matchBlocks = {
       "opcc" = {
         hostname = "svc.opcc.tk";
-        port = "2200";
+        port = 2200;
       };
       "petms" = {
         hostname = "svc.opcc.tk";
-        port = "2201";
+        port = 2201;
       };
     };
   };
