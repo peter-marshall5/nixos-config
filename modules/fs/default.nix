@@ -67,10 +67,6 @@ in
       default = {};
       type = with lib.types; attrsOf (submodule fsOpts);
     };
-    boot.lvm.enable = lib.mkOption {
-      default = false;
-      type = lib.types.bool;
-    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -78,8 +74,6 @@ in
     fileSystems = lib.mapAttrs' makeFs cfg.fs;
 
     boot.initrd.luks.devices = lib.mapAttrs' makeLuks (lib.filterAttrs (n: fs: fs.luks.enable) cfg.fs);
-
-    boot.initrd.services.lvm.enable = cfg.boot.lvm.enable;
 
   };
 }
