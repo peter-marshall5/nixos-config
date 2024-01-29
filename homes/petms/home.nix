@@ -52,7 +52,19 @@
     };
   };
 
-  programs.ssh.enable = true;
+  programs.ssh = {
+    enable = true;
+    matchBlocks = {
+      "opcc" = {
+        hostname = "svc.opcc.tk";
+        port = "2200";
+      };
+      "petms" = {
+        hostname = "svc.opcc.tk";
+        port = "2201";
+      };
+    };
+  };
 
   programs.git = {
     enable = true;
