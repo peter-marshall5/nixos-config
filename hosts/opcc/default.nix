@@ -12,16 +12,12 @@
     boot.uuid = "64C1-9B6E";
   };
   net.bridge.enable = true;
-  net.bridge.interfaces = ["enp1s0f1"];
+  net.bridge.interfaces = [ "enp1s0f1" ];
   users = [ "petms" ];
-  cloudflare = {
-    enable = true;
-    tunnelId = "c7f932c2-213b-4cca-9e6e-87052a5a849a";
-    ssh.domain = "console.opcc.tk";
-  };
   ddns = {
     enable = true;
-    domains = [ "opcc" ];
+    protocol = "cloudflare";
+    domains = [ "svc.opcc.tk" ];
   };
   vms = {
     enable = true;

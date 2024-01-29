@@ -30,7 +30,7 @@ in
       type = lib.types.str;
     };
     protocol = lib.mkOption {
-      default = "duckdns";
+      default = "cloudflare";
       type = lib.types.str;
     };
     token = lib.mkOption {
@@ -38,7 +38,7 @@ in
       type = lib.types.path;
     };
     ip-discovery.enable = lib.mkOption {
-      default = true;
+      default = false;
       type = lib.types.bool;
     };
     notifyFailures = lib.mkOption {
@@ -80,6 +80,9 @@ in
     })
     (lib.mkIf (cfg.protocol == "duckdns") ((import ./duckdns.nix) {
       inherit lib pkgs cfg getIpv6 tokenPath;
+    }))
+    (lib.mkIf (cfg.protocol == "cloudflare") ((import ./cloudflare.nix) {
+      inherit lib pkgs cfg tokenPath;
     }))
   ]);
 }

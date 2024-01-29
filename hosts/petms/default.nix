@@ -12,13 +12,4 @@
     home.uuid = root.uuid;
     boot.uuid = "7839-D16C";
   };
-  cloudflare = {
-    enable = true;
-    tunnelId = "24eb600a-ff9a-419d-bf8f-fc06df91207f";
-    ssh.domain = "ssh-petms.opcc.tk";
-  };
-  ddns = {
-    enable = true;
-    domains = [ "petms-opcc" ];
-  };
 }
