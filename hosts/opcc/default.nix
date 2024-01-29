@@ -19,19 +19,6 @@
     protocol = "cloudflare";
     domains = [ "svc.opcc.tk" ];
   };
-  vms = {
-    enable = true;
-    guests.petms = {
-      memory = "4G";
-      diskSize = "100g";
-      cpus = 2;
-      os = "nixos";
-    };
-    guests.cheesecraft = {
-      memory = "1G";
-      diskSize = "40g";
-      cpus = 1;
-      os = "nixos";
-    };
-  };
+  vms.enable = true;
+  vms.guests = [ "petms" "cheesecraft" ];
 }

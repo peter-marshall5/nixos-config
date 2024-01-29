@@ -12,4 +12,6 @@
     home.uuid = root.uuid;
     boot.uuid = "7839-D16C";
   };
+  # vms.enable = true;
+  # vms.guests = ["test"];
 }
