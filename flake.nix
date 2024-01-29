@@ -29,7 +29,7 @@
     ];
     devShells.x86_64-linux.surface-kernel = let
      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-    in (pkgs.callPackage ./hardware/surface-pro-9/kernel.nix {
+    in (pkgs.callPackage ./hardware/surface-pro-9/kernel {
       baseKernel = pkgs.linux_latest;
     }).overrideAttrs (o: {nativeBuildInputs=o.nativeBuildInputs ++ (with pkgs; [ pkg-config ncurses ]);});
     packages.x86_64-linux.installer = util.installerImage;

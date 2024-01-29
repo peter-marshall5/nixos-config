@@ -12,5 +12,4 @@
     nix.uuid = root.uuid;
     boot.uuid = "940E-785F";
   };
-  fs.boot.lvm.enable = true;
 }
