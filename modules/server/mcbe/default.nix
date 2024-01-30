@@ -71,7 +71,7 @@ in
     virtualisation.oci-containers.containers = lib.mapAttrs (n: v: {
       image = "itzg/minecraft-bedrock-server:latest";
       ports = ["${toString v.port}:19132/udp"];
-      volumes = ["${cfg.dataDir}/${n}:/data"];
+      volumes = ["${v.dataDir}:/data"];
       environment = {
         EULA = "true";
         SERVER_NAME = v.title;
