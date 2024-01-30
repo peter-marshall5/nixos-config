@@ -4,6 +4,7 @@
     ./sshd
     ./cloudflared
     ./ddns
+    ./mcbe
   ];
 
 }

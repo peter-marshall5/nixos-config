@@ -12,4 +12,5 @@
     home.uuid = root.uuid;
     boot.uuid = "6F1E-4DDF";
   };
+  services.mcbe.enable = true;
 }
