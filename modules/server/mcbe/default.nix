@@ -23,7 +23,7 @@ in
 
     virtualisation.oci-containers.containers = {
       mcbe = {
-        image = "itzg/docker-minecraft-bedrock-server:latest";
+        image = "itzg/minecraft-bedrock-server:latest";
         ports = ["19132:19132/udp"];
         volumes = ["${cfg.dataDir}:/data"];
         cmd = [
