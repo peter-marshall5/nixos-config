@@ -13,4 +13,11 @@
     boot.uuid = "6F1E-4DDF";
   };
   services.mcbe.enable = true;
+  services.mcbe.servers = {
+    cheesecraft = {
+      port = 19132;
+      title = "§k::§r §eCheese§bcraft§f - §aSurvival§r §k::§r ";
+      levelName = "Cheesecraft Season 4";
+    };
+  };
 }
