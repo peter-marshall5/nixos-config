@@ -26,9 +26,9 @@ in
         image = "itzg/minecraft-bedrock-server:latest";
         ports = ["19132:19132/udp"];
         volumes = ["${cfg.dataDir}:/data"];
-        cmd = [
-          "-e" "EULA=true"
-        ];
+        environment = {
+          EULA = "true";
+        };
       };
     };
 
