@@ -24,7 +24,7 @@ in
     virtualisation.oci-containers.containers = {
       mcbe = {
         image = "itzg/docker-minecraft-bedrock-server:latest";
-        ports = ["localhost:19132:19132"];
+        ports = ["19132:19132/udp"];
         volumes = ["${cfg.dataDir}:/data"];
         cmd = [
           "-e" "EULA=true"
