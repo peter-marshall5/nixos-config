@@ -15,6 +15,11 @@ let
         type = lib.types.str;
       };
 
+      dataDir = lib.mkOption {
+        default = (cfg.dataDir + "/" + name);
+        type = lib.types.str;
+      };
+
       title = lib.mkOption {
         default = name;
         type = lib.types.str;
@@ -57,8 +62,10 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    system.activationScripts.mcbe = ''
-      mkdir -p ${cfg.dataDir}
+    system.activationScripts.mcbe = let
+      dataDirs = lib.mapAttrsToList (n: v: (v.dataDir)) cfg.servers;
+    in ''
+      mkdir -p ${toString dataDirs}
     '';
 
     virtualisation.oci-containers.containers = lib.mapAttrs (n: v: {
