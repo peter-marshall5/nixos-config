@@ -17,8 +17,6 @@
     cloudflared
   ];
 
-  services.fwupd.enable = true;
-
   security.sudo.wheelNeedsPassword = lib.mkDefault false;
 
   fonts.fontconfig.enable = lib.mkDefault false;
