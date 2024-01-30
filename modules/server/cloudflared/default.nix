@@ -42,7 +42,7 @@ in
 
     age.secrets.cloudflare-tunnel = {
 
-      file = ../../hosts/${config.networking.hostName}/secrets/cloudflared/${cfg.tunnelId}.json.age;
+      file = ../../../hosts/${config.networking.hostName}/secrets/cloudflared/${cfg.tunnelId}.json.age;
 
       owner = config.services.cloudflared.user;
       group = config.services.cloudflared.group;

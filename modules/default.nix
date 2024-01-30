@@ -8,9 +8,7 @@
     ./fs
     ./secureboot
     ./network
-    ./sshd
-    ./cloudflared
-    ./ddns
+    ./server
     ./vms
     ./logs
     ./autoupgrade

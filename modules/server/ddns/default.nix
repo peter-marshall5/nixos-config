@@ -34,7 +34,7 @@ in
       type = lib.types.str;
     };
     token = lib.mkOption {
-      default = ../../hosts/${config.networking.hostName}/secrets/${cfg.protocol}.age;
+      default = ../../../hosts/${config.networking.hostName}/secrets/${cfg.protocol}.age;
       type = lib.types.path;
     };
     ip-discovery.enable = lib.mkOption {
