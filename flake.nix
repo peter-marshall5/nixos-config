@@ -11,6 +11,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    installer.url = "github:peter-marshall5/nixos-installer";
   };
   outputs = inputs:
   let
@@ -32,6 +33,5 @@
     in (pkgs.callPackage ./hardware/surface-pro-9/kernel {
       baseKernel = pkgs.linux_latest;
     }).overrideAttrs (o: {nativeBuildInputs=o.nativeBuildInputs ++ (with pkgs; [ pkg-config ncurses ]);});
-    packages.x86_64-linux.installer = util.installerImage;
   };
 }

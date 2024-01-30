@@ -194,6 +194,24 @@
         "type": "github"
       }
     },
+    "installer": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1706652950,
+        "narHash": "sha256-DdTNWSbU7Klbm0uKioIr81ITAQ1JSq0krsDAFFD9ZdA=",
+        "owner": "peter-marshall5",
+        "repo": "nixos-installer",
+        "rev": "0a256d17e1c063fdc54359135b3a61d07c07cc7f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "peter-marshall5",
+        "repo": "nixos-installer",
+        "type": "github"
+      }
+    },
     "lanzaboote": {
       "inputs": {
         "crane": "crane",
@@ -273,6 +291,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1706371002,
+        "narHash": "sha256-dwuorKimqSYgyu8Cw6ncKhyQjUDOyuXoxDTVmAXq88s=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c002c6aa977ad22c60398daaa9be52f2203d0006",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1703499205,
         "narHash": "sha256-lF9rK5mSUfIZJgZxC3ge40tp1gmyyOXZ+lRY3P8bfbg=",
         "owner": "NixOS",
@@ -287,7 +321,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1706371002,
         "narHash": "sha256-dwuorKimqSYgyu8Cw6ncKhyQjUDOyuXoxDTVmAXq88s=",
@@ -338,9 +372,10 @@
       "inputs": {
         "agenix": "agenix",
         "home-manager": "home-manager_2",
+        "installer": "installer",
         "lanzaboote": "lanzaboote",
         "nixos-veyron-speedy": "nixos-veyron-speedy",
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_4"
       }
     },
     "rust-overlay": {
@@ -400,7 +435,7 @@
     },
     "u-boot": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1703715446,

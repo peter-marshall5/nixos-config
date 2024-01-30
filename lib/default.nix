@@ -1,4 +1,4 @@
-{ self, nixpkgs, agenix, lanzaboote, home-manager, ... }:
+{ self, nixpkgs, agenix, lanzaboote, home-manager, installer, ... }:
 let
 
   inherit (nixpkgs) lib;
@@ -51,7 +51,7 @@ in rec {
     specialArgs = {
       inherit nixpkgs trustedKeys;
       inherit (self) nixosConfigurations;
-      nixosInstaller = (installerImage + "/image.raw");
+      nixosInstaller = (installer + "/iso/nixos.iso");
     };
 
   });
@@ -65,9 +65,5 @@ in rec {
   mkHosts = hostNames: lib.listToAttrs (map mkNixos hostNames);
 
   mkHomes = users: lib.listToAttrs (map mkHome users);
-
-  installerImage = pkgs.callPackage ../installer {
-    inherit nixpkgs trustedKeys;
-  };
 
 }
