@@ -27,6 +27,7 @@
     ];
     homeConfigurations = mkHomes [
       "petms"
+      "petms@peter-pc"
     ];
     devShells.x86_64-linux.surface-kernel = let
      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;

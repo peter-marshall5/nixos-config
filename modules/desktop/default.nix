@@ -17,13 +17,18 @@
 
     services.xserver.enable = true;
     services.xserver.displayManager.sddm.enable = true;
-    services.xserver.desktopManager.plasma5.enable = true;
 
+    services.xserver.desktopManager.plasma5.enable = true;
     services.xserver.displayManager.defaultSession = "plasmawayland";
 
     environment.systemPackages = [ pkgs.maliit-keyboard ];
 
+    fonts.packages = with pkgs; [
+      hack-font
+    ];
+
     services.flatpak.enable = true;
+    xdg.portal.enable = true;
 
     security.sudo.wheelNeedsPassword = true;
 

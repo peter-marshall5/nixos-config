@@ -56,14 +56,14 @@ in rec {
 
   });
 
-  mkHome = username:
-  lib.nameValuePair username (home-manager.lib.homeManagerConfiguration {
+  mkHome = name:
+  lib.nameValuePair name (home-manager.lib.homeManagerConfiguration {
     inherit pkgs;
-    modules = [ ../homes/${username}/home.nix ];
+    modules = [ ../homes/${name}/home.nix ];
   });
 
   mkHosts = hostNames: lib.listToAttrs (map mkNixos hostNames);
 
-  mkHomes = users: lib.listToAttrs (map mkHome users);
+  mkHomes = homes: lib.listToAttrs (map mkHome homes);
 
 }
