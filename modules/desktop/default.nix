@@ -16,19 +16,36 @@
     environment.noXlibs = false;
 
     services.xserver.enable = true;
-    services.xserver.displayManager.sddm.enable = true;
+    # services.xserver.displayManager.sddm.enable = true;
 
-    services.xserver.desktopManager.plasma5.enable = true;
-    services.xserver.displayManager.defaultSession = "plasmawayland";
+    # services.xserver.desktopManager.plasma5.enable = true;
+    # services.xserver.displayManager.defaultSession = "plasmawayland";
 
-    environment.systemPackages = [ pkgs.maliit-keyboard ];
+    services.greetd.enable = true;
+    services.greetd.settings = {
+      default_session = {
+        command = "${pkgs.greetd.greetd}/bin/agreety --cmd Hyprland";
+      };
+    };
+
+    services.dbus.enable = true;
+    programs.dconf.enable = true;
+    xdg.portal = {
+      enable = true;
+      wlr.enable = true;
+      config.common.default = "*";
+    };
+
+    environment.systemPackages = with pkgs; [
+      maliit-keyboard
+      greetd.greetd
+    ];
 
     fonts.packages = with pkgs; [
       hack-font
     ];
 
     services.flatpak.enable = true;
-    xdg.portal.enable = true;
 
     security.sudo.wheelNeedsPassword = true;
 

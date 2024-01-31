@@ -44,7 +44,7 @@
     vrr = 0;
   };
   decoration = {
-    rounding = 2;
+    rounding = 0;
     blur = {
       size = 12;
       passes = 2;
@@ -52,15 +52,27 @@
       noise = 0.03;
     };
   };
+  general = {
+    gaps_in = 2;
+    gaps_out = 5;
+  };
   exec-once = [
       "waybar"
       #"swaybg -i ~/.wallpaper"
     ];
   monitor = [
-    "eDP-1,2880x1920@120,0x0,2"
+    "eDP-1,2880x1920@120,0x0,1.8"
   ];
   input.touchpad = {
     natural_scroll = true;
     scroll_factor = 0.7;
   };
+  dwindle = {
+    no_gaps_when_only = 1;
+  };
+  animation = [
+      "workspaces,1,3,default,slidefade 10%"
+      "windows,1,4,default,popin"
+      "fade,1,4,default"
+    ];
 }
