@@ -79,10 +79,10 @@
 
   home.pointerCursor = {
     gtk.enable = true;
-    # x11.enable = true;
-    package = pkgs.libsForQt5.breeze-gtk;
-    name = "Breeze";
-    size = 16;
+    x11.enable = true;
+    package = pkgs.numix-cursor-theme;
+    name = "Numix-Cursor";
+    size = 48;
   };
 
   gtk = {
