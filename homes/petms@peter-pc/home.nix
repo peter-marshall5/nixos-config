@@ -160,14 +160,14 @@
     enable = true;
     events = [{
       event = "before-sleep";
-      command = "swaylock -fF";
+      command = "~/.nix-profile/bin/swaylock -fF";
     }];
     timeouts = [{
       timeout = 60;
-      command = "swaylock -fF";
+      command = "~/.nix-profile/bin/swaylock -fF";
     } {
       timeout = 90;
-      command = "systemctl suspend";
+      command = "${pkgs.systemd}/bin/systemctl suspend";
     }];
   };
 
