@@ -48,17 +48,17 @@
         icons-enabled = false;
       };
       colors = {
-        background = "141a1bff";
+        background = "292e2eff";
         text = "ffffffff";
         selection-text = "ffffffff";
         selection = "282a2bff";
         match = "dfd212ff";
         selection-match = "dfd212ff";
-        border = "16a085ff";
+        border = "5ccccdff";
       };
       border = {
-        width = 3;
-        radius = 0;
+        width = 2;
+        radius = 3;
       };
     };
   };
