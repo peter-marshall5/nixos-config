@@ -7,6 +7,7 @@
     swayidle
     swaybg
     playerctl
+    nerdfonts
   ];
 
   programs.foot = {
@@ -67,21 +68,51 @@
         height = 30;
         modules-left = [ "hyprland/workspaces" ];
         modules-center = [ "hyprland/window" ];
-        modules-right = [ "mpd" "clock" ];
+        modules-right = [ "wireplumber" "mpd" "battery" "clock" ];
+        battery = {
+          format = "{icon} ";
+          format-icons = [ "" "" "" "" "" ];
+        };
+        mpd = {
+          format = "{stateIcon}";
+          format-stopped = "󰓛";
+          state-icons = {
+            paused = "󰐊";
+            playing = "󰏤";
+          };
+        };
+        wireplumber = {
+          format = "{icon}";
+          format-icons = [ "󰕿" "󰖀" "󰕾" ];
+          format-muted = "󰖁";
+        };
       };
     };
     style = ''
       * {
         border: none;
         border-radius: 0;
-      }
-      window#waybar {
-        background: transparent;
         color: white;
+        font-family: DejaVu Nerd Font;
+      }
+      window {
+        background: transparent;
+      }
+      tooltip {
+        background: #292e2e;
+      }
+      box > * > * {
+        padding: 0 6px;
+      }
+      #workspaces {
+        padding: 0;
       }
       #workspaces button {
-        padding: 0 5px;
+        padding: 0 4px;
         color: white;
+      }
+      #clock {
+        margin-right: 4px;
       }
     '';
   };
@@ -113,6 +144,8 @@
     name = "Numix-Cursor";
     size = 48;
   };
+
+  fonts.fontconfig.enable = true;
 
   gtk = {
     enable = true;
