@@ -70,6 +70,20 @@
         modules-right = [ "mpd" "clock" ];
       };
     };
+    style = ''
+      * {
+        border: none;
+        border-radius: 0;
+      }
+      window#waybar {
+        background: transparent;
+        color: white;
+      }
+      #workspaces button {
+        padding: 0 5px;
+        color: white;
+      }
+    '';
   };
 
   wayland.windowManager.hyprland = {
