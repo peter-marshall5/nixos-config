@@ -41,6 +41,13 @@
       CPU_HWP_DYN_BOOST_ON_BAT = 0;
     };
 
+    # Handle power keys and lid switch in systemd-logind.
+    services.logind = {
+      powerKey = "suspend";
+      powerKeyLongPress = "poweroff";
+      lidSwitchExternalPower = "lock";
+    };
+
   };
 
 }
