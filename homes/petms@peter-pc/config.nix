@@ -61,7 +61,7 @@
       #"swaybg -i ~/.wallpaper"
     ];
   monitor = [
-    "eDP-1,2880x1920@120,0x0,1.8"
+    "eDP-1,2880x1920@120,0x0,1.875"
   ];
   input.touchpad = {
     natural_scroll = true;
