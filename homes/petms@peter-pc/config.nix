@@ -51,10 +51,10 @@
   decoration = {
     rounding = 3;
     blur = {
-      size = 12;
-      passes = 2;
+      size = 32;
+      passes = 4;
       xray = true;
-      noise = 0.03;
+      noise = 0.2;
     };
   };
   general = {

@@ -28,6 +28,10 @@
       mouse = {
         hide-when-typing = "yes";
       };
+
+      colors = {
+        alpha = 0.9;
+      };
     };
   };
 
