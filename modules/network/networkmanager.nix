@@ -33,8 +33,9 @@
       };
       Rank = {
         # Prefer faster bands
-        BandModifier5GHz = 1.5;
-        BandModifier6GHz = 3.0;
+        BandModifier2_4GHz = 1.0;
+        BandModifier5GHz = 3.0;
+        BandModifier6GHz = 10.0;
       };
     };
 
