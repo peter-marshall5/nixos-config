@@ -34,6 +34,7 @@
       enable = true;
       wlr.enable = true;
       config.common.default = "*";
+      extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
     };
 
     environment.systemPackages = with pkgs; [
@@ -63,6 +64,9 @@
       enable = true;
       nssmdns4 = true;
     };
+
+    # Disable systemd-network-wait-online
+    systemd.network.wait-online.enable = false;
 
     # Enable sound with pipewire.
     sound.enable = true;
