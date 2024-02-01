@@ -6,6 +6,7 @@
     swaylock
     swayidle
     swaybg
+    playerctl
   ];
 
   programs.foot = {

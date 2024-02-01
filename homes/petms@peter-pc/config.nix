@@ -12,7 +12,7 @@
       "SUPER SHIFT, right, movewindow, r"
       "SUPER SHIFT, up, movewindow, u"
       "SUPER SHIFT, down, movewindow, d"
-      "CTRL ALT, L, exec, swaylockd"
+      "CTRL ALT, L, exec, swaylock"
     ] ++ (
       # workspaces
       # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
@@ -34,6 +34,8 @@
       ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
       ", XF86AudioLowerVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-"
       ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+      ", XF86AudioPause, exec, playerctl play-pause"
+      ", XF86AudioPlay, exec, playerctl play-pause"
       ", XF86MonBrightnessUp, exec, brillo -A 2 -u 100000 -q"
       ", XF86MonBrightnessDown, exec, brillo -U 2 -u 100000 -q"
     ];
