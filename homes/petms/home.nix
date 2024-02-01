@@ -37,6 +37,10 @@
         hostname = "svc.opcc.tk";
         port = 2201;
       };
+      "cheesecraft" = {
+        hostname = "svc.opcc.tk";
+        port = 2202;
+      };
     };
   };
 
