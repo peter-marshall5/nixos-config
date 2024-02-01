@@ -3,8 +3,6 @@
   imports = [ ../petms/home.nix ];
 
   home.packages = with pkgs; [
-    swaylock
-    swayidle
     swaybg
     playerctl
     nerdfonts
@@ -139,6 +137,23 @@
     padding = "20";
     margin = "20";
     defaultTimeout = 15000;
+  };
+
+  programs.swaylock = {
+    enable = true;
+    package = pkgs.swaylock-effects;
+    settings = {
+      show-failed-attempts = true;
+      grace = 2;
+      fade-in = 0.4;
+      screenshots = true;
+      effect-blur = "128x3";
+      effect-vignette = "0.9:0.1";
+      key-hl-color = "#5ccccd";
+      ring-color = "#101313";
+      inside-color = "#292e2e";
+      text-color = "#ffffff";
+    };
   };
 
   home.pointerCursor = {
