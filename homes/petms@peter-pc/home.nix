@@ -66,7 +66,7 @@
         height = 30;
         modules-left = [ "hyprland/workspaces" ];
         modules-center = [ "hyprland/window" ];
-        modules-right = [ "mpd" "temperature" ];
+        modules-right = [ "mpd" "clock" ];
       };
     };
   };
@@ -75,6 +75,19 @@
     enable = true;
     systemd.enable = true;
     settings = import ./config.nix;
+  };
+
+  services.mako = {
+    enable = true;
+    textColor = "#ffffff";
+    borderColor = "#50efa0";
+    backgroundColor = "#303030";
+    borderSize = 3;
+    width = 400;
+    height = 200;
+    padding = "20";
+    margin = "20";
+    defaultTimeout = 15000;
   };
 
   home.pointerCursor = {

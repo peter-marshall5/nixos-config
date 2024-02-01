@@ -16,10 +16,6 @@
     environment.noXlibs = false;
 
     services.xserver.enable = true;
-    # services.xserver.displayManager.sddm.enable = true;
-
-    # services.xserver.desktopManager.plasma5.enable = true;
-    # services.xserver.displayManager.defaultSession = "plasmawayland";
 
     services.greetd.enable = true;
     services.greetd.settings = {
@@ -45,6 +41,10 @@
     fonts.packages = with pkgs; [
       hack-font
     ];
+
+    security.pam.services.swaylock = {};
+
+    hardware.brillo.enable = true;
 
     services.flatpak.enable = true;
 

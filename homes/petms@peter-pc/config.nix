@@ -3,7 +3,6 @@
   bind =
     [
       "$mod, Return, exec, foot"
-      "$mod, D, exec, fuzzel"
       "$mod, C, exec, flatpak run com.google.Chrome"
       ", Print, exec, grimblast copy area"
       "$mod, Q, killactive,"
@@ -30,9 +29,12 @@
         )
         10)
     );
-  bindl = [
+  bindr = [ "$mod, D, exec, fuzzel" ];
+  binde = [
       ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
       ", XF86AudioLowerVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-"
+      ", XF86MonBrightnessUp, exec, brillo -A 2 -u 100000 -q"
+      ", XF86MonBrightnessDown, exec, brillo -U 2 -u 100000 -q"
     ];
   bindm = [
     "SUPER, mouse:272, movewindow"
@@ -44,7 +46,7 @@
     vrr = 0;
   };
   decoration = {
-    rounding = 0;
+    rounding = 3;
     blur = {
       size = 12;
       passes = 2;
@@ -55,6 +57,8 @@
   general = {
     gaps_in = 2;
     gaps_out = 5;
+    border_size = 2;
+    "col.active_border" = "0xff50efa0";
   };
   exec-once = [
       "waybar"
