@@ -25,6 +25,19 @@
     networking.wireless.iwd.enable = true;
     networking.networkmanager.wifi.backend = "iwd";
 
+    networking.wireless.iwd.settings = {
+      General = {
+        Country = "CA";
+        # Prevent tracking across networks
+        AddressRandomization = "network";
+      };
+      Rank = {
+        # Prefer faster bands
+        BandModifier5GHz = 1.5;
+        BandModifier6GHz = 3.0;
+      };
+    };
+
   })]);
 
 }
