@@ -156,6 +156,21 @@
     };
   };
 
+  services.swayidle = {
+    enable = true;
+    events = [{
+      event = "before-sleep";
+      command = "swaylock -fF";
+    }];
+    timeouts = [{
+      timeout = 60;
+      command = "swaylock -fF";
+    } {
+      timeout = 90;
+      command = "systemctl suspend";
+    }];
+  };
+
   home.pointerCursor = {
     gtk.enable = true;
     x11.enable = true;
