@@ -58,7 +58,7 @@
     gaps_in = 2;
     gaps_out = 5;
     border_size = 2;
-    "col.active_border" = "0xff50efa0";
+    "col.active_border" = "0xff61BCBD";
   };
   exec-once = [
       "waybar"

@@ -80,9 +80,10 @@
   services.mako = {
     enable = true;
     textColor = "#ffffff";
-    borderColor = "#50efa0";
-    backgroundColor = "#303030";
-    borderSize = 3;
+    borderColor = "#5CCCCD";
+    backgroundColor = "#292E2E";
+    borderSize = 2;
+    borderRadius = 3;
     width = 400;
     height = 200;
     padding = "20";
