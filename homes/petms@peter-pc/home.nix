@@ -163,10 +163,10 @@
       command = "~/.nix-profile/bin/swaylock -fF";
     }];
     timeouts = [{
-      timeout = 60;
+      timeout = 300;
       command = "~/.nix-profile/bin/swaylock -fF";
     } {
-      timeout = 90;
+      timeout = 360;
       command = "${pkgs.systemd}/bin/systemctl suspend";
     }];
   };
