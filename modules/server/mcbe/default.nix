@@ -79,6 +79,8 @@ in
       } // v.extraOpts;
     }) cfg.servers;
 
+    networking.firewall.allowedUDPPorts = map (v: v.port) (builtins.attrValues cfg.servers);
+
   };
 
 }
