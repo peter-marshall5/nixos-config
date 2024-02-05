@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, sshAliases, ... }:
 
 {
   home.username = "petms";
@@ -28,20 +28,7 @@
 
   programs.ssh = {
     enable = true;
-    matchBlocks = {
-      "opcc" = {
-        hostname = "svc.opcc.tk";
-        port = 2200;
-      };
-      "petms" = {
-        hostname = "svc.opcc.tk";
-        port = 2201;
-      };
-      "cheesecraft" = {
-        hostname = "svc.opcc.tk";
-        port = 2202;
-      };
-    };
+    matchBlocks = sshAliases;
   };
 
   programs.git = {

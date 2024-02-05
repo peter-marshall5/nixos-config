@@ -60,6 +60,16 @@ in rec {
   lib.nameValuePair name (home-manager.lib.homeManagerConfiguration {
     inherit pkgs;
     modules = [ ../homes/${name}/home.nix ];
+    extraSpecialArgs = {
+      sshAliases = let
+        sshHosts = builtins.filter (h: h.config.ab.ssh.enable) (builtins.attrValues self.nixosConfigurations);
+      in builtins.listToAttrs (map (h:
+        lib.nameValuePair h.config.networking.hostName {
+          hostname = h.config.ab.ssh.address;
+          port = h.config.ab.ssh.port;
+        }
+      ) sshHosts);
+    };
   });
 
   mkHosts = hostNames: lib.listToAttrs (map mkNixos hostNames);
