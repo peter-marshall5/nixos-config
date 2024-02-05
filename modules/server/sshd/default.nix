@@ -22,12 +22,13 @@ in {
 
   config = lib.mkIf cfg.enable {
 
-    # Enable the OpenSSH daemon.
-    services.openssh.enable = lib.mkDefault true;
-    services.openssh.banner = builtins.readFile ./banner.txt;
-
-    # Require both public key and password to log in via ssh.
     services.openssh = {
+      enable = lib.mkDefault true;
+
+      ports = [ cfg.port ];
+
+      banner = builtins.readFile ./banner.txt;
+
       settings.PasswordAuthentication = lib.mkForce true;
       settings.AuthenticationMethods = "publickey,password";
     };
