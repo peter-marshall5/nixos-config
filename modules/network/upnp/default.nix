@@ -25,8 +25,7 @@ in {
       after = [ "network-online.target" ];
       serviceConfig = {
         Type = "oneshot";
-        ExecStartPre = ''${pkgs.miniupnpc}/bin/upnpc -d ${redirectArgs}'';
-        ExecStart = ''${pkgs.miniupnpc}/bin/upnpc -r ${redirectArgs}'';
+        ExecStart = ''${pkgs.miniupnpc}/bin/upnpc -i -r ${redirectArgs}'';
       };
     };
 
