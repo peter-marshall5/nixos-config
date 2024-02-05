@@ -12,6 +12,9 @@
     home.uuid = root.uuid;
     boot.uuid = "7839-D16C";
   };
+  ssh.address = "svc.opcc.tk";
+  ssh.port = 2201;
+  net.upnp.enable = true;
   # vms.enable = true;
   # vms.guests = ["test"];
 }

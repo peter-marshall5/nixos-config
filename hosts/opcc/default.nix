@@ -19,6 +19,9 @@
     protocol = "cloudflare";
     domains = [ "svc.opcc.tk" ];
   };
+  ssh.address = "svc.opcc.tk";
+  ssh.port = 2200;
+  net.upnp.enable = true;
   vms.enable = true;
   vms.guests = [ "petms" "cheesecraft" ];
 }

@@ -83,7 +83,7 @@
     fonts.fontconfig.enable = true;
 
     # SSH can be a security hole on desktop systems.
-    services.openssh.enable = false;
+    ab.ssh.enable = false;
 
     # Enable power management for portable devices.
     ab.powerManagement.enable = true;

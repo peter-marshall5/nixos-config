@@ -12,6 +12,9 @@
     home.uuid = root.uuid;
     boot.uuid = "6F1E-4DDF";
   };
+  ssh.address = "svc.opcc.tk";
+  ssh.port = 2200;
+  net.upnp.enable = true;
   services.mcbe.enable = true;
   services.mcbe.servers = {
     cheesecraft = {
