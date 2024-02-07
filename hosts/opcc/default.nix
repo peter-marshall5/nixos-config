@@ -15,9 +15,8 @@
   net.bridge.enable = true;
   net.bridge.interfaces = [ "enp2s0f1" ];
   users = [ "petms" ];
-  ddns = {
+  ddns.duckdns = {
     enable = true;
-    protocol = "duckdns";
     domains = [ "opcc" ];
   };
   ssh.address = "opcc.duckdns.org";

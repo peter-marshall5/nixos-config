@@ -1,33 +1,62 @@
-{ lib, pkgs, cfg, tokenPath, getIpv6, ... }:
+{ config, lib, pkgs, ... }:
+let
 
-{
+  cfg = config.ab.ddns.duckdns;
 
-  systemd.timers."ddns" = {
-    wantedBy = [ "timers.target" ];
-    wants = [ "network-online.target" ];
-    after = [ "network-online.target" ];
-    timerConfig = {
-      OnBootSec = "1m";
-      OnUnitActiveSec = "5m";
-      Unit = "ddns.service";
+  tokenPath = ../../../hosts/${config.networking.hostName}/secrets/${cfg.token};
+
+in {
+
+  options.ab.ddns.duckdns = {
+    enable = lib.mkOption {
+      default = false;
+      type = lib.types.bool;
+    };
+    notifyFailures = lib.mkOption {
+      default = true;
+      type = lib.types.bool;
+    };
+    domains = lib.mkOption {
+      default = [];
+      type = lib.types.listOf lib.types.str;
+    };
+    token = lib.mkOption {
+      default = "duckdns.age";
+      type = lib.types.str;
     };
   };
 
-  systemd.services."ddns" = {
-    script = ''
-      DOMAINS="${lib.strings.concatStringsSep "," cfg.domains}"
-      TOKEN="${tokenPath}"
+  config = lib.mkIf cfg.enable {
+    age.secrets.duckdns.file = tokenPath;
 
-      # Update our DuckDNS record
-      response=$(${pkgs.curl}/bin/curl -s "https://www.duckdns.org/update?domains=$DOMAINS&token=$(cat $TOKEN)")
-      [ "$response" == "OK" ] || exit 1
-    '';
-    serviceConfig = {
-      Type = "oneshot";
-      User = "root";
+    systemd.timers."ddns" = {
+      wantedBy = [ "timers.target" ];
+      wants = [ "network-online.target" ];
+      after = [ "network-online.target" ];
+      timerConfig = {
+        OnBootSec = "1m";
+        OnUnitActiveSec = "5m";
+        Unit = "ddns.service";
+      };
     };
-  };
 
-  ab.logs.notify.services = lib.mkIf cfg.notifyFailures [ "ddns.service" ];
+    systemd.services."ddns" = {
+      script = ''
+        response=$(${pkgs.curl}/bin/curl -s "https://www.duckdns.org/update?domains=$DOMAINS&token=$(cat $TOKEN)")
+        [ "$response" == "OK" ] || exit 1
+      '';
+      serviceConfig = {
+        Type = "oneshot";
+        User = "root";
+        Environment = ''
+          DOMAINS="${lib.strings.concatStringsSep "," cfg.domains}"
+          TOKEN="${config.age.secrets.duckdns.path}"
+        '';
+      };
+    };
+
+    ab.logs.notify.services = lib.mkIf cfg.notifyFailures [ "ddns.service" ];
+
+  };
 
 }
