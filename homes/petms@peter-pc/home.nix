@@ -88,6 +88,9 @@
           format-icons = [ "󰕿" "󰖀" "󰕾" ];
           format-muted = "󰖁";
         };
+        clock = {
+          format = "{:%I:%M %p}";
+        };
       };
     };
     style = ''
