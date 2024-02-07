@@ -18,11 +18,8 @@
       DOMAINS="${lib.strings.concatStringsSep "," cfg.domains}"
       TOKEN="${tokenPath}"
 
-      ip6=$(${getIpv6} ${cfg.interface})
-      [ "$ip6" == "" ] && exit 1
-
       # Update our DuckDNS record
-      response=$(${pkgs.curl}/bin/curl -s "https://www.duckdns.org/update?domains=$DOMAINS&token=$(cat $TOKEN)&ip=&ipv6=$ip6")
+      response=$(${pkgs.curl}/bin/curl -s "https://www.duckdns.org/update?domains=$DOMAINS&token=$(cat $TOKEN)")
       [ "$response" == "OK" ] || exit 1
     '';
     serviceConfig = {

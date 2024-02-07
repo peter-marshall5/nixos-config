@@ -3,4 +3,5 @@ let
 in
 {
   "cloudflare.age".publicKeys = trustedKeys;
+  "duckdns.age".publicKeys = trustedKeys;
 }

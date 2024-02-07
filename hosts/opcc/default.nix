@@ -17,10 +17,10 @@
   users = [ "petms" ];
   ddns = {
     enable = true;
-    protocol = "cloudflare";
-    domains = [ "svc.opcc.tk" ];
+    protocol = "duckdns";
+    domains = [ "opcc" ];
   };
-  ssh.address = "svc.opcc.tk";
+  ssh.address = "opcc.duckdns.org";
   ssh.port = 2200;
   net.upnp.enable = true;
   vms.enable = true;

@@ -12,7 +12,7 @@
     home.uuid = root.uuid;
     boot.uuid = "6F1E-4DDF";
   };
-  ssh.address = "svc.opcc.tk";
+  ssh.address = "opcc.duckdns.org";
   ssh.port = 2202;
   net.upnp.enable = true;
   services.mcbe.enable = true;
