@@ -9,8 +9,8 @@ let
   linuxSurface = fetchFromGitHub {
     owner = "linux-surface";
     repo = "linux-surface";
-    rev = "807d0d92087aa1de0f5d8fef5881273307ab7cab";
-    hash = "sha256-cYLkAMYaZyThaSedDVU1PLfq8n1liHSp5qSUM48ER9U=";
+    rev = "b49ed6d04df91cd9e88f0f726535dd221dde67fa";
+    hash = "sha256-wGsSm8wCxfv+nXX2FCrxIOBQTAs5z+RnLscf/7PrTJs=";
   };
 
 in linuxManualConfig {
