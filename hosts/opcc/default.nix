@@ -13,7 +13,7 @@
     boot.uuid = "64C1-9B6E";
   };
   net.bridge.enable = true;
-  net.bridge.interfaces = [ "enp1s0f1" ];
+  net.bridge.interfaces = [ "enp2s0f1" ];
   users = [ "petms" ];
   ddns = {
     enable = true;
