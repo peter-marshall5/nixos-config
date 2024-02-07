@@ -64,6 +64,7 @@
     "col.active_border" = "0xff61BCBD";
   };
   exec-once = [
+      "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
       "waybar"
       "swaybg -i ~/.wallpaper"
     ];

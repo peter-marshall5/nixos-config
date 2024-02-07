@@ -37,6 +37,8 @@
     environment.systemPackages = with pkgs; [
       maliit-keyboard
       greetd.greetd
+      gsettings-desktop-schemas
+      glib
     ];
 
     fonts.packages = with pkgs; [

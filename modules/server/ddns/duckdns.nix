@@ -48,10 +48,10 @@ in {
       serviceConfig = {
         Type = "oneshot";
         User = "root";
-        Environment = ''
-          DOMAINS="${lib.strings.concatStringsSep "," cfg.domains}"
-          TOKEN="${config.age.secrets.duckdns.path}"
-        '';
+      };
+      environment = {
+        DOMAINS = lib.strings.concatStringsSep "," cfg.domains;
+        TOKEN = config.age.secrets.duckdns.path;
       };
     };
 
