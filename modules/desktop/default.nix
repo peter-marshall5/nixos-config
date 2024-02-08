@@ -29,16 +29,16 @@
     programs.dconf.enable = true;
     xdg.portal = {
       enable = true;
-      wlr.enable = true;
       config.common.default = "*";
-      extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-hyprland
+        xdg-desktop-portal-gtk
+      ];
     };
 
     environment.systemPackages = with pkgs; [
       maliit-keyboard
       greetd.greetd
-      gsettings-desktop-schemas
-      glib
     ];
 
     fonts.packages = with pkgs; [
