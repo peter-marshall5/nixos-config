@@ -7,6 +7,8 @@ let
 
   trustedKeys = import ../ssh-keys.nix "";
 
+  installerPackage = installer.packages.x86_64-linux.default;
+
 in rec {
 
   systemConfig = { config, ... }: {
@@ -51,7 +53,7 @@ in rec {
     specialArgs = {
       inherit nixpkgs trustedKeys;
       inherit (self) nixosConfigurations;
-      nixosInstaller = (installer + "/iso/nixos.iso");
+      nixosInstaller = (installerPackage + "/iso/nixos.iso");
     };
 
   });
