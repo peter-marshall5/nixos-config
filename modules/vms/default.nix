@@ -54,6 +54,10 @@ in
         hda="$store/hda.img"
         vars="$store/VARS-x86_64.fd"
 
+        installer="${nixosInstaller}"
+
+        [ "$3" != "" ] && installer="$3"
+
         # Initialize the associated files
         if ! test -f $hda; then
           echo Creating associated guest files
@@ -66,7 +70,7 @@ in
         fi
 
         echo Running the guest with the installation ISO
-        ${tinyQemu}/bin/qemu-kvm -drive file=${nixosInstaller},if=virtio,format=raw,media=disk,readonly=on -drive file=$hda,if=virtio,format=raw,media=disk -nic tap,id=net0,ifname="vm-$name",model=virtio,script=no,downscript=no -nographic -vga none -serial stdio -cpu host -m 2G -drive if=pflash,format=raw,unit=0,file=${firmware},readonly=on -drive if=pflash,format=raw,unit=1,file=$vars -monitor unix:$sock,server,nowait
+        ${tinyQemu}/bin/qemu-kvm -drive file="$installer",if=virtio,format=raw,media=disk,readonly=on -drive file=$hda,if=virtio,format=raw,media=disk -nic tap,id=net0,ifname="vm-$name",model=virtio,script=no,downscript=no -nographic -vga none -serial stdio -cpu host -m 2G -drive if=pflash,format=raw,unit=0,file=${firmware},readonly=on -drive if=pflash,format=raw,unit=1,file=$vars -monitor unix:$sock,server,nowait
       '')
     ];
 
