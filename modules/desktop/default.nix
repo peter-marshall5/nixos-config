@@ -1,9 +1,21 @@
 { config, lib, pkgs, ... }:
 {
 
-  options.ab.desktop.enable = lib.mkOption {
-    default = false;
-    type = lib.types.bool;
+  options.ab.desktop = {
+    enable = lib.mkOption {
+      default = false;
+      type = lib.types.bool;
+    };
+    autologin = {
+      enable = lib.mkOption {
+        default = (config.ab.desktop.autologin.user != "");
+        type = lib.types.bool;
+      };
+      user = lib.mkOption {
+        default = "";
+        type = lib.types.str;
+      };
+    };
   };
 
   config = lib.mkIf config.ab.desktop.enable {
@@ -20,6 +32,10 @@
 
     services.greetd.enable = true;
     services.greetd.settings = {
+      initial_session = lib.mkIf config.ab.desktop.autologin.enable {
+        command = "Hyprland";
+        user = config.ab.desktop.autologin.user;
+      };
       default_session = {
         command = "${pkgs.greetd.greetd}/bin/agreety --cmd Hyprland";
       };
@@ -89,9 +105,6 @@
 
     # Enable power management for portable devices.
     ab.powerManagement.enable = true;
-
-    # Use systemd-homed to manage users.
-    services.homed.enable = true;
 
   };
 

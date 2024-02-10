@@ -2,6 +2,8 @@
   system = "x86_64-linux";
   hardware = "surface-pro-9";
   desktop.enable = true;
+  users = [ "petms" ];
+  desktop.autologin.user = "petms";
   secureboot.enable = true;
   fs.fs = rec {
     root = {
