@@ -46,6 +46,7 @@ in
     environment.systemPackages = [
       tinyQemu
       (pkgs.writeScriptBin "install-guest" ''
+        set -e
         [ "$1" != "" ] || exit 1
         [ "$2" != "" ] || exit 1
 
