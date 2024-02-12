@@ -109,6 +109,9 @@
       allowedUDPPorts = [ 1900 ];
     };
 
+    # Make firewall debugging easier.
+    networking.firewall.rejectPackets = true;
+
     # Enable power management for portable devices.
     ab.powerManagement.enable = true;
 

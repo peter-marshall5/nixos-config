@@ -9,6 +9,8 @@
   home.packages = with pkgs; [
     nushell
     helix
+    miniupnpc
+    arp-scan
   ];
 
   programs.nushell = {
