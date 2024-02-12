@@ -54,7 +54,7 @@
 
     environment.systemPackages = with pkgs; [
       maliit-keyboard
-      greetd.greetd
+      pavucontrol
     ];
 
     fonts.packages = with pkgs; [
@@ -102,6 +102,12 @@
 
     # SSH can be a security hole on desktop systems.
     ab.ssh.enable = false;
+
+    # Open some commonly used safe ports.
+    networking.firewall = {
+      allowedTCPPorts = [ 8080 ];
+      allowedUDPPorts = [ 1900 ];
+    };
 
     # Enable power management for portable devices.
     ab.powerManagement.enable = true;
