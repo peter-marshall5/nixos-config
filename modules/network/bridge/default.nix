@@ -53,8 +53,6 @@ in
       };
     };
 
-    networking.firewall.trustedInterfaces = [ "br0" ];
-
   };
 
 }

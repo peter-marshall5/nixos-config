@@ -15,6 +15,10 @@ in {
       type = lib.types.bool;
       default = false;
     };
+    openFirewall = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -28,6 +32,8 @@ in {
         ExecStart = ''${pkgs.miniupnpc}/bin/upnpc -i -r ${redirectArgs}'';
       };
     };
+
+    networking.firewall.allowedUDPPorts = lib.mkIf cfg.openFirewall [ 1900 ];
 
   };
 
