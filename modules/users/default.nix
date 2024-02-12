@@ -5,7 +5,7 @@ let
   mkUser = u: lib.nameValuePair "${u}" {
     isNormalUser = true;
     createHome = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "video" ];
     openssh.authorizedKeys.keys = trustedKeys;
   };
 
