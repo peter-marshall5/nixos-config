@@ -33,7 +33,10 @@ in {
       };
     };
 
-    networking.firewall.allowedUDPPorts = lib.mkIf cfg.openFirewall [ 1900 ];
+    networking.firewall = lib.mkIf cfg.openFirewall {
+      allowedUDPPorts = [ 1900 ];
+      allowedUDPPortRanges = [{ from = 32768; to = 61000; }];
+    };
 
   };
 

@@ -106,7 +106,8 @@
     # Open some commonly used safe ports.
     networking.firewall = {
       allowedTCPPorts = [ 8080 ];
-      allowedUDPPorts = [ 1900 ];
+      allowedUDPPorts = [ 1900 5353 ];
+      allowedUDPPortRanges = [{ from = 32768; to = 61000; }];
     };
 
     # Make firewall debugging easier.
