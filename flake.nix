@@ -20,10 +20,7 @@
   in
   {
     nixosConfigurations = mkHosts ((import ./hosts.nix) inputs);
-    homeConfigurations = mkHomes [
-      "petms"
-      "petms@peter-pc"
-    ];
+    homeConfigurations = mkHomes [ "petms" "petms@peter-pc" ];
     devShells.x86_64-linux.surface-kernel = let
      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
     in (pkgs.callPackage ./hardware/surface-pro-9/kernel {

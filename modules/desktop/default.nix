@@ -101,7 +101,7 @@
     fonts.fontconfig.enable = true;
 
     # SSH can be a security hole on desktop systems.
-    ab.ssh.enable = false;
+    ab.ssh.enable = lib.mkDefault false;
 
     # Open some commonly used safe ports.
     networking.firewall = {
@@ -115,6 +115,12 @@
 
     # Enable power management for portable devices.
     ab.powerManagement.enable = true;
+
+    # Enable secure boot.
+    ab.secureboot.enable = lib.mkDefault true;
+
+    # Enable disk encryption.
+    ab.fs.luks.enable = lib.mkDefault true;
 
   };
 

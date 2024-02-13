@@ -2,60 +2,7 @@
 
 let
   cfg = config.ab.fs;
-  uuidPath = "/dev/disk/by-uuid/";
-
-  fsOpts = { name, config, ... }: {
-    options = {
-      name = lib.mkOption {
-        type = lib.types.str;
-        default = if name == "root" then "" else name;
-      };
-      path = lib.mkOption {
-        default = ("/" + (builtins.replaceStrings ["-"] ["/"] config.name));
-        type = lib.types.str;
-      };
-      subvol = lib.mkOption {
-        default = ("@" + (builtins.replaceStrings ["-"] ["@"] config.name));
-        type = lib.types.str;
-      };
-      fsType = lib.mkOption {
-        type = lib.types.str;
-        default = if name == "boot" then "vfat" else "btrfs";
-      };
-      uuid = lib.mkOption {
-        type = lib.types.str;
-        default = "";
-      };
-      device = lib.mkOption {
-        type = lib.types.str;
-        default = if config.uuid != "" then uuidPath + config.uuid else null;
-      };
-      luks = {
-        enable = lib.mkOption {
-          type = lib.types.bool;
-          default = (config.luks.uuid != "");
-        };
-        uuid = lib.mkOption {
-          type = lib.types.str;
-          default = "";
-        };
-        device = lib.mkOption {
-          type = lib.types.str;
-          default = if config.luks.uuid != "" then uuidPath + config.luks.uuid else null;
-        };
-      };
-    };
-  };
-
-  makeFs = name: fs: lib.nameValuePair "${fs.path}" {
-    inherit (fs) device fsType;
-    options = lib.mkIf (fs.fsType == "btrfs") [ "subvol=${fs.subvol}" ];
-  };
-
-  makeLuks = name: fs: lib.nameValuePair "${name}"  {
-    inherit (fs.luks) device;
-  };
-
+  rootDevice = "/dev/disk/by-partlabel/nixos";
 in
 {
   options.ab.fs = {
@@ -63,17 +10,32 @@ in
       default = true;
       type = lib.types.bool;
     };
-    fs = lib.mkOption {
-      default = {};
-      type = with lib.types; attrsOf (submodule fsOpts);
+    luks.enable = lib.mkOption {
+      default = false;
+      type = lib.types.bool;
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enable rec {
 
-    fileSystems = lib.mapAttrs' makeFs cfg.fs;
+    fileSystems = {
+      "/" = {
+        device = if cfg.luks.enable then "/dev/mapper/root" else rootDevice;
+        options = [ "subvol=@" ];
+      };
+      "/home" = {
+        device = fileSystems."/".device;
+        options = [ "subvol=@home" ];
+      };
+      "/nix" = {
+        device = fileSystems."/".device;
+        options = [ "subvol=@nix" ];
+      };
+    };
 
-    boot.initrd.luks.devices = lib.mapAttrs' makeLuks (lib.filterAttrs (n: fs: fs.luks.enable) cfg.fs);
+    boot.initrd.luks.devices = lib.mkIf cfg.luks.enable {
+      root.device = rootDevice;
+    };
 
   };
 }
