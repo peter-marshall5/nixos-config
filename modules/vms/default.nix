@@ -14,6 +14,23 @@ let
 
   firmware = (tinyQemu + "/share/qemu/edk2-x86_64-code.fd");
 
+  vmOpts = { name, ... }: {
+    options = {
+      name = lib.mkOption {
+        type = lib.types.str;
+        default = name;
+      };
+      memory = lib.mkOption {
+        type = lib.types.str;
+        default = "512M";
+      };
+      threads = lib.mkOption {
+        type = lib.types.int;
+        default = 1;
+      };
+    };
+  };
+
 in
 
 {
@@ -28,8 +45,8 @@ in
       type = lib.types.str;
     };
     guests = lib.mkOption {
-      default = [];
-      type = lib.types.listOf lib.types.str;
+      default = {};
+      type = lib.types.attrsOf (lib.types.submodule vmOpts);
     };
   };
 
@@ -47,8 +64,8 @@ in
       tinyQemu
       (pkgs.writeScriptBin "install-guest" ''
         set -e
-        [ "$1" != "" ] || exit 1
-        [ "$2" != "" ] || exit 1
+        [ "$1" != "" ]
+        [ "$2" != "" ]
 
         store="${cfg.stateDir}/$1"
         mkdir -p "$store"
@@ -66,8 +83,6 @@ in
           ${pkgs.e2fsprogs}/bin/chattr +C $hda # Improves performance on btrfs
           ${pkgs.util-linux}/bin/fallocate -l "$2" "$hda"
           cat ${tinyQemu}/share/qemu/edk2-i386-vars.fd > $vars # EFI variables store
-          echo "THREADS=1" >> "$store/config"
-          echo "MEMORY=1G" >> "$store/config"
         fi
 
         echo Running the guest with the installation ISO
@@ -91,15 +106,17 @@ in
         sock="/run/guest-$1.api.sock"
         rm -f $sock
 
-        . "$store/config"
-
         ${tinyQemu}/bin/qemu-kvm -drive file=$hda,if=virtio,format=raw,media=disk -nic tap,id=net0,ifname="vm-$1",model=virtio,script=no,downscript=no -nographic -vga none -serial none -cpu host -smp $THREADS -m $MEMORY -drive if=pflash,format=raw,unit=0,file=${firmware},readonly=on -drive if=pflash,format=raw,unit=1,file=$vars -monitor unix:$sock,server,nowait
       '');
-    };} (builtins.listToAttrs (map (name: lib.nameValuePair "guest@${name}" {
+    };} (builtins.listToAttrs (map ({ name, threads, memory }: lib.nameValuePair "guest@${name}" {
       wantedBy = [ "multi-user.target" ];
       restartIfChanged = false;
       overrideStrategy = "asDropin";
-    }) cfg.guests))]);
+      environment = {
+        THREADS = toString threads;
+        MEMORY = memory;
+      };
+    }) (lib.attrValues cfg.guests)))]);
 
   };
 }

@@ -17,7 +17,16 @@
     ssh.port = 2200;
     net.upnp.enable = true;
     vms.enable = true;
-    vms.guests = [ "petms" "cheesecraft" ];
+    vms.guests = {
+      petms = {
+        memory = "2G";
+        threads = 2;
+      };
+      cheesecraft = {
+        memory = "1G";
+        threads = 1;
+      };
+    };
   };
 
   cheesecraft = {
