@@ -3,7 +3,7 @@ let
 
   cfg = config.ab.ddns.duckdns;
 
-  tokenPath = ../../../hosts/${config.networking.hostName}/secrets/${cfg.token};
+  tokenPath = ../../../secrets/${cfg.token};
 
 in {
 

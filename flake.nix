@@ -19,12 +19,7 @@
     inherit (util) mkHosts mkHomes;
   in
   {
-    nixosConfigurations = mkHosts [
-      "opcc"
-      "petms"
-      "peter-pc"
-      "cheesecraft"
-    ];
+    nixosConfigurations = mkHosts ((import ./hosts.nix) inputs);
     homeConfigurations = mkHomes [
       "petms"
       "petms@peter-pc"

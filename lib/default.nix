@@ -5,7 +5,7 @@ let
 
   pkgs = nixpkgs.legacyPackages.x86_64-linux;
 
-  trustedKeys = import ../ssh-keys.nix "";
+  trustedKeys = import ../lib/ssh-keys.nix "";
 
   installerPackage = installer.packages.x86_64-linux.default;
 
@@ -32,10 +32,7 @@ in rec {
     };
   };
 
-  mkNixos = hostName:
-  let
-    cfg = import ../hosts/${hostName}/default.nix;
-  in lib.nameValuePair hostName (lib.nixosSystem {
+  mkNixos = name: cfg: lib.nixosSystem {
     inherit (cfg) system;
 
     modules = [
@@ -45,7 +42,7 @@ in rec {
       ../hardware/${cfg.hardware}
       {
         ab = cfg; # Abstracted config options
-        networking.hostName = lib.mkDefault hostName;
+        networking.hostName = lib.mkDefault name;
       }
       systemConfig
     ];
@@ -56,7 +53,7 @@ in rec {
       nixosInstaller = (installerPackage + "/iso/nixos.iso");
     };
 
-  });
+  };
 
   mkHome = name:
   lib.nameValuePair name (home-manager.lib.homeManagerConfiguration {
@@ -74,7 +71,7 @@ in rec {
     };
   });
 
-  mkHosts = hostNames: lib.listToAttrs (map mkNixos hostNames);
+  mkHosts = hosts: lib.mapAttrs mkNixos hosts;
 
   mkHomes = homes: lib.listToAttrs (map mkHome homes);
 
