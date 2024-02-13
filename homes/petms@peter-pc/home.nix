@@ -163,7 +163,7 @@
     enable = true;
     events = [{
       event = "before-sleep";
-      command = "~/.nix-profile/bin/swaylock -fF";
+      command = "~/.nix-profile/bin/swaylock -fF --fade-in 0";
     }];
     timeouts = [{
       timeout = 300;
