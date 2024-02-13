@@ -4,8 +4,8 @@ let
   cfg = config.ab.net.upnp;
 
   redirectArgs = with config.networking.firewall; let
-    TCPArgs = map (p: "${toString p} TCP") allowedTCPPorts;
-    UDPArgs = map (p: "${toString p} UDP") allowedUDPPorts;
+    TCPArgs = map (p: "${toString p} TCP") cfg.openTCPPorts;
+    UDPArgs = map (p: "${toString p} UDP") cfg.openUDPPorts;
   in builtins.concatStringsSep " " (TCPArgs ++ UDPArgs);
 
 in {
@@ -18,6 +18,14 @@ in {
     openFirewall = lib.mkOption {
       type = lib.types.bool;
       default = true;
+    };
+    openTCPPorts = lib.mkOption {
+      type = lib.types.listOf lib.types.port;
+      default = [];
+    };
+    openUDPPorts = lib.mkOption {
+      type = lib.types.listOf lib.types.port;
+      default = [];
     };
   };
 

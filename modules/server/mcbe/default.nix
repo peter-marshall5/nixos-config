@@ -38,6 +38,8 @@ let
     };
   };
 
+  ports = map (v: v.port) (builtins.attrValues cfg.servers);
+
 in
 {
 
@@ -56,6 +58,11 @@ in
     servers = lib.mkOption {
       default = {};
       type = lib.types.attrsOf (lib.types.submodule serverOpts);
+    };
+
+    upnp.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
     };
 
   };
@@ -79,7 +86,12 @@ in
       } // v.extraOpts;
     }) cfg.servers;
 
-    networking.firewall.allowedUDPPorts = map (v: v.port) (builtins.attrValues cfg.servers);
+    networking.firewall.allowedUDPPorts = ports;
+
+    ab.net.upnp = lib.mkIf cfg.upnp.enable {
+      enable = true;
+      openUDPPorts = ports;
+    };
 
   };
 

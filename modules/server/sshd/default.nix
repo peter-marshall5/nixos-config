@@ -18,6 +18,10 @@ in {
       type = lib.types.port;
       default = 22;
     };
+    upnp.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -31,6 +35,11 @@ in {
 
       settings.PasswordAuthentication = lib.mkForce true;
       settings.AuthenticationMethods = "publickey,password";
+    };
+
+    ab.net.upnp = lib.mkIf cfg.upnp.enable {
+      enable = true;
+      openTCPPorts = [ cfg.port ];
     };
 
   };
