@@ -46,7 +46,6 @@
   petms = {
     system = "x86_64-linux";
     hardware = "virt";
-    fs.luks.enable = true;
     users = [ "petms" ];
     net.bridge = {
       enable = true;
