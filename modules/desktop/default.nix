@@ -122,6 +122,9 @@
     # Enable disk encryption.
     ab.fs.luks.enable = lib.mkDefault true;
 
+    # Use LVM for easier partition management.
+    ab.fs.lvm.enable = lib.mkDefault true;
+
   };
 
 }
