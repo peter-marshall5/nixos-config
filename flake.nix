@@ -30,6 +30,7 @@
             config.worlds = (import ./minecraft-servers.nix);
           };
         };
+        ssh.port = 2200;
       };
       petms = {
         hardware = "virt";
@@ -38,7 +39,7 @@
         memory = "2G";
         role = "dev";
         users = [ "petms" ];
-        ssh.port = 2200;
+        ssh.port = 2201;
       };
       peter-pc = {
         hardware = "surface-pro-9";
