@@ -2,10 +2,6 @@
 {
 
   options.ab.desktop = {
-    enable = lib.mkOption {
-      default = true;
-      type = lib.types.bool;
-    };
     autologin = {
       enable = lib.mkOption {
         default = config.ab.fs.luks.enable;
@@ -18,7 +14,7 @@
     };
   };
 
-  config = lib.mkIf config.ab.desktop.enable {
+  config = {
 
     # Disable boot messages.
     boot.kernelParams = [ "quiet" ];
