@@ -2,7 +2,9 @@
 
 let
   cfg = config.ab.fs;
-  rootDevice = if cfg.lvm.enable then "/dev/vg0/lv0" else "PARTLABEL=nixos";
+  rootDevice = if cfg.lvm.enable then "/dev/vg0/lv0"
+    else if cfg.raid.enable then "/dev/md127p2"
+    else "/dev/disk/by-partlabel/nixos";
 in
 {
   options.ab.fs = {
@@ -15,6 +17,10 @@ in
       type = lib.types.bool;
     };
     lvm.enable = lib.mkOption {
+      default = false;
+      type = lib.types.bool;
+    };
+    raid.enable = lib.mkOption {
       default = false;
       type = lib.types.bool;
     };

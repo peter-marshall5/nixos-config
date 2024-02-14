@@ -11,4 +11,7 @@
   # Enable disk encryption.
   ab.fs.luks.enable = lib.mkDefault true;
 
+  # Boot from RAID array.
+  ab.fs.raid.enable = lib.mkDefault true;
+
 }
