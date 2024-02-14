@@ -8,11 +8,11 @@ in {
   options.ab.ssh = {
     enable = lib.mkOption {
       type = lib.types.bool;
-      default = true;
+      default = false;
     };
     address = lib.mkOption {
       type = lib.types.str;
-      default = "localhost";
+      default = config.networking.fqdnOrHostName;
     };
     port = lib.mkOption {
       type = lib.types.port;

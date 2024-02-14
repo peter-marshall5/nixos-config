@@ -1,6 +1,8 @@
-{ config, lib, pkgs, modulesPath, ...}:
+{ config, lib, pkgs, modulesPath, ... }:
 
 {
+
+  nixpkgs.hostPlatform = "x86_64-linux";
 
   imports = [ ./sound ];
 

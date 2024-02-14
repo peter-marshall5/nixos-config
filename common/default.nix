@@ -4,6 +4,12 @@
 
   imports = [
     (modulesPath + "/profiles/minimal.nix")
+    ./autoupgrade
+    ./fs
+    ./logs
+    ./network
+    ./sshd
+    ./users
   ];
 
   # List packages installed in system profile. To search, run:
@@ -43,6 +49,10 @@
   # Use systemd-networkd for network configuration
   networking.useNetworkd = true;
   systemd.network.enable = true;
+
+  # Enable nftables-based firewall.
+  networking.firewall.enable = true;
+  networking.nftables.enable = true;
 
   # Enable TPM2 support.
   security.tpm2.enable = true;

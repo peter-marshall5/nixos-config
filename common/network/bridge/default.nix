@@ -20,7 +20,7 @@ in
       type = lib.types.str;
     };
     interfaces = lib.mkOption {
-      default = [];
+      default = [ "en*" ];
       type = lib.types.listOf lib.types.str;
     };
   };

@@ -1,13 +1,13 @@
 { config, lib, pkgs, ... }:
 let
 
-  cfg = config.ab.ddns.duckdns;
+  cfg = config.ab.net.ddns.duckdns;
 
   tokenPath = ../../../secrets/${cfg.token};
 
 in {
 
-  options.ab.ddns.duckdns = {
+  options.ab.net.ddns.duckdns = {
     enable = lib.mkOption {
       default = false;
       type = lib.types.bool;
@@ -17,16 +17,18 @@ in {
       type = lib.types.bool;
     };
     domains = lib.mkOption {
-      default = [];
+      default = [ config.networking.hostName ];
       type = lib.types.listOf lib.types.str;
     };
     token = lib.mkOption {
-      default = "duckdns.age";
+      default = "duckdns-${config.networking.hostName}.age";
       type = lib.types.str;
     };
   };
 
   config = lib.mkIf cfg.enable {
+    networking.domain = "duckdns.org";
+
     age.secrets.duckdns.file = tokenPath;
 
     systemd.timers."ddns" = {

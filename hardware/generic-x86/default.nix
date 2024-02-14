@@ -1,6 +1,8 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{ config, lib, pkgs, nixpkgs, modulesPath, ... }:
 
 {
+
+  nixpkgs.hostPlatform = "x86_64-linux";
 
   boot.initrd.availableKernelModules = [ "ahci" "sd_mod" "uas" "usb_storage" ];
 

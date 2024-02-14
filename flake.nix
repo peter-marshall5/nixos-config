@@ -19,7 +19,34 @@
     inherit (util) mkHosts mkHomes;
   in
   {
-    nixosConfigurations = mkHosts ((import ./hosts.nix) inputs);
+    nixosConfigurations = mkHosts {
+      opcc = {
+        hardware = "generic-x86";
+        role = "hypervisor";
+        net.ddns.duckdns.enable = true;
+        users = [ "petms" ];
+        services = {
+          minecraft = {
+            config.worlds = (import ./minecraft-servers.nix);
+          };
+        };
+      };
+      petms = {
+        hardware = "virt";
+        host = "opcc";
+        threads = 2;
+        memory = "2G";
+        role = "dev";
+        users = [ "petms" ];
+        ssh.port = 2200;
+      };
+      peter-pc = {
+        hardware = "surface-pro-9";
+        role = "desktop";
+        users = [ "petms" ];
+        desktop.autologin.user = "petms";
+      };
+    };
     homeConfigurations = mkHomes [ "petms" "petms@peter-pc" ];
     devShells.x86_64-linux.surface-kernel = let
      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;

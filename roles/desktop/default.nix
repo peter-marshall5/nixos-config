@@ -3,17 +3,17 @@
 
   options.ab.desktop = {
     enable = lib.mkOption {
-      default = false;
+      default = true;
       type = lib.types.bool;
     };
     autologin = {
       enable = lib.mkOption {
-        default = (config.ab.desktop.autologin.user != "");
+        default = config.ab.fs.luks.enable;
         type = lib.types.bool;
       };
       user = lib.mkOption {
-        default = "";
-        type = lib.types.str;
+        default = lib.lists.take 1 config.ab.users;
+        type = lib.types.nullOr lib.types.str;
       };
     };
   };

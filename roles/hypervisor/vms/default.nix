@@ -1,4 +1,5 @@
-{ config, lib, pkgs, nixosInstaller, ... }:
+# Manually-installed VMs.
+{ config, lib, pkgs, nixosInstaller, nixosConfigurations, ... }:
 
 let
 
@@ -36,25 +37,25 @@ in
 {
 
   options.ab.vms = {
-    enable = lib.mkOption {
-      default = false;
-      type = lib.types.bool;
-    };
     stateDir = lib.mkOption {
       default = "/var/lib/guests";
       type = lib.types.str;
     };
     guests = lib.mkOption {
-      default = {};
       type = lib.types.attrsOf (lib.types.submodule vmOpts);
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
 
-    assertions = [
-      { assertion = config.ab.net.bridge.enable; }
-    ];
+    ab.net.bridge.enable = true;
+
+    ab.vms.guests = lib.mapAttrs (n: system: {
+      inherit (system.config.ab) memory threads;
+    }) (lib.filterAttrs (n: system:
+      system.config.ab.hardware == "virt" &&
+      system.config.ab.host == config.networking.hostName
+    ) nixosConfigurations);
 
     system.activationScripts.microvm-host = ''
       mkdir -p ${cfg.stateDir}

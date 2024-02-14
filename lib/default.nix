@@ -13,9 +13,6 @@ in rec {
 
   systemConfig = { config, ... }: {
     options.ab = {
-      system = lib.mkOption {
-        type = lib.types.str;
-      };
       buildPlatform = lib.mkOption {
         default = "x86_64-linux";
         type = lib.types.str;
@@ -23,22 +20,24 @@ in rec {
       hardware = lib.mkOption {
         type = lib.types.str;
       };
+      role = lib.mkOption {
+        type = lib.types.str;
+      };
     };
     config = {
-      nixpkgs.hostPlatform = config.ab.system;
       nixpkgs.buildPlatform.system = config.ab.buildPlatform;
       nixpkgs.config.allowUnsupportedSystem = true;
       environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
     };
   };
 
-  mkNixos = name: cfg: lib.nixosSystem {
-    inherit (cfg) system;
-
+  mkNixos = name: cfg: lib.nixosSystem rec {
     modules = [
       agenix.nixosModules.default
       lanzaboote.nixosModules.lanzaboote
-      ../modules
+      ../common
+      ../bare-metal
+      ../roles/${cfg.role}
       ../hardware/${cfg.hardware}
       {
         ab = cfg; # Abstracted config options
@@ -48,7 +47,7 @@ in rec {
     ];
 
     specialArgs = {
-      inherit nixpkgs trustedKeys;
+      inherit nixpkgs trustedKeys agenix;
       inherit (self) nixosConfigurations;
       nixosInstaller = (installerPackage + "/iso/nixos.iso");
     };

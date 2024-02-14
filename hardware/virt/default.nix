@@ -1,17 +1,25 @@
-{ config, lib, modulesPath, ... }:
+{ config, lib, modulesPath, nixosConfigurations, ... }:
+let
+  cfg = config.ab;
+in {
 
-{
+  config.nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   imports = [
     (modulesPath + "/profiles/headless.nix")
+    ./qemu-guest.nix
   ];
 
-  systemd.services."serial-getty@ttyS0".enable = true;
-
-  boot.initrd.availableKernelModules = [ "virtio_net" "virtio_pci" "virtio_mmio" "virtio_blk" "virtio_scsi" "9p" "9pnet_virtio" ];
-  boot.initrd.kernelModules = [ "virtio_balloon" "virtio_console" "virtio_rng" ];
-  boot.kernelModules = [ "kvm_intel" "kvm_amd" ];
-
-  boot.kernelParams = [ "console=ttyS0" ];
+  options.ab = {
+    host = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+    };
+    memory = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+    };
+    threads = lib.mkOption {
+      type = lib.types.nullOr lib.types.int;
+    };
+  };
 
 }

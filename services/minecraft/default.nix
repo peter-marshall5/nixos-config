@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
 
-  cfg = config.ab.services.mcbe;
+  cfg = config.svc;
 
   serverOpts = { name, ... }: {
     options = {
@@ -38,24 +38,19 @@ let
     };
   };
 
-  ports = map (v: v.port) (builtins.attrValues cfg.servers);
+  ports = map (v: v.port) (builtins.attrValues cfg.worlds);
 
 in
 {
 
-  options.ab.services.mcbe = {
-
-    enable = lib.mkOption {
-      default = false;
-      type = lib.types.bool;
-    };
+  options.svc = {
 
     dataDir = lib.mkOption {
       default = "/var/lib/mcbe";
       type = lib.types.str;
     };
 
-    servers = lib.mkOption {
+    worlds = lib.mkOption {
       default = {};
       type = lib.types.attrsOf (lib.types.submodule serverOpts);
     };
@@ -67,10 +62,10 @@ in
 
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
 
     system.activationScripts.mcbe = let
-      dataDirs = lib.mapAttrsToList (n: v: (v.dataDir)) cfg.servers;
+      dataDirs = lib.mapAttrsToList (n: v: (v.dataDir)) cfg.worlds;
     in ''
       mkdir -p ${toString dataDirs}
     '';
@@ -84,7 +79,7 @@ in
         SERVER_NAME = v.title;
         LEVEL_NAME = v.levelName;
       } // v.extraOpts;
-    }) cfg.servers;
+    }) cfg.worlds;
 
     networking.firewall.allowedUDPPorts = ports;
 
