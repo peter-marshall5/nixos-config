@@ -2,7 +2,7 @@
 
 let
   cfg = config.ab.fs;
-  rootDevice = if cfg.lvm.enable then "/dev/vg0/lv0" else "/dev/disk/by-partlabel/nixos";
+  rootDevice = if cfg.lvm.enable then "/dev/vg0/lv0" else "PARTLABEL=nixos";
 in
 {
   options.ab.fs = {
