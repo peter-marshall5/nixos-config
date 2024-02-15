@@ -33,8 +33,7 @@ in {
 
       banner = builtins.readFile ./banner.txt;
 
-      settings.PasswordAuthentication = lib.mkForce true;
-      settings.AuthenticationMethods = "publickey,password";
+      settings.PasswordAuthentication = false;
     };
 
     ab.net.upnp = lib.mkIf cfg.upnp.enable {
