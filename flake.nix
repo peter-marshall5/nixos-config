@@ -12,6 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     installer.url = "github:peter-marshall5/nixos-installer";
+    deploy-rs.url = "github:serokell/deploy-rs";
   };
   outputs = inputs:
   let
@@ -48,6 +49,16 @@
         desktop.autologin.user = "petms";
       };
     };
+    deploy.nodes.opcc = {
+      hostname = "opcc";
+      remoteBuild = false;
+      profiles.system = {
+        sshUser = "petms";
+        user = "root";
+        path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos inputs.self.nixosConfigurations.opcc;
+      };
+    };
+    checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks inputs.self.deploy) inputs.deploy-rs.lib;
     homeConfigurations = mkHomes [ "petms" "petms@peter-pc" ];
     devShells.x86_64-linux.surface-kernel = let
      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
