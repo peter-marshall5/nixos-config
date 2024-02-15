@@ -33,6 +33,8 @@
     matchBlocks = sshAliases;
   };
 
+  services.ssh-agent.enable = true;
+
   programs.git = {
     enable = true;
     userEmail = "petms@proton.me";
