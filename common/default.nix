@@ -25,6 +25,8 @@
 
   security.sudo.wheelNeedsPassword = lib.mkDefault false;
 
+  nix.settings.trusted-users = [ "root" "@wheel" ];
+
   fonts.fontconfig.enable = lib.mkDefault false;
 
   sound.enable = lib.mkDefault false;
