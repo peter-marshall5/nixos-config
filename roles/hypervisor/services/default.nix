@@ -59,7 +59,7 @@ let
       if ! [ -e "${state}" ]; then
         touch "${storage}"
         ${pkgs.e2fsprogs}/bin/chattr +C "${storage}"
-        ${pkgs.util-linux}/bin/fallocate -l "${storage}"
+        ${pkgs.util-linux}/bin/fallocate -l "${storage}" "${state}"
       fi
       ${tinyQemu}/bin/qemu-kvm -enable-kvm -drive file="${rootfs}",if=virtio,format=raw,media=disk,readonly=on -drive file="${state}",if=virtio,format=raw,media=disk -nic tap,id=net0,ifname="vm-$name",model=virtio,script=no,downscript=no -nographic -vga none -serial stdio -cpu host -m "${memory}" -smp "${toString threads}" -kernel "${linux}" -initrd "${initrd}" -append "${cmdline}"
     '');

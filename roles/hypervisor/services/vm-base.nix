@@ -16,10 +16,43 @@
           Type = "root";
           Format = "ext4";
           Minimize = "guess";
-          MakeDirectories = "/home /etc /var";
+          MakeDirectories = "/home /var";
         };
       };
     };
+  };
+
+  ab.fs.enable = false;
+
+  fileSystems."/" = {
+    device = "/dev/vda1";
+    fsType = "ext4";
+    options = [ "ro" ];
+  };
+
+  fileSystems."/home" = {
+    device = "/dev/vdb1";
+    fsType = "btrfs";
+    options = [ "subvol=@home" ];
+  };
+
+  fileSystems."/var" = {
+    device = "/dev/vdb1";
+    fsType = "btrfs";
+    options = [ "subvol=@var" ];
+  };
+
+  systemd.repart.partitions."10-data" = {
+    Type = "linux-generic";
+    Format = "btrfs";
+    MakeDirectories = "/@home /@var";
+    Subvolumes = "/@home /@var";
+    FactoryReset = true;
+  };
+
+  boot.initrd.systemd.repart = {
+    enable = true;
+    device = "/dev/vdb";
   };
 
 }
