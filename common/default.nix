@@ -36,7 +36,7 @@
   documentation.enable = lib.mkDefault false;
 
   # Allow setting the root password manually.
-  users.mutableUsers = true;
+  users.mutableUsers = lib.mkDefault true;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -69,7 +69,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Set your time zone.
-  time.timeZone = "America/Toronto";
+  time.timeZone = lib.mkDefault "America/Toronto";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";

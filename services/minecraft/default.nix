@@ -81,6 +81,9 @@ in
       } // v.extraOpts;
     }) cfg.worlds;
 
+    # podman requires Perl but the perlless profile forbids it by default
+    system.forbiddenDependenciesRegex = lib.mkForce "";
+
     networking.firewall.allowedUDPPorts = ports;
 
     ab.net.upnp = lib.mkIf cfg.upnp.enable {

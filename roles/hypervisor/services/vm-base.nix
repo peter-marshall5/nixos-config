@@ -2,10 +2,15 @@
 
   imports = [
     (modulesPath + "/image/repart.nix")
-    (modulesPath + "/profiles/minimal.nix")
+    (modulesPath + "/profiles/image-based-appliance.nix")
     (modulesPath + "/profiles/headless.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
+    (modulesPath + "/profiles/perlless.nix")
   ];
+
+  users.allowNoPasswordLogin = true;
+
+  ab.autoUpgrade = false;
 
   boot.kernelParams = [ "console=ttyS0" ];
 
@@ -18,7 +23,7 @@
           Type = "root";
           Format = "ext4";
           Minimize = "guess";
-          MakeDirectories = "/home /var";
+          MakeDirectories = "/home /var /etc";
         };
       };
     };
@@ -44,6 +49,8 @@
     options = [ "subvol=@var" ];
   };
 
+  system.etc.overlay.mutable = false;
+
   systemd.repart.partitions."10-data" = {
     Type = "linux-generic";
     Format = "btrfs";
@@ -56,5 +63,7 @@
     enable = true;
     device = "/dev/vdb";
   };
+
+  time.timeZone = null;
 
 }
