@@ -31,8 +31,6 @@ in {
 
       ports = [ cfg.port ];
 
-      banner = builtins.readFile ./banner.txt;
-
       settings.PasswordAuthentication = false;
     };
 
