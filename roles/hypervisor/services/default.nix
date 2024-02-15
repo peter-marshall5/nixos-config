@@ -44,7 +44,7 @@ let
         }
       ];
     };
-    rootfs = system.config.system.build.image;
+    rootfs = "${system.config.system.build.image}/image.raw";
     linux = "${system.config.boot.kernelPackages.kernel}/${system.config.system.boot.loader.kernelFile}";
     initrd = "${system.config.system.build.initialRamdisk}/${system.config.system.boot.loader.initrdFile}";
     cmdline = "init=${system.config.system.build.toplevel}/init ${toString system.config.boot.kernelParams}";
