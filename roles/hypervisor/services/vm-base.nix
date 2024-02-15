@@ -7,6 +7,8 @@
     (modulesPath + "/profiles/qemu-guest.nix")
   ];
 
+  boot.kernelParams = [ "console=ttyS0" ];
+
   image.repart = {
     name = "image";
     partitions = {
