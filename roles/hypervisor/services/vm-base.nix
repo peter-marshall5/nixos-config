@@ -1,6 +1,10 @@
 { config, lib, pkgs, modulesPath, ... }: {
 
-  imports = [ (modulesPath + "/image/repart.nix") ];
+  imports = [
+    (modulesPath + "/image/repart.nix")
+    (modulesPath + "/profiles/minimal.nix")
+    (modulesPath + "/profiles/headless.nix")
+  ];
 
   image.repart = {
     name = "image";
