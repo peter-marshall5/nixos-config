@@ -1,6 +1,6 @@
 { lib, ... }: {
 
-  imports = [ ./vms ./services.nix ];
+  imports = [ ./vms ./services ];
 
   # Allow remote management.
   ab.ssh.enable = true;

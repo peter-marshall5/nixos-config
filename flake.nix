@@ -25,7 +25,7 @@
         role = "hypervisor";
         net.ddns.duckdns.enable = true;
         users = [ "petms" ];
-        services = {
+        services.vms = {
           minecraft = {
             config.worlds = (import ./minecraft-servers.nix);
           };
