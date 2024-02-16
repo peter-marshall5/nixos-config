@@ -31,6 +31,12 @@
             config.worlds = (import ./minecraft-servers.nix);
           };
         };
+        vms.guests = {
+          john = {
+            memory = "1G";
+            threads = 1;
+          };
+        };
         ssh.port = 2200;
       };
       petms = {
