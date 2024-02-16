@@ -1,5 +1,5 @@
 { lib
-, writeScript
+, writeShellScript
 , e2fsprogs
 , util-linux
 , qemu_kvm
@@ -21,7 +21,7 @@
     capstoneSupport = false;
     hostCpuOnly = true;
   };
-in writeScript "run-service-${name}" ''
+in writeShellScript "run-service-${name}.sh" ''
   if ! [ -e "${stateImage}" ]; then
     touch "${storage}"
     ${e2fsprogs}/bin/chattr +C "${storage}"
