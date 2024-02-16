@@ -3,14 +3,6 @@ let
 
   cfg = config.ab.services;
 
-  tinyQemu = pkgs.qemu_kvm.override {
-    nixosTestRunner = true;
-    guestAgentSupport = false;
-    libiscsiSupport = false;
-    capstoneSupport = false;
-    hostCpuOnly = true;
-  };
-
   commonOpts = {
     options.svc = {
       memory = lib.mkOption {
@@ -43,23 +35,15 @@ let
         }
       ];
     };
-    runner = let
-      state = "${cfg.stateDir}/${name}.img";
-      memory = system.config.svc.memory;
-      storage = system.config.svc.storage;
-      threads = system.config.svc.threads;
-      rootfs = "${system.config.system.build.image}/image.raw";
+    runner = pkgs.callPackage ./runner.nix {
+      inherit name;
+      inherit (system.config.svc) memory storage threads;
+      stateImage = "${cfg.stateDir}/${name}.img";
+      nixStoreImage = "${system.config.system.build.image}/image.raw";
       linux = "${system.config.boot.kernelPackages.kernel}/${system.config.system.boot.loader.kernelFile}";
       initrd = "${system.config.system.build.initialRamdisk}/${system.config.system.boot.loader.initrdFile}";
       cmdline = "init=${system.config.system.build.toplevel}/init ${toString system.config.boot.kernelParams}";
-    in pkgs.writeScriptBin "run-service-${name}" ''
-      if ! [ -e "${state}" ]; then
-        touch "${storage}"
-        ${pkgs.e2fsprogs}/bin/chattr +C "${storage}"
-        ${pkgs.util-linux}/bin/fallocate -l "${storage}" "${state}"
-      fi
-      ${tinyQemu}/bin/qemu-kvm -enable-kvm -drive file="${rootfs}",if=virtio,format=raw,media=disk,readonly=on -drive file="${state}",if=virtio,format=raw,media=disk -nic tap,id=net0,ifname="vm-${name}",model=virtio,script=no,downscript=no -nographic -vga none -serial stdio -monitor none -cpu host -m "${memory}" -smp "${toString threads}" -kernel "${linux}" -initrd "${initrd}" -append "${cmdline}"
-    '';
+    };
   };
 
   mkServiceUnit = name: service: lib.nameValuePair "service-${name}" {
