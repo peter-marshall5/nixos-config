@@ -17,8 +17,6 @@
   ];
 
   boot.loader.grub.enable = false;
-  boot.isContainer = true;
-  boot.initrd.enable = true;
 
   boot.initrd.systemd = {
     enable = true;
