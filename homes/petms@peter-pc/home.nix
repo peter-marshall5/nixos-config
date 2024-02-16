@@ -6,6 +6,7 @@
     swaybg
     playerctl
     nerdfonts
+    deploy-rs
   ];
 
   programs.foot = {
