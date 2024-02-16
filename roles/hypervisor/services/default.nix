@@ -34,7 +34,7 @@ let
       modules = [
         agenix.nixosModules.default
         commonOpts
-        ../../../common
+        ../../../common/network/upnp
         ../../../services/${type}
         ./vm-base.nix
         {

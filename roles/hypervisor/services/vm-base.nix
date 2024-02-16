@@ -3,53 +3,74 @@
   imports = [
     (modulesPath + "/image/repart.nix")
     (modulesPath + "/profiles/image-based-appliance.nix")
-    (modulesPath + "/profiles/headless.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
-    (modulesPath + "/profiles/perlless.nix")
   ];
 
-  users.allowNoPasswordLogin = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  ab.autoUpgrade = false;
+  boot.kernelParams = [
+    "panic=1"
+    "boot.panic_on_fail"
+    "vga=normal"
+    "console=ttyS0"
+    "nomodeset"
+  ];
 
-  boot.kernelParams = [ "console=ttyS0" ];
+  boot.loader.grub.enable = false;
+  boot.isContainer = true;
+  boot.initrd.enable = true;
+
+  boot.initrd.systemd = {
+    enable = true;
+    storePaths = [
+      "${pkgs.btrfs-progs}/bin/btrfs"
+      "${pkgs.btrfs-progs}/bin/mkfs.btrfs"
+    ];
+  };
 
   image.repart = {
     name = "image";
+    split = true;
     partitions = {
-      "10-root" = {
+      "10-nix-store" = {
         storePaths = [ config.system.build.toplevel ];
+        stripNixStorePrefix = true;
         repartConfig = {
           Type = "root";
-          Format = "ext4";
+          Format = "erofs";
           Minimize = "guess";
-          MakeDirectories = "/home /var /etc";
         };
       };
     };
   };
 
-  ab.fs.enable = false;
+  fileSystems = {
+    "/" = {
+      fsType = "tmpfs";
+      options = [ "mode=0755" ];
+    };
 
-  fileSystems."/" = {
-    device = "/dev/vda1";
-    fsType = "ext4";
-    options = [ "ro" ];
+    "/nix/store" = {
+      device = "/dev/vda1";
+      fsType = "erofs";
+      options = [ "ro" ];
+    };
+
+    "/home" = {
+      device = "/dev/vdb1";
+      fsType = "btrfs";
+      options = [ "subvol=@home" ];
+    };
+
+    "/var" = {
+      device = "/dev/vdb1";
+      fsType = "btrfs";
+      options = [ "subvol=@var" ];
+    };
   };
 
-  fileSystems."/home" = {
-    device = "/dev/vdb1";
-    fsType = "btrfs";
-    options = [ "subvol=@home" ];
-  };
-
-  fileSystems."/var" = {
-    device = "/dev/vdb1";
-    fsType = "btrfs";
-    options = [ "subvol=@var" ];
-  };
-
-  system.etc.overlay.mutable = false;
+  users.allowNoPasswordLogin = true;
+  # services.getty.autologinUser = "root";
 
   systemd.repart.partitions."10-data" = {
     Type = "linux-generic";
@@ -63,7 +84,5 @@
     enable = true;
     device = "/dev/vdb";
   };
-
-  time.timeZone = null;
 
 }
