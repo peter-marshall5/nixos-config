@@ -29,6 +29,7 @@
   programs.ssh = {
     enable = true;
     matchBlocks = sshAliases;
+    addKeysToAgent = "1h";
   };
 
   services.ssh-agent.enable = true;

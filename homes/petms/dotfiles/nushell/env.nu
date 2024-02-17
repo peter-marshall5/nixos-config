@@ -89,3 +89,4 @@ $env.NU_PLUGIN_DIRS = [
 # $env.PATH = ($env.PATH | split row (char esep) | prepend '/some/path')
 
 $env.EDITOR = "hx"
+$env.SSH_AUTH_SOCK = $env.XDG_RUNTIME_DIR + /ssh-agent
