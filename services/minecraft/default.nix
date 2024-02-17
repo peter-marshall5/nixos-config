@@ -88,6 +88,8 @@ in
       openUDPPorts = ports;
     };
 
+    svc.memory = lib.mkDefault "2048M";
+
     system.stateVersion = "24.05";
 
   };
