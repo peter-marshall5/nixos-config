@@ -18,7 +18,7 @@
 
         shell = "nu";
 
-        include = "${pkgs.foot.themes}/share/foot/themes/nord";
+        include = "${pkgs.foot.themes}/share/foot/themes/catppuccin";
 
         font = "Hack:size=13";
         dpi-aware = "no";
@@ -26,10 +26,6 @@
 
       mouse = {
         hide-when-typing = "yes";
-      };
-
-      colors = {
-        alpha = 0.85;
       };
     };
   };

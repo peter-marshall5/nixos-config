@@ -7,8 +7,6 @@
   home.stateVersion = "23.11";
   
   home.packages = with pkgs; [
-    nushell
-    helix
     miniupnpc
     arp-scan
   ];
@@ -23,7 +21,7 @@
     enable = true;
     defaultEditor = true;
     settings = {
-      theme = "catppuccin_frappe";
+      theme = "dracula";
       editor.true-color = true;
     };
   };

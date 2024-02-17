@@ -51,12 +51,7 @@
   };
   decoration = {
     rounding = 3;
-    blur = {
-      size = 128;
-      passes = 2;
-      xray = true;
-      noise = 0.1;
-    };
+    blur.enabled = false;
   };
   general = {
     gaps_in = 2;

@@ -3,23 +3,11 @@
 # version = "0.89.0"
 
 def create_left_prompt [] {
-    let home =  $nu.home-path
-
-    # Perform tilde substitution on dir
-    # To determine if the prefix of the path matches the home dir, we split the current path into
-    # segments, and compare those with the segments of the home dir. In cases where the current dir
-    # is a parent of the home dir (e.g. `/home`, homedir is `/home/user`), this comparison will
-    # also evaluate to true. Inside the condition, we attempt to str replace `$home` with `~`.
-    # Inside the condition, either:
-    # 1. The home prefix will be replaced
-    # 2. The current dir is a parent of the home dir, so it will be uneffected by the str replace
-    let dir = (
-        if ($env.PWD | path split | zip ($home | path split) | all { $in.0 == $in.1 }) {
-            ($env.PWD | str replace $home "~")
-        } else {
-            $env.PWD
-        }
-    )
+    let dir = match (do --ignore-shell-errors { $env.PWD | path relative-to $nu.home-path }) {
+        null => $env.PWD
+        '' => '~'
+        $relative_pwd => ([~ $relative_pwd] | path join)
+    }
 
     let path_color = (if (is-admin) { ansi red_bold } else { ansi green_bold })
     let separator_color = (if (is-admin) { ansi light_red_bold } else { ansi light_green_bold })
@@ -63,8 +51,8 @@ $env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
 # This can be useful if you have a 2-line prompt and it's taking up a lot of space
 # because every command entered takes up 2 lines instead of 1. You can then uncomment
 # the line below so that previously entered commands show with a single `🚀`.
-# $env.TRANSIENT_PROMPT_COMMAND = {|| "🚀 " }
-# $env.TRANSIENT_PROMPT_INDICATOR = {|| "" }
+# $env.TRANSIENT_PROMPT_COMMAND = {|| "" }
+# $env.TRANSIENT_PROMPT_INDICATOR = {|| "> " }
 # $env.TRANSIENT_PROMPT_INDICATOR_VI_INSERT = {|| "" }
 # $env.TRANSIENT_PROMPT_INDICATOR_VI_NORMAL = {|| "" }
 # $env.TRANSIENT_PROMPT_MULTILINE_INDICATOR = {|| "" }
