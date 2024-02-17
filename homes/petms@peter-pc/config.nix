@@ -46,15 +46,16 @@
   misc = {
     disable_hyprland_logo = true;
     disable_splash_rendering = true;
-    vrr = 0;
+    vfr = true;
+    vrr = 2;
   };
   decoration = {
     rounding = 3;
     blur = {
-      size = 32;
-      passes = 4;
+      size = 128;
+      passes = 2;
       xray = true;
-      noise = 0.2;
+      noise = 0.1;
     };
   };
   general = {
@@ -69,7 +70,7 @@
       "swaybg -i ~/.wallpaper"
     ];
   monitor = [
-    "eDP-1,2880x1920@120,0x0,1.875"
+    "eDP-1,2880x1920@120,0x0,1.875,bitdepth,10"
   ];
   input.touchpad = {
     natural_scroll = true;
