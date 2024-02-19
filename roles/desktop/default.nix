@@ -109,8 +109,12 @@
     # Make firewall debugging easier.
     networking.firewall.rejectPackets = true;
 
-    # Enable power management for portable devices.
-    ab.powerManagement.enable = true;
+    # Handle power keys and lid switch in systemd-logind.
+    services.logind = {
+      powerKey = "suspend";
+      powerKeyLongPress = "poweroff";
+      lidSwitchExternalPower = "lock";
+    };
 
     # Enable secure boot.
     ab.secureboot.enable = lib.mkDefault true;
