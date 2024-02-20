@@ -48,7 +48,7 @@
         mac = "0E:A8:8E:D5:10:F0";
         role = "dev";
         users = [ "petms" ];
-        ssh.port = 2201;
+        ssh.port = 2273;
       };
       peter-pc = {
         hardware = "surface-pro-9";
