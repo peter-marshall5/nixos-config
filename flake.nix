@@ -35,6 +35,7 @@
           john = {
             memory = "1G";
             threads = 1;
+            mac = "C1:BF:7F:05:08:50";
           };
         };
         ssh.port = 2200;
@@ -44,6 +45,7 @@
         host = "opcc";
         threads = 2;
         memory = "2G";
+        mac = "0E:A8:8E:D5:10:F0";
         role = "dev";
         users = [ "petms" ];
         ssh.port = 2201;

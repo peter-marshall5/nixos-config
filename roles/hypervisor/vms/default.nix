@@ -29,6 +29,9 @@ let
         type = lib.types.int;
         default = 1;
       };
+      mac = lib.mkOption {
+        type = lib.types.str;
+      };
     };
   };
 
@@ -51,7 +54,7 @@ in
     ab.net.bridge.enable = true;
 
     ab.vms.guests = lib.mapAttrs (n: system: {
-      inherit (system.config.ab) memory threads;
+      inherit (system.config.ab) memory threads mac;
     }) (lib.filterAttrs (n: system:
       system.config.ab.hardware == "virt" &&
       system.config.ab.host == config.networking.hostName
@@ -107,15 +110,16 @@ in
         sock="/run/guest-$1.api.sock"
         rm -f $sock
 
-        ${tinyQemu}/bin/qemu-kvm -drive file=$hda,if=virtio,format=raw,media=disk -nic tap,id=net0,ifname="vm-$1",model=virtio,script=no,downscript=no -nographic -vga none -serial none -cpu host -smp $THREADS -m $MEMORY -drive if=pflash,format=raw,unit=0,file=${firmware},readonly=on -drive if=pflash,format=raw,unit=1,file=$vars -monitor unix:$sock,server,nowait
+        ${tinyQemu}/bin/qemu-kvm -drive file=$hda,if=virtio,format=raw,media=disk -nic tap,id=net0,ifname="vm-$1",model=virtio,script=no,downscript=no,mac="$MAC_ADDRESS" -nographic -vga none -serial none -cpu host -smp $THREADS -m $MEMORY -drive if=pflash,format=raw,unit=0,file=${firmware},readonly=on -drive if=pflash,format=raw,unit=1,file=$vars -monitor unix:$sock,server,nowait
       '');
-    };} (builtins.listToAttrs (map ({ name, threads, memory }: lib.nameValuePair "guest@${name}" {
+    };} (builtins.listToAttrs (map ({ name, threads, memory, mac }: lib.nameValuePair "guest@${name}" {
       wantedBy = [ "multi-user.target" ];
       restartIfChanged = false;
       overrideStrategy = "asDropin";
       environment = {
         THREADS = toString threads;
         MEMORY = memory;
+        MAC_ADDRESS = mac;
       };
     }) (lib.attrValues cfg.guests)))]);
 
