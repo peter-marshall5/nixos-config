@@ -19,9 +19,9 @@
 
         shell = "nu";
 
-        include = "${pkgs.foot.themes}/share/foot/themes/catppuccin";
+        include = "${pkgs.foot.themes}/share/foot/themes/selenized-white";
 
-        font = "Hack:size=13";
+        font = "Hack:size=11";
         dpi-aware = "no";
       };
 

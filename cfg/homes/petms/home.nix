@@ -21,7 +21,7 @@
     enable = true;
     defaultEditor = true;
     settings = {
-      theme = "dracula";
+      theme = "github_light";
       editor.true-color = true;
     };
   };
