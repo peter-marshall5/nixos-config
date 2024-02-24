@@ -5,6 +5,7 @@
   nixpkgs.hostPlatform = "x86_64-linux";
 
   networking.hostName = "petms";
+  networking.domain = "duckdns.org";
 
   virtualisation = {
     memorySize = 2048;

@@ -20,9 +20,8 @@
       modules = [ ./cfg/homes/${name}/home.nix ];
       extraSpecialArgs = {
         sshAliases = let
-          sshHosts = builtins.filter ({ config, ... }:
-              config.services.openssh.ports != []
-            ) (builtins.attrValues self.nixosConfigurations);
+          sshHosts = builtins.filter ({ config, ... }: config.services.openssh.enable)
+            (builtins.attrValues self.nixosConfigurations);
         in builtins.listToAttrs (map ({ config, ... }:
           lib.nameValuePair config.networking.hostName {
             hostname = config.networking.fqdnOrHostName;
