@@ -21,6 +21,10 @@
   programs.dconf.enable = true;
 
   networking.networkmanager.enable = true;
+  networking.networkmanager.plugins = with pkgs; lib.mkForce [
+    networkmanager-iodine
+    networkmanager-openvpn
+  ];
 
   networking.wireless.iwd.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
