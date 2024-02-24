@@ -66,4 +66,10 @@
 
   security.pam.services.swaylock = {};
 
+  services.greetd.command = let
+    script = pkgs.writeScript "run-user-session" ''
+      exec $HOME/.xsession
+    '';
+  in "${script}";
+
 }
