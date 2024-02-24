@@ -16,17 +16,17 @@
 
   fileSystems = {
     "/" = {
-      label = "nixos";
+      label = lib.mkDefault "nixos";
       fsType = "btrfs";
       options = [ "subvol=@" ];
     };
     "/home" = {
-      device = "/";
+      inherit (config.fileSystems."/") device label;
       fsType = "btrfs";
       options = [ "subvol=@home" ];
     };
     "/nix" = {
-      device = "/";
+      inherit (config.fileSystems."/") device label;
       fsType = "btrfs";
       options = [ "subvol=@nix" ];
     };

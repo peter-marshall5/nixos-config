@@ -29,6 +29,13 @@
     };
   };
 
+  fileSystems."/boot" = {
+    device = "/dev/nvme0n1p1";
+    fsType = "vfat";
+  };
+
+  boot.initrd.services.lvm.enable = true;
+
   security.tpm2.enable = true;
 
   zramSwap.enable = true;
