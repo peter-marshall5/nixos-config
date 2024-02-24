@@ -5,6 +5,10 @@
   boot.kernelParams = [ "quiet" ];
   boot.consoleLogLevel = 0;
 
+  environment.noXlibs = false;
+
+  documentation.nixos.enable = true;
+
   hardware.brillo.enable = true;
 
   services.flatpak.enable = true;

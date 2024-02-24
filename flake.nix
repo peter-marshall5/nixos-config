@@ -59,6 +59,8 @@
         modules = [
           self.nixosModules.base
           ./modules/profiles/desktop.nix
+          lanzaboote.nixosModules.lanzaboote
+          ./modules/profiles/secure-boot.nix
           ./cfg/hosts/peter-pc/configuration.nix
         ];
       };
