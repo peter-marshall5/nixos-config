@@ -126,6 +126,7 @@
   };
 
   xsession.enable = true;
+  xsession.windowManager.command = "${pkgs.hyprland}/bin/Hyprland >/dev/null 2>/dev/null";
 
   services.mako = {
     enable = true;
