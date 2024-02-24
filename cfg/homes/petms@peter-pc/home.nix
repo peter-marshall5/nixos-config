@@ -6,6 +6,7 @@
     swaybg
     playerctl
     nerdfonts
+    hack-font
     deploy-rs
   ];
 
