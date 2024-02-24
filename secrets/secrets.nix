@@ -1,6 +1,8 @@
 let
-  trustedKeysFor = import ../lib/ssh-keys.nix;
+  hostKeys = import ../cfg/ssh/host-keys.nix;
+  trustedKeys = import ../cfg/ssh/trusted-keys.nix;
+  keysFor = hosts: (map (host: hostKeys.${host}) hosts) ++ trustedKeys;
 in
 {
-  "duckdns.age".publicKeys = trustedKeysFor "opcc";
+  "duckdns.age".publicKeys = keysFor ["opcc"];
 }
