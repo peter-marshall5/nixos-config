@@ -1,5 +1,7 @@
 {
 
+  networking.hostName = "peter-pc";
+
   hardware.surface-pro-9.enable = true;
 
   time.timeZone = "America/Toronto";

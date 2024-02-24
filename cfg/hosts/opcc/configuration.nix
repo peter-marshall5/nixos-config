@@ -6,6 +6,8 @@
 
   console.keyMap = "us";
 
+  networking.hostName = "opcc";
+
   services.duckdns.enable = true;
   networking.domain = "duckdns.org";
 

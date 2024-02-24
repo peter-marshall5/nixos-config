@@ -4,6 +4,8 @@
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
+  networking.hostName = "petms";
+
   virtualisation = {
     memorySize = 2048;
     cores = 2;
