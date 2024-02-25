@@ -47,7 +47,7 @@
     disable_hyprland_logo = true;
     disable_splash_rendering = true;
     vfr = true;
-    vrr = 2;
+    vrr = 1;
   };
   decoration = {
     rounding = 6;
