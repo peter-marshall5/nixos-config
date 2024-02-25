@@ -23,6 +23,12 @@
 
         font = "Hack:size=11";
         dpi-aware = "no";
+
+        line-height = "13";
+
+        initial-window-size-pixels = "960x640";
+
+        pad = "3x3";
       };
 
       mouse = {
@@ -64,10 +70,9 @@
     settings = {
       mainBar = {
         layer = "top";
-        position = "top";
+        position = "bottom";
         height = 30;
         modules-left = [ "hyprland/workspaces" ];
-        modules-center = [ "hyprland/window" ];
         modules-right = [ "wireplumber" "mpd" "battery" "clock" ];
         battery = {
           format = "{icon} ";
@@ -99,7 +104,7 @@
         font-family: DejaVu Nerd Font;
       }
       window {
-        background: transparent;
+        background: linear-gradient(transparent, rgba(0,0,0,0.00078125), rgba(0,0,0,0.003125), rgba(0,0,0,0.00703125), rgba(0,0,0,0.0125), rgba(0,0,0,0.01953125), rgba(0,0,0,0.028125), rgba(0,0,0,0.03828125), rgba(0,0,0,0.05), rgba(0,0,0,0.06328125), rgba(0,0,0,0.078125), rgba(0,0,0,0.09453125000000001), rgba(0,0,0,0.1125), rgba(0,0,0,0.13203125000000002), rgba(0,0,0,0.153125), rgba(0,0,0,0.2));
       }
       tooltip {
         background: #292e2e;
