@@ -43,9 +43,14 @@
     encrypted = {
       enable = true;
       label = "root";
-      blkDev = "/dev/md127p2";
+      blkDev = "/dev/md127";
       keyFile = "/sys/firmware/efi/efivars/EncKey-b77c97b7-23f5-406d-b86b-15a9216fd71f";
     };
+  };
+
+  fileSystems."/boot" = {
+    device = "/dev/md126";
+    fsType = "vfat";
   };
 
   system.autoUpgrade.enable = true;
