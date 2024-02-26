@@ -48,11 +48,6 @@
     };
   };
 
-  fileSystems."/boot" = {
-    device = "/dev/md126";
-    fsType = "vfat";
-  };
-
   system.autoUpgrade.enable = true;
 
 }
