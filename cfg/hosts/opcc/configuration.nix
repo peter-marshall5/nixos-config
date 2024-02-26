@@ -48,6 +48,11 @@
     };
   };
 
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/61F4-656B";
+    fsType = "vfat";
+  };
+
   system.autoUpgrade.enable = true;
 
 }
