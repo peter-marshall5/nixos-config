@@ -44,6 +44,7 @@
       enable = true;
       label = "root";
       blkDev = "/dev/md127p2";
+      keyFile = "/sys/firmware/efi/efivars/EncKey-b77c97b7-23f5-406d-b86b-15a9216fd71f";
     };
   };
 
