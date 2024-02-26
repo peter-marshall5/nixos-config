@@ -38,6 +38,8 @@
 
   services.upnpc.enable = true;
 
+  boot.initrd.kernelModules = [ "efi_pstore" "efivarfs" ];
+
   fileSystems."/" = {
     device = "/dev/mapper/root";
     encrypted = {
