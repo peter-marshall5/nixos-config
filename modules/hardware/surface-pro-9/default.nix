@@ -25,6 +25,8 @@
     hardware.enableRedistributableFirmware = true;
     hardware.cpu.intel.updateMicrocode = true;
 
+    hardware.firmware = [ (pkgs.callPackage ./edid {}) ];
+
     services.thermald.enable = true;
 
     # Allow unfree packages
@@ -54,9 +56,14 @@
       };
     };
 
-    # Reduce power consumption
-    boot.kernelParams = [ "workqueue.power_efficient=1" "i915.enable_psr=2" "i915.enable_psr2_sel_fetch=1" "i915.enable_fbc=1" ];
-  
+    boot.kernelParams = [
+      "workqueue.power_efficient=1"
+      "i915.enable_psr=2"
+      "i915.enable_psr2_sel_fetch=1"
+      "i915.enable_fbc=1"
+      "drm.edid_firmware=eDP-1:edid/edid.bin"
+    ];
+
     services.power-profiles-daemon.enable = false;
 
     services.tlp.enable = true;
