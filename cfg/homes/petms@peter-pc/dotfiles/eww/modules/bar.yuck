@@ -1,0 +1,26 @@
+(defwidget bar []
+  (centerbox :class "container"
+    (workspaces)
+    (box)
+    (sidestuff)
+  )
+)
+
+(defwidget music []
+  (box :class "music"
+       :orientation "h"
+       :space-evenly false
+       :halign "center"
+    {music != "" ? "🎵${music}" : ""}))
+
+(defwidget popup []
+  (box :class "popup" :orientation "h"
+    (metric :label "󰕾"
+            :value volume
+            :onchange "amixer -D pulse sset Master {}%")
+    (metric :label "󰍛"
+            :value {EWW_RAM.used_mem_perc}
+            :onchange "")
+    (metric :label "󰋊"
+            :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
+            :onchange "")))

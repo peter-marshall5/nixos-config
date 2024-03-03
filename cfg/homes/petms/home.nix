@@ -21,7 +21,7 @@
     enable = true;
     defaultEditor = true;
     settings = {
-      theme = "github_light";
+      theme = "zed_onedark";
       editor.true-color = true;
     };
   };

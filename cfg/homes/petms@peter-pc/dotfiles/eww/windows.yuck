@@ -1,0 +1,22 @@
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :x "0"
+                      :y "0"
+                      :width "100%"
+                      :height "44px"
+                      :anchor "bottom center")
+  :exclusive true
+  :namespace "eww-blur"
+  (bar)
+)
+
+(defwindow right_dock 
+  :monitor 0
+  :stacking "overlay"
+  :geometry (geometry
+              :anchor "top right"
+            )
+  :namespace "eww-blur"
+  (right_dock)
+)

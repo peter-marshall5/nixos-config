@@ -9,11 +9,31 @@ def create_left_prompt [] {
         $relative_pwd => ([~ $relative_pwd] | path join)
     }
 
-    let path_color = (if (is-admin) { ansi red_bold } else { ansi green_bold })
-    let separator_color = (if (is-admin) { ansi light_red_bold } else { ansi light_green_bold })
-    let path_segment = $"($path_color)($dir)"
+    let path_color = (ansi green_bold)
+    let separator_color = (ansi light_green_bold)
+    let path_bg_color = (ansi bg_dark_gray)
+    let path_segment = ([
+        $path_color, $path_bg_color
+        (char space)
+        ($dir | str replace --all (char path_sep) $"($separator_color)(char path_sep)($path_color)")
+        (char space)
+    ] | str join)
 
-    $path_segment | str replace --all (char path_sep) $"($separator_color)(char path_sep)($path_color)"
+    let machine_symbol = match (sys | get host.hostname) {
+        null => '🗲'
+        'peter-pc' => '󰆥'
+        'petms' => '󰀘'
+    }
+
+    let machine_segment = ([
+        (ansi bg_green)
+        (ansi black)
+        (char space)
+        $machine_symbol
+        (char space)
+    ] | str join)
+
+    ([$machine_segment, $path_segment, (ansi reset)] | str join)
 }
 
 def create_right_prompt [] {
@@ -41,7 +61,7 @@ $env.PROMPT_COMMAND_RIGHT = {|| create_right_prompt }
 
 # The prompt indicators are environmental variables that represent
 # the state of the prompt
-$env.PROMPT_INDICATOR = {|| "> " }
+$env.PROMPT_INDICATOR = {|| " " }
 $env.PROMPT_INDICATOR_VI_INSERT = {|| ": " }
 $env.PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
 $env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }

@@ -1,0 +1,15 @@
+(defwidget right_dock []
+  (revealer :transition "slideleft" :reveal {open_right_dock} :duration {ANIM_DURATION}
+    (box :orientation "v" :space-evenly false
+      (box :orientation "v" :space-evenly false :class "dock"
+        (quick_settings)
+        (controls)
+        (tools)
+      )
+      (notifications)
+      (music)
+    )
+  )
+)
+
+

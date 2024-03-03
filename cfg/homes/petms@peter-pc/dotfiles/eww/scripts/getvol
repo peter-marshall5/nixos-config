@@ -1,0 +1,3 @@
+#!/bin/sh
+
+wpctl get-volume @DEFAULT_SINK@ | '{print $1}'

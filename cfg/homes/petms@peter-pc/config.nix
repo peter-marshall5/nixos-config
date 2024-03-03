@@ -56,13 +56,15 @@
     shadow_render_power = 2;
     "col.shadow" = "0x10333333";
     blur.enabled = false;
+    blur.xray = true;
+    blur.size = 8;
   };
   general = {
     gaps_in = 9;
     gaps_out = 20;
     border_size = 1;
-    "col.active_border" = "0xffa6b5c1";
-    "col.inactive_border" = "0xff9cadbc";
+    "col.active_border" = "0xff446270";
+    "col.inactive_border" = "0xff334759";
   };
   exec-once = [
       "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
@@ -77,14 +79,18 @@
     scroll_factor = 0.7;
   };
   dwindle = {
-    no_gaps_when_only = 0;
+    no_gaps_when_only = 1;
   };
   animation = [
       "workspaces,1,3,default,slidefade 10%"
       "windows,1,4,default,popin"
       "fade,1,4,default"
     ];
-  windowrule = [
-      "float,^(foot)$"
-    ];
+  windowrule = [];
+  layerrule = [
+    "blur,^(eww-blur)$"
+    "ignorezero,^(eww-blur)$"
+    "xray 0,^(eww-blur)$"
+    "blur,^(eww-blur-full)$"
+  ];
 }

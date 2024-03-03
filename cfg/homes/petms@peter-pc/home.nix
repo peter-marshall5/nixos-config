@@ -8,6 +8,10 @@
     nerdfonts
     hack-font
     deploy-rs
+    socat
+    jq
+    brightnessctl
+    pamixer
   ];
 
   programs.foot = {
@@ -19,7 +23,7 @@
 
         shell = "nu";
 
-        include = "${pkgs.foot.themes}/share/foot/themes/selenized-white";
+        include = "${pkgs.foot.themes}/share/foot/themes/onedark";
 
         font = "Hack:size=11";
         dpi-aware = "no";
@@ -63,6 +67,12 @@
         radius = 3;
       };
     };
+  };
+
+  programs.eww = {
+    enable = true;
+    configDir = ./dotfiles/eww;
+    package = pkgs.eww-wayland;
   };
 
   programs.waybar = {

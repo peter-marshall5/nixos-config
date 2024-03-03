@@ -1,0 +1,8 @@
+(defwidget clock []
+  (box
+    :orientation "h"
+    :class "metric"
+    :space-evenly false
+    time
+  )
+)

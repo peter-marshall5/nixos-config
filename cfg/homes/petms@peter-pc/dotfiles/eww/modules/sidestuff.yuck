@@ -1,0 +1,55 @@
+(defwidget sidestuff []
+  (box :class "button sidestuff" :orientation "h" :space-evenly false :halign "end"
+    (network_icon)
+    (battery_icon)
+    (brightness_icon)
+    (volume_icon)
+    (clock)
+  )
+)
+
+(defwidget state_icon [condition text tooltip microphone]
+  (label 
+    :class {microphone ? "indicator-microphone-icon" : "indicator-icon"} 
+    :visible {condition} 
+    :valign "center" 
+    :tooltip {tooltip}
+    :text {text}
+  )
+)
+
+(defwidget network_icon []
+  (state_icon 
+    :condition true
+    :text {network.essid == "lo" ? "󰤭 " : network.signal == "" ? "󰤩 " : network.signal < 25 ? "󰤟 " : network.signal < 50 ? "󰤢 " : network.signal < 75 ? "󰤥 " : "󰤨 "}
+    :tooltip "Network signal: ${network.signal + "%"}"
+    :microphone false
+  )
+)
+
+(defwidget battery_icon []
+  (state_icon
+    :condition {EWW_BATTERY == "" ? false : true}
+    :text {battery.icon}
+    :tooltip "Battery status: ${EWW_BATTERY.BAT1.capacity}% available ${EWW_BATTERY.BAT1.status == "Charging" ? "(plugged in)" : ""}"
+    :microphone false
+  )
+)
+
+(defwidget volume_icon []
+  (state_icon
+    :condition true
+    :text {volume == "muted" ? "󰸈" : volume < 25 ? "" : volume < 35 ? "" : volume < 65 ? "󰕾" : ""}
+    :tooltip "Volume: ${volume == "muted" ? "Muted" : "${volume}"}${volume == "muted" ? "" : "%" }"
+    :microphone false
+  )
+)
+
+(defwidget brightness_icon []
+  (state_icon
+    :condition true
+    :text {brightness.icon}
+    :tooltip "Brightness level: ${brightness.level}%"
+    :microphone false
+  )
+)

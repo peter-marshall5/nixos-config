@@ -1,0 +1,20 @@
+; Based on https://github.com/gasech/hyprland-dots
+
+(include "variables.yuck")
+(include "windows.yuck")
+
+(include "modules/bar.yuck")
+(include "modules/workspaces.yuck")
+(include "modules/center_clock.yuck")
+(include "modules/sidestuff.yuck")
+
+(defwidget metric [label value onchange]
+  (box :orientation "h"
+       :class "metric"
+       :space-evenly false
+    (box :class "label" label)
+    (scale :min 0
+           :max 101
+           :active {onchange != ""}
+           :value value
+           :onchange onchange)))
