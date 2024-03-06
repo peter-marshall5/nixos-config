@@ -106,7 +106,7 @@ $env.NU_PLUGIN_DIRS = [
 ]
 
 # To add entries to PATH (on Windows you might use Path), you can use the following pattern:
-# $env.PATH = ($env.PATH | split row (char esep) | prepend '/some/path')
+$env.PATH = ($env.PATH | split row (char esep) | prepend $"($env.HOME)/.nix-profile/bin")
 
 $env.EDITOR = "hx"
 $env.SSH_AUTH_SOCK = $env.XDG_RUNTIME_DIR + /ssh-agent
