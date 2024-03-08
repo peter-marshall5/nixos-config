@@ -2,7 +2,7 @@
 
   users.users.petms = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" ];
+    extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = (import ../../cfg/ssh/trusted-keys.nix);
   };
 

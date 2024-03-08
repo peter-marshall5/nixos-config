@@ -30,8 +30,6 @@
   };
 
   services.vm-runner.guests = with nixosConfigurations; [
-    petms
-    # john
   ];
 
   services.openssh.ports = [ 2200 ];

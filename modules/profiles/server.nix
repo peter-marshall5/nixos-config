@@ -2,7 +2,7 @@
   bridge = "br0";
 in {
 
-  imports = [ ./default-user.nix ];
+  imports = [ ./base.nix ];
 
   boot.swraid.enable = true;
   fonts.fontconfig.enable = false;
