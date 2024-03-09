@@ -4,10 +4,9 @@ let
 in {
 
   options.services.microvms = {
-    enable = lib.mkOption {
-      default = true;
-      type = lib.types.bool;
-    };
+    enable = lib.mkEnableOption (lib.mdDoc ''
+      This option enables the generation of microVM services as defined by `microvms.vms`.
+    '');
     vms = lib.mkOption {
       default = {};
       type = lib.types.attrsOf lib.types.attrs;

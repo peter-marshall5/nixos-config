@@ -1,6 +1,6 @@
 let
-  hostKeys = import ../cfg/ssh/host-keys.nix;
-  trustedKeys = import ../cfg/ssh/trusted-keys.nix;
+  hostKeys = import ../ssh/host-keys.nix;
+  trustedKeys = import ../ssh/trusted-keys.nix;
   keysFor = hosts: (map (host: hostKeys.${host}) hosts) ++ trustedKeys;
 in
 {

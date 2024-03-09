@@ -1,17 +1,15 @@
-{ config, lib, nixosConfigurations, ... }: {
-
-  hardware.generic-x86.enable = true;
+{ config, lib, ... }: {
 
   time.timeZone = "America/Toronto";
 
   console.keyMap = "us";
 
   networking.hostName = "opcc";
-
-  services.duckdns.enable = true;
   networking.domain = "duckdns.org";
 
-  age.secrets.duckdns.file = ../../../secrets/duckdns.age;
+  services.duckdns.enable = true;
+
+  age.secrets.duckdns.file = ../../secrets/duckdns.age;
   services.duckdns.tokenFile = config.age.secrets.duckdns.path;
 
   # age.secrets.cloudflare.file = ../../../secrets/cloudflare.age;
@@ -28,9 +26,6 @@
       config.worlds = (import ./minecraft-servers.nix);
     };
   };
-
-  services.vm-runner.guests = with nixosConfigurations; [
-  ];
 
   services.openssh.ports = [ 2200 ];
 

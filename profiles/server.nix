@@ -1,6 +1,4 @@
-{ lib, ... }: let
-  bridge = "br0";
-in {
+{ lib, pkgs, ... }: {
 
   imports = [ ./base.nix ];
 
@@ -14,11 +12,12 @@ in {
     nftables.enable = true;
   };
 
-  systemd.network.enable = true;
-
   networking.useDHCP = lib.mkForce true;
 
-  systemd.network = {
+  systemd.network = let
+    bridge = "br0";
+  in {
+    enable = true;
     networks."10-lan" = {
       matchConfig.Name = [ "en*" "vm-*" ];
       networkConfig = {
@@ -26,7 +25,7 @@ in {
       };
     };
     networks."10-lan-bridge" = {
-      matchConfig.Name = "br0";
+      matchConfig.Name = bridge;
       networkConfig = {
         DHCP = "ipv4";
         IPv6AcceptRA = true;
@@ -57,5 +56,8 @@ in {
     AllowSuspend=no
     AllowHibernation=no
   '';
+
+  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd.qemu.package = pkgs.qemu_test;
 
 }

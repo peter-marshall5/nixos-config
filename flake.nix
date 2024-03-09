@@ -5,21 +5,16 @@
     deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = { self, nixpkgs, agenix, deploy-rs }: let
-    inherit (nixpkgs) lib;
-    mkNixosConfig = name: lib.nameValuePair name (nixpkgs.lib.nixosSystem {
+  outputs = { self, nixpkgs, agenix, deploy-rs }: {
+    nixosConfigurations.opcc = nixpkgs.lib.nixosSystem {
       modules = [
+        ./hosts/opcc/configuration.nix
         ./modules
-        ./modules/profiles/server.nix
-        ./cfg/hosts/${name}/configuration.nix
+        ./profiles/server.nix
         agenix.nixosModules.default
+        ./hardware/generic-pc.nix
       ];
-      specialArgs = {
-        inherit (self) nixosConfigurations;
-      };
-    });
-  in {
-    nixosConfigurations = lib.listToAttrs (map mkNixosConfig [ "opcc" ]);
+    };
 
     deploy.nodes.opcc = {
       hostname = self.nixosConfigurations.opcc.config.networking.fqdn;
