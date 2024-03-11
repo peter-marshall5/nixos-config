@@ -14,8 +14,11 @@
   users.mutableUsers = false;
   users.allowNoPasswordLogin = true;
 
-  # Allow login on serial and tty.
+  environment.etc."machine-id".text = " ";
+
+  # Allow serial login for debugging.
   systemd.services."serial-getty@ttyS0".enable = true;
+  systemd.services."autovt@".enable = lib.mkForce true;
 
   # Create a default user for debugging.
   users.users."nixos" = {
