@@ -32,7 +32,6 @@ in {
         {
           svc = config; # Abstracted config options for services
           networking.hostName = lib.mkDefault name;
-          networking.interfaces.eth0.macAddress = macAddress;
           virtualisation.vmVariant.config.virtualisation = {
             memorySize = lib.mkDefault 256;
             cores = lib.mkDefault 1;
