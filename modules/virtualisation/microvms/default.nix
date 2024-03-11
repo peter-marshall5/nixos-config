@@ -19,7 +19,7 @@ in {
   config = lib.mkIf cfg.enable {
 
     system.activationScripts.microvms.text = ''
-      mkdir ${cfg.stateDir}
+      mkdir -p ${cfg.stateDir}
     '';
 
     system.build.microvms = lib.mapAttrs (name: { type ? name, config, macAddress }: lib.nixosSystem {
