@@ -26,6 +26,33 @@ in {
           svc = config; # Abstracted config options for services
           networking.hostName = lib.mkDefault name;
           networking.interfaces.eth0.macAddress = macAddress;
+          virtualisation.vmVariant.config.virtualisation = {
+            memorySize = lib.mkDefault 256;
+            cores = lib.mkDefault 1;
+
+            diskSize = lib.mkDefault 2048;
+
+            graphics = false;
+
+            useDefaultFilesystems = false;
+            fileSystems = {
+              "/" = {
+                device = "/dev/vda";
+                fsType = "btrfs";
+                autoResize = true;
+                autoFormat = true;
+              };
+            };
+            diskImage = "/var/lib/guests/${name}.img";
+            qemu.diskInterface = "virtio";
+
+            qemu.package = pkgs.qemu_test;
+            qemu.guestAgent.enable = false;
+
+            qemu.networkingOptions = [
+              "-nic tap,mac=${macAddress},ifname=vm-${name},model=virtio,script=no,downscript=no,name=eth0"
+            ];
+          };
         }
       ];
     }) cfg.vms;
