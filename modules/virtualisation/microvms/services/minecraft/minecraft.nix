@@ -77,10 +77,6 @@ in
 
     networking.firewall.allowedUDPPorts = map (v: v.port) (builtins.attrValues cfg.worlds);
 
-    services.upnpc.enable = true;
-
-    system.stateVersion = "24.05";
-
   };
 
 }

@@ -28,10 +28,17 @@ in {
         ../..
         (modulesPath + "/profiles/qemu-guest.nix")
         (modulesPath + "/profiles/headless.nix")
+        (modulesPath + "/profiles/perlless.nix")
         ./services/${type}
         {
           svc = config; # Abstracted config options for services
           networking.hostName = lib.mkDefault name;
+
+          boot.initrd.systemd.enable = true;
+          system.etc.overlay.mutable = false;
+          users.mutableUsers = false;
+          users.allowNoPasswordLogin = true;
+
           virtualisation.vmVariant.config.virtualisation = {
             memorySize = lib.mkDefault 256;
             cores = lib.mkDefault 1;
