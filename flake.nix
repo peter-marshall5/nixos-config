@@ -10,7 +10,6 @@
       modules = [
         ./hosts/opcc/configuration.nix
         ./modules
-        ./profiles/server.nix
         agenix.nixosModules.default
         ./hardware/generic-pc.nix
       ];

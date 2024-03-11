@@ -2,6 +2,8 @@
 
   imports = [ ./minecraft.nix ];
 
-  virtualisation.memorySize = 2048;
+  virtualisation.vmVariant.config = {
+    virtualisation.memorySize = 2048;
+  };
 
 }

@@ -1,11 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, modulesPath, ... }:
 let
   cfg = config.services.microvms;
 in {
 
   options.services.microvms = {
     enable = lib.mkEnableOption (lib.mdDoc ''
-      This option enables the generation of microVM services as defined by `microvms.vms`.
+      This option enables the generation of microVM services as defined by `services.microvms.vms`.
     '');
     vms = lib.mkOption {
       default = {};
@@ -19,7 +19,8 @@ in {
       inherit (pkgs.hostPlatform) system;
       modules = [
         ../..
-        ../../../modules/profiles/headless-qemu-vm.nix
+        (modulesPath + "/profiles/qemu-guest.nix")
+        (modulesPath + "/profiles/headless.nix")
         ./services/${type}
         {
           svc = config; # Abstracted config options for services

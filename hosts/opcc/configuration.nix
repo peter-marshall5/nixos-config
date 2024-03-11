@@ -1,5 +1,9 @@
 { config, lib, ... }: {
 
+  imports = [
+    ../../profiles/server.nix
+  ];
+
   time.timeZone = "America/Toronto";
 
   console.keyMap = "us";
@@ -20,6 +24,7 @@
   #   apiTokenFile = config.age.secrets.cloudflare.path;
   # };
 
+  services.microvms.enable = true;
   services.microvms.vms = {
     minecraft = {
       macAddress = "47:97:3E:CE:14:FB";
