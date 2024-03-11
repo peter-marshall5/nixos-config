@@ -27,7 +27,7 @@
   services.microvms.enable = true;
   services.microvms.vms = {
     minecraft = {
-      macAddress = "47:97:3E:CE:14:FB";
+      macAddress = "46:97:3E:CE:14:FB";
       config.worlds = (import ./minecraft-servers.nix);
     };
   };
