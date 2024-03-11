@@ -56,7 +56,7 @@ in {
             qemu.guestAgent.enable = false;
 
             qemu.networkingOptions = [
-              "-nic tap,mac=${macAddress},ifname=vm-${name},model=virtio,script=no,downscript=no,name=eth0"
+              "-nic tap,mac=${macAddress},ifname=vm-${name},model=virtio,script=no,downscript=no"
             ];
           };
         }
