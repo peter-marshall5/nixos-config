@@ -30,23 +30,12 @@ in {
         (modulesPath + "/profiles/headless.nix")
         (modulesPath + "/profiles/perlless.nix")
         ./services/${type}
+        ./services/common.nix
         {
           svc = config; # Abstracted config options for services
           networking.hostName = lib.mkDefault name;
 
-          boot.initrd.systemd.enable = true;
-          system.etc.overlay.mutable = false;
-          users.mutableUsers = false;
-          users.allowNoPasswordLogin = true;
-
           virtualisation.vmVariant.config.virtualisation = {
-            memorySize = lib.mkDefault 256;
-            cores = lib.mkDefault 1;
-
-            diskSize = lib.mkDefault 2048;
-
-            graphics = false;
-
             useDefaultFilesystems = false;
             fileSystems = {
               "/" = {
@@ -61,6 +50,8 @@ in {
 
             qemu.package = pkgs.qemu_test;
             qemu.guestAgent.enable = false;
+
+            graphics = false;
 
             qemu.networkingOptions = [
               "-nic tap,mac=${macAddress},ifname=vm-${name},model=virtio,script=no,downscript=no"
