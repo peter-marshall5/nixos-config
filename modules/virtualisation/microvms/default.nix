@@ -7,6 +7,9 @@ in {
     enable = lib.mkEnableOption (lib.mdDoc ''
       This option enables the generation of microVM services as defined by `services.microvms.vms`.
     '');
+    stateDir = lib.mkOption {
+      default = "/var/lib/microvms";
+    };
     vms = lib.mkOption {
       default = {};
       type = lib.types.attrsOf lib.types.attrs;
@@ -14,6 +17,10 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+
+    system.activationScripts.microvms.text = ''
+      mkdir ${cfg.stateDir}
+    '';
 
     system.build.microvms = lib.mapAttrs (name: { type ? name, config, macAddress }: lib.nixosSystem {
       inherit (pkgs.hostPlatform) system;
@@ -43,7 +50,7 @@ in {
                 autoFormat = true;
               };
             };
-            diskImage = "/var/lib/guests/${name}.img";
+            diskImage = (cfg.stateDir + "/${name}.img");
             qemu.diskInterface = "virtio";
 
             qemu.package = pkgs.qemu_test;
