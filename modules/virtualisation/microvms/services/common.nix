@@ -3,7 +3,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.initrd.systemd.enable = true;
-  system.etc.overlay.mutable = false;
+  system.etc.overlay.mutable = lib.mkDefault false;
 
   systemd.enableEmergencyMode = lib.mkDefault false;
   systemd.watchdog = {
@@ -11,7 +11,7 @@
     rebootTime = "30s";
   };
 
-  users.mutableUsers = false;
+  users.mutableUsers = lib.mkDefault false;
   users.allowNoPasswordLogin = true;
 
   environment.etc."machine-id".text = " ";
