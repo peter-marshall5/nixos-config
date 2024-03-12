@@ -30,6 +30,11 @@
   };
   users.groups."nixos" = {};
 
+  networking = {
+    useNetworkd = true;
+    nftables.enable = true;
+  };
+
   virtualisation.vmVariant.config.virtualisation = {
     memorySize = lib.mkDefault 256;
     cores = lib.mkDefault 1;
