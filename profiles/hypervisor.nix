@@ -2,11 +2,6 @@
 
   imports = [ ./base.nix ];
 
-  boot.swraid.enable = true;
-  fonts.fontconfig.enable = false;
-  sound.enable = false;
-  environment.noXlibs = true;
-
   networking = {
     useNetworkd = true;
     nftables.enable = true;

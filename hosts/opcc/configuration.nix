@@ -1,7 +1,7 @@
 { config, lib, ... }: {
 
   imports = [
-    ../../profiles/server.nix
+    ../../profiles/hypervisor.nix
   ];
 
   time.timeZone = "America/Toronto";
@@ -37,6 +37,8 @@
   services.upnpc.enable = true;
 
   boot.initrd.kernelModules = [ "efi_pstore" "efivarfs" ];
+
+  boot.swraid.enable = true;
 
   fileSystems."/" = {
     device = "/dev/mapper/root";
