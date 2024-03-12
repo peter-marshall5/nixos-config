@@ -5,11 +5,12 @@ let
 
   openPorts = with config.networking.firewall; {
     "TCP" = allowedTCPPorts;
-    "UDP" = allowedUDPPorts;
+    "UDP" = builtins.filter (p: p != 1900) allowedUDPPorts;
   };
 
   redirects = builtins.concatLists (lib.mapAttrsToList (
-    proto: map (port: "${toString port} ${proto}")
+    proto: ports: map (port: "${toString port} ${proto}")
+      (builtins.filter (p: p > 1024) ports) # Exclude unpriveleged ports
   ) openPorts);
 
 in {
