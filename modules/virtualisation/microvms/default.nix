@@ -54,7 +54,7 @@ in {
 
             graphics = false;
 
-            qemu.networkingOptions = [
+            qemu.networkingOptions = lib.mkForce [
               "-nic tap,mac=${macAddress},ifname=vm-${name},model=virtio,script=no,downscript=no"
             ];
           };
