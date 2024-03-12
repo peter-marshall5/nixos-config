@@ -16,11 +16,6 @@ let
         type = lib.types.str;
       };
 
-      dataDir = lib.mkOption {
-        default = (cfg.dataDir + "/" + name);
-        type = lib.types.str;
-      };
-
       title = lib.mkOption {
         default = name;
         type = lib.types.str;
@@ -39,15 +34,13 @@ let
     };
   };
 
+
+  dataDir = "/var/lib/mcbe";
+
 in
 {
 
   options.svc = {
-
-    dataDir = lib.mkOption {
-      default = "/var/lib/mcbe";
-      type = lib.types.str;
-    };
 
     worlds = lib.mkOption {
       default = {};
@@ -59,15 +52,17 @@ in
   config = {
 
     system.activationScripts.mcbe = let
-      dataDirs = lib.mapAttrsToList (n: v: (v.dataDir)) cfg.worlds;
+      worldDirs = lib.mapAttrsToList (n: v: (dataDir + "/" + v.name)) cfg.worlds;
     in ''
-      mkdir -p ${toString dataDirs}
+      mkdir -p /var/lib
+      ${pkgs.btrfs-progs}/bin/btrfs subvolume create ${toString dataDir}
+      mkdir ${toString worldDirs}
     '';
 
     virtualisation.oci-containers.containers = lib.mapAttrs (n: v: {
       image = "itzg/minecraft-bedrock-server:latest";
       ports = ["${toString v.port}:19132/udp"];
-      volumes = ["${v.dataDir}:/data"];
+      volumes = ["${dataDir + "/" + v.name}:/data"];
       environment = {
         EULA = "true";
         SERVER_NAME = v.title;
