@@ -29,6 +29,7 @@ in {
         (modulesPath + "/profiles/qemu-guest.nix")
         (modulesPath + "/profiles/headless.nix")
         (modulesPath + "/profiles/perlless.nix")
+        (modulesPath + "/profiles/minimal.nix")
         ./services/${type}
         ./services/common.nix
         {
