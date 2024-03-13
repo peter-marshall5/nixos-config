@@ -35,6 +35,8 @@ in {
       serviceConfig = {
         Type = "oneshot";
         ExecStart = ''${pkgs.miniupnpc}/bin/upnpc -i -r ${builtins.concatStringsSep " " redirects}'';
+        Restart = "on-failure";
+        RestartSec = 5;
       };
     };
 
