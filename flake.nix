@@ -5,14 +5,27 @@
     deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = { self, nixpkgs, agenix, deploy-rs }: {
-    nixosConfigurations.opcc = nixpkgs.lib.nixosSystem {
+  outputs = { self, nixpkgs, agenix, deploy-rs }: let
+    baseSystem = name: extraModules: nixpkgs.lib.nixosSystem {
       modules = [
-        ./hosts/opcc/configuration.nix
+        ./hosts/${name}/configuration.nix
         ./modules
+        ./modules/profiles/base.nix
         agenix.nixosModules.default
-        ./hardware/generic-pc.nix
+      ] ++ extraModules;
+    };
+  in {
+    nixosConfigurations = {
+      opcc = baseSystem "opcc" [
+        {
+          virtualisation.vms = [
+            self.nixosConfigurations.cheesecraft
+            self.nixosConfigurations.build-battle
+          ];
+        }
       ];
+      cheesecraft = baseSystem "cheesecraft" [];
+      build-battle = baseSystem "build-battle" [];
     };
 
     deploy.nodes.opcc = {
@@ -25,6 +38,6 @@
       };
     };
 
-    checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+    # checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
   };
 }

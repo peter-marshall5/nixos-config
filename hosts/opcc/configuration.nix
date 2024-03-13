@@ -1,7 +1,17 @@
 { config, lib, ... }: {
 
+  nixpkgs.hostPlatform = "x86_64-linux";
+
+  boot.initrd.availableKernelModules = [ "ahci" "sd_mod" "uas" "usb_storage" ];
+
+  boot.kernelModules = [ "kvm_amd" ];
+
+  hardware.enableRedistributableFirmware = true;
+
+  hardware.cpu.amd.updateMicrocode = true;
+
   imports = [
-    ../../profiles/hypervisor.nix
+    ../../modules/profiles/hypervisor.nix
   ];
 
   time.timeZone = "America/Toronto";
@@ -23,14 +33,6 @@
   #   domains = config.networking.domain;
   #   apiTokenFile = config.age.secrets.cloudflare.path;
   # };
-
-  services.microvms.enable = true;
-  services.microvms.vms = {
-    minecraft = {
-      macAddress = "46:97:3E:CE:14:FB";
-      config.worlds = (import ./minecraft-servers.nix);
-    };
-  };
 
   services.openssh.ports = [ 2200 ];
 

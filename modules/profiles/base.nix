@@ -32,7 +32,7 @@
       options = [ "subvol=@nix" ];
     };
   };
-  
+
   system.autoUpgrade = {
     flake = "github:peter-marshall5/nixos-config";
     flags = [
@@ -48,6 +48,8 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   services.logrotate.enable = true;
+
+  virtualisation.vmVariant = import ./vm.nix;
 
   system.stateVersion = "23.05";
 
