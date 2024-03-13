@@ -56,6 +56,9 @@
     enable = true;
     listen = "http";
     port = 19532;
+    settings = {
+      Remote.SplitMode = "none";
+    };
   };
 
 }
