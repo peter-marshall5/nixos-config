@@ -51,6 +51,13 @@
 
   virtualisation.vmVariant = import ./vm.nix;
 
+  # Reduce build time
+  nixpkgs.overlays = [ (final: prev: {
+    composefs = prev.composefs.overrideAttrs (old: {
+      doCheck = false;
+    });
+  }) ];
+
   system.stateVersion = "23.05";
 
 }
