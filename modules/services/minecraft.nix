@@ -47,9 +47,12 @@ in {
 
   config = lib.mkIf cfg.enable {
 
-    system.activationScripts.minecraftbe.text = ''
-      mkdir -p ${toString cfg.dataDir}
-    '';
+    systemd.tmpfiles.settings."minecraftbe-data" = {
+      "${cfg.dataDir}".d = {
+        user = "root";
+        group = "root";
+      };
+    };
 
     virtualisation.oci-containers.containers.minecraftbe = {
       image = "itzg/minecraft-bedrock-server:latest";
