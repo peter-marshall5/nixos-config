@@ -59,7 +59,7 @@
     settings = {
       Remote.SplitMode = "none";
     };
-    output = "/var/log/journal/remote.journal";
+    output = "/var/log/journal/remote/remote.journal";
   };
 
 }
