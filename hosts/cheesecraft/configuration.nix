@@ -2,6 +2,8 @@
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
+  networking.hostName = "cheesecraft";
+
   services.upnpc.enable = true;
 
   services.minecraft-bedrock-server = {
