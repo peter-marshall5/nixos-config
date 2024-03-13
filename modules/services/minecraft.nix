@@ -47,6 +47,10 @@ in {
 
   config = lib.mkIf cfg.enable {
 
+    system.activationScripts.minecraftbe.text = ''
+      mkdir -p ${toString cfg.dataDir}
+    '';
+
     virtualisation.oci-containers.containers.minecraftbe = {
       image = "itzg/minecraft-bedrock-server:latest";
       ports = ["${toString cfg.port}:19132/udp"];
