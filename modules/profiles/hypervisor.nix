@@ -52,4 +52,10 @@
     AllowHibernation=no
   '';
 
+  services.journald.remote = {
+    enable = true;
+    listen = "http";
+    port = 19532;
+  };
+
 }

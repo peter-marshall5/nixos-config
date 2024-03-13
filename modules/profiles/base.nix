@@ -15,6 +15,9 @@
 
   boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 
+  boot.initrd.verbose = false;
+  boot.kernelParams = [ "quiet" ];
+
   fileSystems = {
     "/" = {
       label = lib.mkDefault "nixos";

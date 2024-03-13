@@ -59,4 +59,11 @@
     extraGroups = [ "wheel" ];
   };
   users.groups."nixos" = {};
+
+  services.journald.upload = {
+    enable = true;
+    settings = {
+      Upload.URL = "http://10.0.2.100";
+    };
+  };
 }
