@@ -55,4 +55,6 @@
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirtd.qemu.package = pkgs.qemu_test;
 
+  programs.virt-manager.enable = true;
+
 }
