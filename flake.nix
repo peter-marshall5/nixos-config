@@ -18,9 +18,9 @@
     nixosConfigurations = {
       opcc = baseSystem "opcc" [
         {
-          virtualisation.vms = [
-            self.nixosConfigurations.cheesecraft
-            self.nixosConfigurations.build-battle
+          virtualisation.vms = with self.nixosConfigurations; [
+            cheesecraft
+            build-battle
           ];
         }
       ];

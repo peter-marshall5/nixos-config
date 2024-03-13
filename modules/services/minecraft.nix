@@ -28,22 +28,49 @@ in {
       default = "mc";
     };
 
+    port = lib.mkOption {
+      type =lib.types.port;
+      default = 19132;
+    };
+
+    openFirewall = lib.mkOption {
+      default = false;
+      type = lib.types.bool;
+    };
+
+    memoryLimit = lib.mkOption {
+      default = 2048; # Should be enough for most worlds
+      type = lib.types.int;
+    };
+
   };
 
   config = lib.mkIf cfg.enable {
 
     virtualisation.oci-containers.containers.minecraftbe = {
       image = "itzg/minecraft-bedrock-server:latest";
-      ports = ["19132:19132/udp"];
+      ports = ["${toString cfg.port}:19132/udp"];
       volumes = ["${toString cfg.dataDir}:/data"];
       environment = {
         EULA = "true";
         SERVER_NAME = cfg.serverName;
         LEVEL_NAME = cfg.levelName;
       };
+      extraOptions = [ "--memory=${toString cfg.memoryLimit}m" ];
     };
 
     systemd.units."podman-minecraftbe".aliases = [ "minecraftbe.service" ];
+
+    networking.firewall.allowedUDPPorts = lib.mkIf cfg.openFirewall [ cfg.port ];
+
+    # Options for virtual machines
+    virtualisation.vmVariant.config = {
+      virtualisation.memorySize = cfg.memoryLimit;
+
+      # Mutable /etc is required by podman
+      system.etc.overlay.mutable = true;
+      users.mutableUsers = true;
+    };
 
     assertions = [
       { assertion = cfg.eula;
