@@ -13,7 +13,6 @@
     eula = true;
     serverName = " §k::§r §d§lBuild§r  §c§oBattle §k::§r ";
     levelName = "Build Battle v3";
-    port = 19133;
     openFirewall = true;
   };
 
