@@ -62,8 +62,9 @@
 
   systemd.network.networks = {
     "10-lan" = {
-      name = "eth0";
+      name = "en*";
       networkConfig.MulticastDNS = true;
+      DHCP = true;
     };
   };
 
