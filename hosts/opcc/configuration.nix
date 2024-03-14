@@ -65,9 +65,7 @@
       networkConfig = {
         DHCPServer = true;
         MulticastDNS = true;
-        IPForward = true;
-        IPMasquerade = true;
-        IPv6AcceptRA = true;
+        LLMNR = false;
       };
       dhcpServerConfig = {
         EmitDNS = false;
@@ -76,6 +74,7 @@
         ServerAddress = "10.0.100.1/24";
         EmitRouter = true;
       };
+      bridgeConfig.Isolated = false;
     };
     "20-bridge-vms" = {
       name = "vm-*";
@@ -86,6 +85,13 @@
 
   # Allow DHCP traffic
   networking.firewall.allowedUDPPorts = [ 67 ];
+
+  # Forward traffic from VMs
+  networking.nat = {
+    enable = true;
+    internalInterfaces = [ "br1" ];
+    externalInterface = "br0";
+  };
 
   services.journald.remote = {
     enable = true;
