@@ -74,6 +74,9 @@
   # Allow mDNS traffic
   networking.firewall.allowedUDPPorts = [ 5353 ];
 
+  # Makes debugging much easier
+  networking.firewall.rejectPackets = true;
+
   services.openssh = {
     enable = lib.mkDefault true;
     settings.PasswordAuthentication = false;
