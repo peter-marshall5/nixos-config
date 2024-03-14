@@ -63,6 +63,7 @@
   networking.nat = {
     enable = true;
     internalInterfaces = [ "br1" ];
+    internalIPs = [ "10.0.100.0/24" ];
     externalInterface = "br0";
   };
 
