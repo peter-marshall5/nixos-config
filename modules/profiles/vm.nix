@@ -68,7 +68,7 @@
   services.journald.upload = {
     enable = true;
     settings = {
-      Upload.URL = "http://[fe80::68dd:e8ff:fef5:c932]";
+      Upload.URL = "http://[fe80::68dd:e8ff:fef5:c932%eth0]";
     };
   };
 }

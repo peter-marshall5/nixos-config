@@ -56,6 +56,11 @@
     "20-bridge-nat" = {
       name = "br1";
       address = [ "fe80::68dd:e8ff:fef5:c932/48" ];
+      networkConfig.DHCPServer = true;
+      dhcpServerConfig = {
+        EmitDNS = false;
+        PoolOffset = 10;
+      };
     };
     "20-bridge-vms" = {
       name = "vm-*";
