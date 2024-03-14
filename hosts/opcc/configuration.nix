@@ -24,6 +24,8 @@
   #   apiTokenFile = config.age.secrets.cloudflare.path;
   # };
 
+  security.sudo.wheelNeedsPassword = false;
+
   services.openssh.ports = [ 2200 ];
 
   services.upnpc.enable = true;
