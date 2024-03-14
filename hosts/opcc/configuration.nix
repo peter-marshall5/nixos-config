@@ -84,6 +84,9 @@
     };
   };
 
+  # Allow DHCP and mDNS traffic
+  networking.firewall.allowedUDPPorts = [ 67 5353 ];
+
   services.journald.remote = {
     enable = true;
     listen = "http";
