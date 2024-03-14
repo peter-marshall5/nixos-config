@@ -63,8 +63,10 @@
   systemd.network.networks = {
     "10-lan" = {
       name = "en*";
-      networkConfig.MulticastDNS = true;
-      DHCP = true;
+      networkConfig = {
+        MulticastDNS = true;
+        DHCP = true;
+      };
     };
   };
 
