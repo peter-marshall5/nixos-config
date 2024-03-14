@@ -84,7 +84,10 @@
   };
 
   # Allow DHCP and journald traffic
-  networking.firewall.allowedUDPPorts = [ 67 19532 ];
+  networking.firewall = {
+    allowedUDPPorts = [ 67 ];
+    allowedTCPPorts = [ 19532 ];
+  };
 
   # Forward traffic from VMs
   networking.nat = {
