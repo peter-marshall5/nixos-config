@@ -55,6 +55,7 @@
     };
     "20-bridge-nat" = {
       name = "br1";
+      address = [ "10.0.100.2/24" ];
       networkConfig = {
         DHCPServer = true;
         MulticastDNS = true;
@@ -62,6 +63,7 @@
       dhcpServerConfig = {
         EmitDNS = false;
         PoolOffset = 10;
+        ServerAddress = "10.0.100.1/24";
       };
     };
     "20-bridge-vms" = {
