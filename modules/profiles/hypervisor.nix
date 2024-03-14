@@ -44,7 +44,9 @@
         ServerAddress = "10.0.100.1/24";
         EmitRouter = true;
       };
-      bridgeConfig.Isolated = false;
+      bridgeConfig = {
+        Isolated = false;
+      };
     };
     "20-bridge-vms" = {
       name = "vm-*";

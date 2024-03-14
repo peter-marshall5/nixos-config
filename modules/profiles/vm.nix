@@ -80,4 +80,7 @@
       Upload.URL = "http://opcc.local";
     };
   };
+
+  services.openssh.settings.PasswordAuthentication = true;
+
 }

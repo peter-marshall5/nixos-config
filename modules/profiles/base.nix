@@ -76,7 +76,7 @@
 
   services.openssh = {
     enable = lib.mkDefault true;
-    settings.PasswordAuthentication = false;
+    settings.PasswordAuthentication = lib.mkDefault false;
   };
 
   systemd.sleep.extraConfig = ''
