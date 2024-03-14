@@ -65,8 +65,8 @@
       name = "en*";
       networkConfig = {
         MulticastDNS = true;
-        DHCP = true;
       };
+      DHCP = "ipv4";
     };
   };
 

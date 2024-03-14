@@ -63,7 +63,9 @@
       dhcpServerConfig = {
         EmitDNS = false;
         PoolOffset = 10;
+        PoolSize = 128;
         ServerAddress = "10.0.100.1/24";
+        EmitRouter = true;
       };
     };
     "20-bridge-vms" = {
