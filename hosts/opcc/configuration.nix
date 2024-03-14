@@ -84,8 +84,8 @@
     };
   };
 
-  # Allow DHCP and mDNS traffic
-  networking.firewall.allowedUDPPorts = [ 67 5353 ];
+  # Allow DHCP traffic
+  networking.firewall.allowedUDPPorts = [ 67 ];
 
   services.journald.remote = {
     enable = true;

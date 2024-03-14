@@ -71,6 +71,9 @@
 
   networking.nftables.enable = true;
 
+  # Allow mDNS traffic
+  networking.firewall.allowedUDPPorts = [ 5353 ];
+
   services.openssh = {
     enable = lib.mkDefault true;
     settings.PasswordAuthentication = false;
