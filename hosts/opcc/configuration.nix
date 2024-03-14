@@ -65,6 +65,9 @@
       networkConfig = {
         DHCPServer = true;
         MulticastDNS = true;
+        IPForward = true;
+        IPMasquerade = true;
+        IPv6AcceptRA = true;
       };
       dhcpServerConfig = {
         EmitDNS = false;
