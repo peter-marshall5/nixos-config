@@ -59,10 +59,6 @@
     enable = true;
     listen = "http";
     port = 19532;
-    settings = {
-      Remote.SplitMode = "none";
-    };
-    output = "/var/log/journal/remote/remote.journal";
   };
 
 }
