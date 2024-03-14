@@ -13,14 +13,17 @@
     bridge = "br0";
   in {
     enable = true;
-    networks."10-lan" = {
-      matchConfig.Name = [ "en*" "vm-*" ];
-      networkConfig = {
-        Bridge = bridge;
-      };
+    networks."10-bridge-uplink" = {
+      name = "en*";
+      bridge = bridge;
     };
-    networks."10-lan-bridge" = {
-      matchConfig.Name = bridge;
+    networks."10-bridge-vms" = {
+      name = "vm-*";
+      bridge = bridge;
+      bridgeConfig.Isolated = true;
+    };
+    networks."10-bridge-lan" = {
+      name = bridge;
       networkConfig = {
         DHCP = "ipv4";
         IPv6AcceptRA = true;
