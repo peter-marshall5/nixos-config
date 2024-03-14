@@ -44,4 +44,8 @@
     }
   ];
 
+  networking.firewall = {
+    allowedUDPPorts = [ 19132 19133 ];
+  };
+
 }

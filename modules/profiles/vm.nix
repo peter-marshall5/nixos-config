@@ -71,6 +71,9 @@
     };
   };
 
+  # Allow mDNS traffic on all interfaces
+  networking.firewall.allowedUDPPorts = [ 5353 ];
+
   services.journald.upload = {
     enable = true;
     settings = {

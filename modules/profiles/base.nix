@@ -71,9 +71,6 @@
 
   networking.nftables.enable = true;
 
-  # Allow mDNS traffic
-  networking.firewall.allowedUDPPorts = [ 5353 ];
-
   # Makes debugging much easier
   networking.firewall.rejectPackets = true;
 

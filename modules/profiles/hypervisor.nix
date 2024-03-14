@@ -53,9 +53,9 @@
     };
   };
 
-  # Allow DHCP and journald traffic
-  networking.firewall = {
-    allowedUDPPorts = [ 67 ];
+  # Allow DHCP, mDNS and journald traffic on internal bridge
+  networking.firewall.interfaces."br1" = {
+    allowedUDPPorts = [ 67 5353 ];
     allowedTCPPorts = [ 19532 ];
   };
 
