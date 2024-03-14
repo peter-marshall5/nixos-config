@@ -55,7 +55,10 @@
     };
     "20-bridge-nat" = {
       name = "br1";
-      networkConfig.DHCPServer = true;
+      networkConfig = {
+        DHCPServer = true;
+        MulticastDNS = true;
+      };
       dhcpServerConfig = {
         EmitDNS = false;
         PoolOffset = 10;

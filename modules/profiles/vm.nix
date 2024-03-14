@@ -60,6 +60,13 @@
   };
   users.groups."nixos" = {};
 
+  systemd.network.networks = {
+    "10-lan" = {
+      name = "eth0";
+      networkConfig.MulticastDNS = true;
+    };
+  };
+
   services.journald.upload = {
     enable = true;
     settings = {
