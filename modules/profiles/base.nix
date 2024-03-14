@@ -61,6 +61,21 @@
     });
   }) ];
 
+  networking.useNetworkd = true;
+  systemd.network.enable = true;
+
+  networking.nftables.enable = true;
+
+  services.openssh = {
+    enable = lib.mkDefault true;
+    settings.PasswordAuthentication = false;
+  };
+
+  systemd.sleep.extraConfig = ''
+    AllowSuspend=no
+    AllowHibernation=no
+  '';
+
   system.stateVersion = "23.05";
 
 }

@@ -7,4 +7,7 @@
 
   config.systemd.services = builtins.listToAttrs (map (c: c.config.system.build.vm-systemd-unit) config.virtualisation.vms);
 
+  # Define hosts based on ip
+  config.networking.hosts = builtins.listToAttrs (map (c: lib.nameValuePair c.config.virtualisation.vmVariant.networking.ip [ "${c.config.networking.hostName}.vm" ]) config.virtualisation.vms);
+
 }

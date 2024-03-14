@@ -5,10 +5,9 @@
   networking.hostName = "build-battle";
 
   virtualisation.vmVariant.config = {
-    virtualisation.macAddress = "ba:2a:b8:b5:e3:71";
+    networking.macAddress = "ba:2a:b8:b5:e3:71";
+    networking.ip = "fe80::b82a:b8ff:feb5:e371";
   };
-
-  services.upnpc.enable = true;
 
   services.minecraft-bedrock-server = {
     enable = true;

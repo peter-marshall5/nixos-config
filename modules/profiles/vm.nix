@@ -60,10 +60,15 @@
   };
   users.groups."nixos" = {};
 
+  networking.interfaces."e*".ipv6.addresses = [{
+    address = config.networking.ip;
+    prefixLength = 48;
+  }];
+
   services.journald.upload = {
     enable = true;
     settings = {
-      Upload.URL = "http://10.0.2.100";
+      Upload.URL = "http://[fe80::68dd:e8ff:fef5:c932]";
     };
   };
 }

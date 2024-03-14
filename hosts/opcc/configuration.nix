@@ -1,25 +1,11 @@
 { config, lib, ... }: {
 
-  nixpkgs.hostPlatform = "x86_64-linux";
-
-  boot.initrd.availableKernelModules = [ "ahci" "sd_mod" "uas" "usb_storage" ];
-
-  boot.kernelModules = [ "kvm_amd" ];
-
-  hardware.enableRedistributableFirmware = true;
-
-  hardware.cpu.amd.updateMicrocode = true;
-
   imports = [
-    ../../modules/profiles/hypervisor.nix
+    ./hardware-configuration.nix
   ];
 
-  time.timeZone = "America/Toronto";
-
-  console.keyMap = "us";
-
   networking.hostName = "opcc";
-  networking.domain = "duckdns.org";
+  networking.domain = "opcc.tk";
 
   services.duckdns.enable = true;
 
@@ -38,25 +24,50 @@
 
   services.upnpc.enable = true;
 
-  boot.initrd.kernelModules = [ "efi_pstore" "efivarfs" ];
-
-  boot.swraid.enable = true;
-
-  fileSystems."/" = {
-    device = "/dev/mapper/root";
-    encrypted = {
-      enable = true;
-      label = "root";
-      blkDev = "/dev/md127";
-      keyFile = "/sys/firmware/efi/efivars/EncKey-b77c97b7-23f5-406d-b86b-15a9216fd71f";
+  systemd.network.netdevs = {
+    "10-bridge" = {
+      netdevConfig = {
+        Name = "br0";
+        Kind = "bridge";
+      };
+    };
+    "20-nat-bridge" = {
+      netdevConfig = {
+        Name = "br1";
+        Kind = "bridge";
+      };
     };
   };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/61F4-656B";
-    fsType = "vfat";
+  systemd.network.networks = {
+    "10-bridge-uplink" = {
+      name = "en*";
+      bridge = [ "br0" ];
+    };
+    "10-bridge-lan" = {
+      name = "br0";
+      networkConfig = {
+        DHCP = "ipv4";
+        IPv6AcceptRA = true;
+      };
+      dhcpV4Config.VendorClassIdentifier = "Linux";
+      linkConfig.RequiredForOnline = "routable";
+    };
+    "20-bridge-nat" = {
+      name = "br1";
+      address = [ "fe80::68dd:e8ff:fef5:c932/48" ];
+    };
+    "20-bridge-vms" = {
+      name = "vm-*";
+      bridge = [ "br1" ];
+      bridgeConfig.Isolated = true;
+    };
   };
 
-  system.autoUpgrade.enable = true;
+  services.journald.remote = {
+    enable = true;
+    listen = "http";
+    port = 19532;
+  };
 
 }

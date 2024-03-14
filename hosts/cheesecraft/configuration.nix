@@ -5,10 +5,9 @@
   networking.hostName = "cheesecraft";
 
   virtualisation.vmVariant.config = {
-    virtualisation.macAddress = "86:8f:b3:38:dc:a3";
+    networking.macAddress = "86:8f:b3:38:dc:a3";
+    networking.ip = "fe80::848f:b3ff:fe38:dca3";
   };
-
-  services.upnpc.enable = true;
 
   services.minecraft-bedrock-server = {
     enable = true;
