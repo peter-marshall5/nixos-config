@@ -20,7 +20,7 @@
     diskImage = "${toString config.virtualisation.stateDir}/${config.system.name}/state.img";
 
     qemu.networkingOptions = lib.mkForce [
-      "-nic tap,mac=${config.networking.macAddress},ifname=vm-${config.system.name},model=virtio,script=no,downscript=no"
+      "-nic tap,mac=${config.networking.macAddress},ifname=vm-${config.system.name},br=br1,model=virtio,script=no,downscript=no"
     ];
   };
 
