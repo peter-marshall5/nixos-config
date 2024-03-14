@@ -33,19 +33,19 @@
 
   networking.nat.forwardPorts = [
     {
-      sourcePort = 19132;
+      sourcePort = 19134;
       proto = "udp";
       destination = "[fe80::848f:b3ff:fe38:dca3]:19132"; # Cheesecraft
     }
     {
-      sourcePort = 19133;
+      sourcePort = 19135;
       proto = "udp";
       destination = "[fe80::b82a:b8ff:feb5:e371]:19132"; # Build Battle
     }
   ];
 
   networking.firewall = {
-    allowedUDPPorts = [ 19132 19133 ];
+    allowedUDPPorts = [ 19134 19135 ];
   };
 
 }
