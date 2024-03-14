@@ -60,15 +60,10 @@
   };
   users.groups."nixos" = {};
 
-  networking.interfaces."e*".ipv6.addresses = [{
-    address = config.networking.ip;
-    prefixLength = 48;
-  }];
-
   services.journald.upload = {
     enable = true;
     settings = {
-      Upload.URL = "http://[fe80::68dd:e8ff:fef5:c932%eth0]";
+      Upload.URL = "http://opcc.local";
     };
   };
 }

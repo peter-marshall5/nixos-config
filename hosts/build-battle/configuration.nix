@@ -6,7 +6,6 @@
 
   virtualisation.vmVariant.config = {
     networking.macAddress = "ba:2a:b8:b5:e3:71";
-    networking.ip = "fe80::b82a:b8ff:feb5:e371";
   };
 
   services.minecraft-bedrock-server = {

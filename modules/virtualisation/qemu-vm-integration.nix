@@ -11,9 +11,6 @@
     macAddress = lib.mkOption {
       type = lib.types.str;
     };
-    ip = lib.mkOption {
-      type = lib.types.str;
-    };
   };
 
   config.virtualisation = {
