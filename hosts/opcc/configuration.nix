@@ -1,4 +1,4 @@
-{ config, lib, ... }: {
+{ config, lib, pkgs, ... }: {
 
   imports = [
     ./hardware-configuration.nix
@@ -6,6 +6,10 @@
 
   networking.hostName = "opcc";
   networking.domain = "opcc.tk";
+
+  environment.systemPackages = with pkgs; [
+    tcpdump
+  ];
 
   services.duckdns.enable = true;
 
