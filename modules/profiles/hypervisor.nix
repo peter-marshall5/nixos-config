@@ -19,13 +19,11 @@
       networkConfig = {
         DHCP = "ipv4";
         IPv6AcceptRA = true;
+        DHCPServer = true;
       };
       dhcpV4Config.VendorClassIdentifier = "Linux";
       linkConfig.RequiredForOnline = "routable";
-    };
-    "10-dhcp-server" = {
-      name = "vm-*";
-      networkConfig.DHCPServer = true;
+      address = [ "10.0.100.1/24" ];
       dhcpServerConfig = {
         EmitDNS = false;
         PoolOffset = 10;
