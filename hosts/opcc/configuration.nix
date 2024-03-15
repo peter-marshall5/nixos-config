@@ -31,18 +31,16 @@
 
   services.upnpc.enable = true;
 
-  networking.nat.forwardPorts = [
-    {
-      sourcePort = 19134;
-      proto = "udp";
-      destination = "[fe80::848f:b3ff:fe38:dca3]:19132"; # Cheesecraft
+  # Domains are not supported yet in networking.nat.forwardPorts
+  networking.nftables.ruleset = ''
+    table ip nat {
+      chain pre {
+        type nat hook prerouting priority dstnat; policy accept;
+        iifname "br1" tcp dport 19134 dnat to cheesecraft.local:19132;
+        iifname "br1" tcp dport 19134 dnat to build-battle.local:19132
+      }
     }
-    {
-      sourcePort = 19135;
-      proto = "udp";
-      destination = "[fe80::b82a:b8ff:feb5:e371]:19132"; # Build Battle
-    }
-  ];
+  '';
 
   networking.firewall = {
     allowedUDPPorts = [ 19134 19135 ];
