@@ -19,13 +19,11 @@
       networkConfig = {
         DHCP = "ipv4";
         IPv6AcceptRA = true;
+        DHCPServer = true;
       };
       dhcpV4Config.VendorClassIdentifier = "Linux";
       linkConfig.RequiredForOnline = "routable";
-    };
-    "10-dhcp-server" = {
-      name = "lo";
-      networkConfig.DHCPServer = true;
+      address = [ "10.0.100.1/24" ];
       dhcpServerConfig = {
         EmitDNS = false;
         PoolOffset = 10;
@@ -44,7 +42,7 @@
   };
 
   # Allow DHCP, mDNS and journald traffic from VMs
-  networking.firewall.interfaces."lo" = {
+  networking.firewall.interfaces."vm-*" = {
     allowedUDPPorts = [ 67 5353 ];
     allowedTCPPorts = [ 19532 ];
   };
