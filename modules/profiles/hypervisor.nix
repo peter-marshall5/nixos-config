@@ -67,6 +67,7 @@
     enable = true;
     internalInterfaces = [ "br1" ];
     externalInterface = "br0";
+    enableIPv6 = true;
   };
 
   services.journald.remote = {
