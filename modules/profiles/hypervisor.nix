@@ -1,9 +1,15 @@
 {
 
   systemd.network.netdevs = {
-    "10-wan-bridge" = {
+    "10-bridge" = {
       netdevConfig = {
         Name = "br0";
+        Kind = "bridge";
+      };
+    };
+    "20-nat-bridge" = {
+      netdevConfig = {
+        Name = "br1";
         Kind = "bridge";
       };
     };
@@ -19,30 +25,38 @@
       networkConfig = {
         DHCP = "ipv4";
         IPv6AcceptRA = true;
-        DHCPServer = true;
       };
       dhcpV4Config.VendorClassIdentifier = "Linux";
       linkConfig.RequiredForOnline = "routable";
-      address = [ "10.0.100.1/24" ];
+    };
+    "20-bridge-nat" = {
+      name = "br1";
+      address = [ "10.0.100.2/24" ];
+      networkConfig = {
+        DHCPServer = true;
+        MulticastDNS = true;
+        LLMNR = false;
+      };
       dhcpServerConfig = {
         EmitDNS = false;
         PoolOffset = 10;
         PoolSize = 128;
-        EmitRouter = true;
         ServerAddress = "10.0.100.1/24";
+        EmitRouter = true;
+      };
+      bridgeConfig = {
+        Isolated = false;
       };
     };
-    "10-vm-discovery" = {
+    "20-bridge-vms" = {
       name = "vm-*";
-      networkConfig = {
-        MulticastDNS = true;
-        LLMNR = false;
-      };
+      bridge = [ "br1" ];
+      bridgeConfig.Isolated = true;
     };
   };
 
-  # Allow DHCP, mDNS and journald traffic from VMs
-  networking.firewall.interfaces."vm-*" = {
+  # Allow DHCP, mDNS and journald traffic on internal bridge
+  networking.firewall.interfaces."br1" = {
     allowedUDPPorts = [ 67 5353 ];
     allowedTCPPorts = [ 19532 ];
   };
@@ -50,7 +64,8 @@
   # Forward traffic from VMs
   networking.nat = {
     enable = true;
-    internalInterfaces = [ "vm-*" ];
+    internalInterfaces = [ "br1" ];
+    internalIPs = [ "10.0.100.0/24" ];
     externalInterface = "br0";
   };
 
