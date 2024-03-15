@@ -46,6 +46,7 @@
       };
       bridgeConfig = {
         Isolated = false;
+        Learning = false; # Fixes dmesg spam
       };
     };
     "20-bridge-vms" = {
