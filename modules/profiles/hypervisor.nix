@@ -65,7 +65,7 @@
   # Forward traffic from VMs
   networking.nat = {
     enable = true;
-    internalIPs = [ "10.0.100.0/24" ];
+    internalInterfaces = [ "br1" ];
     externalInterface = "br0";
   };
 
