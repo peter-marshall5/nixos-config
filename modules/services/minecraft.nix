@@ -73,11 +73,14 @@ in {
     # Options for virtual machines
     virtualisation.vmVariant.config = {
       virtualisation.memorySize = cfg.memoryLimit;
-
-      # Mutable /etc is required by podman
-      system.etc.overlay.mutable = true;
-      users.mutableUsers = true;
     };
+
+    # Mutable /etc is required by podman
+    system.etc.overlay.mutable = true;
+    users.mutableUsers = true;
+
+    # Allow perl to be pulled in by other packages
+    system.forbiddenDependenciesRegex = lib.mkForce "";
 
     assertions = [
       { assertion = cfg.eula;

@@ -1,4 +1,4 @@
-{
+{ config, ... }: {
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
@@ -15,6 +15,8 @@
   boot.swraid.enable = true;
 
   fileSystems."/" = {
+    fsType = "btrfs";
+    options = [ "subvol=@" ];
     device = "/dev/mapper/root";
     encrypted = {
       enable = true;
@@ -24,6 +26,15 @@
     };
   };
 
+  fileSystems."/home" = {
+    inherit (config.fileSystems."/") device fsType;
+    options = [ "subvol=@home" ];
+  };
+
+  fileSystems."/nix" = {
+    inherit (config.fileSystems."/") device fsType;
+    options = [ "subvol=@nix" ];
+  };
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/61F4-656B";
     fsType = "vfat";

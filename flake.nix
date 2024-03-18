@@ -10,22 +10,13 @@
       modules = [
         ./hosts/${name}/configuration.nix
         ./modules
-        ./modules/profiles/base.nix
-        agenix.nixosModules.default
       ] ++ extraModules;
     };
   in {
     nixosConfigurations = {
       opcc = baseSystem "opcc" [
-        {
-          virtualisation.vms = with self.nixosConfigurations; [
-            cheesecraft
-            build-battle
-          ];
-        }
+        agenix.nixosModules.default
       ];
-      cheesecraft = baseSystem "cheesecraft" [];
-      build-battle = baseSystem "build-battle" [];
     };
 
     deploy.nodes.opcc = {

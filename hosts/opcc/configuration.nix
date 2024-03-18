@@ -2,11 +2,19 @@
 
   imports = [
     ./hardware-configuration.nix
-    ../../modules/profiles/hypervisor.nix
   ];
 
   networking.hostName = "opcc";
   networking.domain = "opcc.tk";
+
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  users.users.petms = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" ];
+    openssh.authorizedKeys.keys = (import ../../ssh/trusted-keys.nix);
+    initialPassword = "changeme";
+  };
 
   environment.systemPackages = with pkgs; [
     tcpdump
@@ -27,23 +35,82 @@
 
   security.sudo.wheelNeedsPassword = false;
 
+  services.openssh.enable = true;
   services.openssh.ports = [ 2200 ];
 
   services.upnpc.enable = true;
 
-  # Domains are not supported yet in networking.nat.forwardPorts
-  networking.nftables.ruleset = ''
-    table ip nat {
-      chain pre {
-        type nat hook prerouting priority dstnat; policy accept;
-        iifname "br1" tcp dport 19134 dnat to cheesecraft.local:19132;
-        iifname "br1" tcp dport 19134 dnat to build-battle.local:19132
-      }
-    }
+  systemd.network.netdevs = {
+    "10-bridge" = {
+      netdevConfig = {
+        Name = "br0";
+        Kind = "bridge";
+      };
+    };
+  };
+
+  systemd.network.networks = {
+    "10-bridge-uplink" = {
+      name = "en*";
+      bridge = [ "br0" ];
+    };
+    "10-bridge-lan" = {
+      name = "en*";
+      networkConfig = {
+        DHCP = "ipv4";
+        IPv6AcceptRA = true;
+      };
+      dhcpV4Config.VendorClassIdentifier = "Linux";
+      linkConfig.RequiredForOnline = "routable";
+    };
+  };
+
+  virtualisation.microvms.enable = true;
+
+  microvms.cheesecraft = {
+    macAddress = "86:8f:b3:38:dc:a3";
+    localAddress = "10.0.100.10";
+    localAddress6 = "fc00::10";
+    config = {
+      services.minecraft-bedrock-server = {
+        enable = true;
+        eula = true;
+        serverName = "§k::§r §eCheese§bcraft§f - §aSurvival§r §k::§r ";
+        levelName = "Cheesecraft Season 4";
+        port = 19132;
+        openFirewall = true;
+      };
+    };
+  };
+
+  microvms.build-battle = {
+    macAddress = "ba:2a:b8:b5:e3:71";
+    localAddress = "10.0.100.11";
+    localAddress6 = "fc00::11";
+    config = {
+      services.minecraft-bedrock-server = {
+        enable = true;
+        eula = true;
+        serverName = " §k::§r §d§lBuild§r  §c§oBattle §k::§r ";
+        levelName = "Build Battle v3";
+        port = 19133;
+        openFirewall = true;
+      };
+    };
+  };
+
+  boot.initrd.verbose = false;
+  boot.kernelParams = [ "quiet" ];
+
+  services.logind.lidSwitch = "ignore";
+
+  systemd.sleep.extraConfig = ''
+    AllowSuspend=no
+    AllowHibernation=no
   '';
 
-  networking.firewall = {
-    allowedUDPPorts = [ 19134 19135 ];
-  };
+  services.logrotate.enable = true;
+
+  system.stateVersion = "24.05";
 
 }
