@@ -205,6 +205,11 @@ in {
       interfaces."${cfg.bridge}".allowedTCPPorts = [ 19532 ];
     };
 
+    networking.hosts = builtins.listToAttrs (builtins.concatMap ({ localAddress, localAddress6, name, ... }: [
+      (lib.nameValuePair "${localAddress}" [ name ])
+      (lib.nameValuePair "${localAddress6}" [ name ])
+    ]) vmSystems);
+
     services.journald.remote = {
       enable = true;
       listen = "http";
