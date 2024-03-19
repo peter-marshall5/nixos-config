@@ -81,6 +81,7 @@
         openFirewall = true;
       };
     };
+    debug = true;
   };
 
   microvms.build-battle = {
