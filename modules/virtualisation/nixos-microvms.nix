@@ -35,15 +35,9 @@
         ];
       };
 
-      networking.interfaces."en*" = {
-        ipv4.addresses = [{
-          address = localAddress;
-          prefixLength = 24;
-        }];
-        ipv6.addresses = [{
-          address = localAddress6;
-          prefixLength = 64;
-        }];
+      systemd.network.networks."10-lan" = {
+        name = "en*";
+        address = [ "${localAddress}/24" "${localAddress6}/64" ];
       };
 
       networking.useDHCP = false;
