@@ -38,6 +38,9 @@
       systemd.network.networks."10-lan" = {
         name = "en*";
         address = [ "${localAddress}/24" "${localAddress6}/64" ];
+        routes = [{
+          routeConfig.Gateway = "${cfg.address}";
+        }];
       };
 
       networking.useDHCP = false;
