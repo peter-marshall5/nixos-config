@@ -55,7 +55,7 @@
       bridge = [ "br0" ];
     };
     "10-bridge-lan" = {
-      name = "en*";
+      name = "br0";
       networkConfig = {
         DHCP = "ipv4";
         IPv6AcceptRA = true;
