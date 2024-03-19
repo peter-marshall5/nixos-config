@@ -113,6 +113,8 @@
 
   services.logrotate.enable = true;
 
+  nix.settings.trusted-users = [ "root" "@wheel" ];
+
   system.stateVersion = "24.05";
 
 }
