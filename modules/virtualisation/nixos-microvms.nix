@@ -169,13 +169,16 @@ in {
         Name = cfg.bridge;
         Kind = "bridge";
       };
+      extraConfig = ''
+        [Bridge]
+        AgeingTimeSec = 0;
+      '';
     };
     systemd.network.networks."20-bridge" = {
       name = cfg.bridge;
       address = [ "${cfg.address}/24" "${cfg.address6}/64" ];
       bridgeConfig = {
         Isolated = false;
-        Learning = false;
       };
     };
 
