@@ -66,6 +66,7 @@
   };
 
   virtualisation.microvms.enable = true;
+  virtualisation.microvms.uplink = "br0";
 
   microvms.cheesecraft = {
     macAddress = "86:8f:b3:38:dc:a3";

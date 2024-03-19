@@ -96,7 +96,7 @@ in {
       Run microVMs
     '');
     uplink = lib.mkOption {
-      default = "lo";
+      default = "eth0";
       type = lib.types.str;
     };
     bridge = lib.mkOption {
