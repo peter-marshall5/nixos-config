@@ -24,6 +24,7 @@
       remoteBuild = false;
       profiles.system = {
         sshUser = "petms";
+        sshOpts = [ "-p" "2200" ];
         user = "root";
         path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.opcc;
       };
