@@ -46,6 +46,8 @@
         }];
       };
 
+      networking.useDHCP = false;
+
       services.journald.upload = {
         enable = true;
         settings = {
