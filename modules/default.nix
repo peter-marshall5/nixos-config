@@ -8,33 +8,34 @@
     ./virtualisation/nixos-microvms.nix
   ];
 
-  # Better system defaults
+  boot.initrd.systemd.enable = true;
 
-  config = lib.mkDefault {
+  boot.loader.grub.enable = false;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-    boot.initrd.systemd.enable = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
-    boot.loader.grub.enable = false;
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
+  networking.useNetworkd = true;
+  systemd.network.enable = true;
 
-    boot.kernelPackages = pkgs.linuxPackages_latest;
+  services.resolved.enable = true;
 
-    networking.useNetworkd = true;
-    systemd.network.enable = true;
-
-    services.resolved.enable = true;
-
-    services.openssh = {
-      settings.PasswordAuthentication = false;
-    };
-
-    networking.nftables.enable = true;
-
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-    virtualisation.vmVariant = import ./virtualisation/vm-config.nix;
-
+  services.openssh = {
+    settings.PasswordAuthentication = false;
   };
+
+  networking.nftables.enable = true;
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  virtualisation.vmVariant = import ./virtualisation/vm-config.nix;
+
+  # Reduce build time
+  nixpkgs.overlays = [ (final: prev: {
+    composefs = prev.composefs.overrideAttrs (old: {
+      doCheck = false;
+    });
+  }) ];
 
 }

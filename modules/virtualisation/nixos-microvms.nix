@@ -35,10 +35,21 @@
         ];
       };
 
+      networking.interfaces."en*" = {
+        ipv4.addresses = [{
+          address = localAddress;
+          prefixLength = 24;
+        }];
+        ipv6.addresses = [{
+          address = localAddress6;
+          prefixLength = 64;
+        }];
+      };
+
       services.journald.upload = {
         enable = true;
         settings = {
-          Upload.URL = "http://opcc.local";
+          Upload.URL = "http://${cfg.address}";
         };
       };
     }
@@ -154,29 +165,25 @@ in {
       };
     }) vmSystems);
 
-    systemd.network = {
-      netdevs."20-bridge" = {
-        netdevConfig = {
-          Name = cfg.bridge;
-          Kind = "bridge";
-        };
+    systemd.network.netdevs."20-bridge" = {
+      netdevConfig = {
+        Name = cfg.bridge;
+        Kind = "bridge";
       };
+    };
+    systemd.network.networks."20-bridge" = {
+      name = cfg.bridge;
+      address = [ "${cfg.address}/24" "${cfg.address6}/64" ];
+      bridgeConfig = {
+        Isolated = false;
+        Learning = false;
+      };
+    };
 
-      networks = {
-        "20-bridge" = {
-          name = cfg.bridge;
-          address = [ cfg.address cfg.address6 ];
-          bridgeConfig = {
-            Isolated = false;
-            Learning = false;
-          };
-        };
-        "20-bridge-vms" = {
-          name = "vm-*";
-          bridge = [ cfg.bridge ];
-          bridgeConfig.Isolated = true;
-        };
-      };
+    systemd.network.networks."20-bridge-vms" = {
+      name = "vm-*";
+      bridge = [ cfg.bridge ];
+      bridgeConfig.Isolated = true;
     };
 
     networking.nat = {
@@ -215,13 +222,6 @@ in {
       listen = "http";
       port = 19532;
     };
-
-    # Reduce build time
-    nixpkgs.overlays = [ (final: prev: {
-      composefs = prev.composefs.overrideAttrs (old: {
-        doCheck = false;
-      });
-    }) ];
 
   };
 
