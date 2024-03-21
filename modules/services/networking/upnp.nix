@@ -33,7 +33,7 @@ in {
       wants = [ "network-online.target" ];
       after = [ "network-online.target" ];
       serviceConfig = {
-        Type = "oneshot";
+        Type = "exec";
         ExecStart = ''${pkgs.miniupnpc}/bin/upnpc -i -r ${builtins.concatStringsSep " " redirects}'';
         Restart = "on-failure";
         RestartSec = 5;

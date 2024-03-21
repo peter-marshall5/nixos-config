@@ -5,7 +5,8 @@
     ./services/networking/duckdns.nix
     ./services/networking/upnp.nix
     ./services/minecraft.nix
-    ./virtualisation/nixos-microvms.nix
+    ./virtualisation/networking.nix
+    ./virtualisation/container-networking.nix
   ];
 
   boot.initrd.systemd.enable = true;

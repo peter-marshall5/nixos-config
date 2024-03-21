@@ -1,4 +1,20 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }: let
+  minecraftServer = extraConfig: lib.mkMerge ([{
+    config = {
+      imports = [ ../../modules/services/minecraft.nix ];
+      services.minecraft-bedrock-server = {
+        enable = true;
+        eula = true;
+        openFirewall = true;
+      };
+      system.stateVersion = "24.05";
+    };
+    extraFlags = map (syscall: "--system-call-filter=${syscall}") [
+      "bpf"
+      "@keyring"
+    ];
+  } extraConfig]);
+in {
 
   imports = [
     ./hardware-configuration.nix
@@ -65,38 +81,34 @@
     };
   };
 
-  virtualisation.microvms.enable = true;
-  virtualisation.microvms.uplink = "br0";
+  boot.enableContainers = true;
+  virtualisation.networking.enable = true;
+  virtualisation.networking.uplink = "br0";
 
-  microvms.cheesecraft = {
-    macAddress = "86:8f:b3:38:dc:a3";
-    localAddress = "10.0.100.10";
-    localAddress6 = "fc00::10";
+  containers.cheesecraft = minecraftServer {
+    localAddress = "10.0.100.10/24";
+    localAddress6 = "fc00::10/64";
+    privateNetwork = true;
+    autoStart = true;
     config = {
       services.minecraft-bedrock-server = {
-        enable = true;
-        eula = true;
         serverName = "§k::§r §eCheese§bcraft§f - §aSurvival§r §k::§r ";
         levelName = "Cheesecraft Season 4";
         port = 19132;
-        openFirewall = true;
       };
     };
-    debug = true;
   };
 
-  microvms.build-battle = {
-    macAddress = "ba:2a:b8:b5:e3:71";
-    localAddress = "10.0.100.11";
-    localAddress6 = "fc00::11";
+  containers.build-battle = minecraftServer {
+    localAddress = "10.0.100.11/24";
+    localAddress6 = "fc00::11/64";
+    privateNetwork = true;
+    autoStart = true;
     config = {
       services.minecraft-bedrock-server = {
-        enable = true;
-        eula = true;
         serverName = " §k::§r §d§lBuild§r  §c§oBattle §k::§r ";
         levelName = "Build Battle v3";
         port = 19133;
-        openFirewall = true;
       };
     };
   };
